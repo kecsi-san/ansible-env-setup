@@ -1,0 +1,5 @@
+---
+git_user_name: "{{ admin_full_name }}"
+git_user_email: "{{ admin_email }}"
+git_user_signingkey: "{{ git_signing_key }}"
+git_user_gpgsign: true

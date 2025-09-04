@@ -1,0 +1,9 @@
+---
+roles:
+  - name: markosamuli.linuxbrew
+    version: v2.0.2
+
+collections:
+  - name: https://github.com/kubernetes-sigs/kubespray
+    type: git
+    version: release-2.29

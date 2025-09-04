@@ -1,0 +1,8 @@
+
+---
+- hosts: kube
+  become: true
+  remote_user: "{{ ansible_ssh_user }}"
+
+- name: Reset Kubernetes usning Kubespray
+  ansible.builtin.import_playbook: kubernetes_sigs.kubespray.reset

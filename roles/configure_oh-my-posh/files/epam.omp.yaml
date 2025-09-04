@@ -1,0 +1,134 @@
+$schema: https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+palette:
+  deb-purple: '#D70A53'
+  debian-red: '#A90232'
+  epam-auqa: '#06F5FE'
+  epam-bblack: '#100e23'
+  epam-black: '#282828'
+  epam-brown: '#b22746'
+  epam-dsgray: '#464547'
+  epam-dturq: '#39c2d7'
+  epam-olive: '#98971A'
+  epam-pvioletr: '#8e244d'
+  epam-ygreen: '#a3c644'
+  kube-blue: '#326CE5'
+  kube-red: '#FF0000'
+  lcoral: '#FF8080'
+  navyblue: '#007ACC'
+  rpi-red: '#c7053d'
+  steelblue: '#4B8BBE'
+  ubu-orange: '#E95420'
+  dmcyan: '#458588'
+blocks:
+  - type: prompt
+    alignment: left
+    segments:
+      - properties:
+          cache_duration: none
+        template: ' {{.Icon}} '
+        foreground: p:debian-red
+        background: black
+        type: os
+        style: plain
+      - type: text
+        style: plain
+        foreground: p:epam-auqa
+        background: black
+        template: " ❮"
+      - type: text
+        style: plain
+        foreground: white
+        background: black
+        template: epam
+      - type: text
+        style: plain
+        foreground: p:epam-auqa
+        background: black
+        template: ❯
+      - properties:
+          cache_duration: none
+        template: '  '
+        foreground: p:epam-bblack
+        powerline_symbol: 
+        background: '#ffe9aa'
+        type: root
+        style: plain
+      - properties:
+          cache_duration: 60
+        template: ' {{ .UserName }}@{{ .HostName }} '
+        foreground: 'white'
+        powerline_symbol: 
+        background: 'black'
+        type: session
+        style: plain
+      - background: p:kube-blue
+        background_templates:
+          - '{{ if contains "prod" .Context }}p:kube-red{{ end }}'
+        foreground: p:epam-black
+        style: powerline
+        powerline_symbol: 
+        template: ' ⎈ | {{ .Context }}{{if .Namespace }}:{{ .Namespace }} {{ end }}'
+        type: kubectl
+      - properties:
+          cache_duration: none
+          folder_icon: 
+          folder_separator_icon: '  '
+          style: agnoster_short
+        template: ' {{ .Path }} '
+        foreground: black
+        powerline_symbol: 
+        background: p:dmcyan
+        type: path
+        style: powerline
+      - properties:
+          branch_icon: ' '
+          branch_identical_icon: ●
+          branch_max_length: 25
+          cache_duration: none
+          fetch_stash_count: true
+          fetch_status: true
+        leading_diamond: 
+        trailing_diamond: 
+        template: ' {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
+        foreground: p:epam-black
+        powerline_symbol: 
+        background: p:epam-olive
+        type: git
+        style: powerline
+        background_templates:
+          - '{{ if or (.Working.Changed) (.Staging.Changed) }}#FF9248{{ end }}'
+          - '{{ if and (gt .Ahead 0) (gt .Behind 0) }}#ff4500{{ end }}'
+          - '{{ if gt .Ahead 0 }}#B388FF{{ end }}'
+          - '{{ if gt .Behind 0 }}#B388FF{{ end }}'
+      - properties:
+          cache_duration: 60
+        template: '  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }} '
+        foreground: p:epam-bblack
+        powerline_symbol: 
+        background: p:steelblue
+        type: python
+        style: powerline
+      - properties:
+          cache_duration: none
+        template: '  '
+        foreground: white
+        powerline_symbol: 
+        background: p:lcoral
+        type: status
+        style: powerline
+  - type: prompt
+    alignment: left
+    segments:
+      - properties:
+          cache_duration: 60
+        template: '❯ '
+        foreground: p:navyblue
+        type: text
+        style: plain
+    newline: true
+version: 3
+transient_prompt:
+  background: transparent
+  foreground: white
+  template: '{{ .Shell }}> '
+console_title_template: "{{.UserName}}@{{.HostName}}:{{.PWD}}$"

@@ -1,0 +1,14 @@
+---
+- name: Install nerd fonts Meslo as Brew Cask
+  community.general.homebrew_cask:
+    name: font-meslo-lg-nerd-font
+    path: "/home/linuxbrew/.linuxbrew/bin"
+    state: present
+  become: false
+
+- name: Install nerd fonts Fira Code as Brew Cask
+  community.general.homebrew_cask:
+    name: font-fira-code-nerd-font
+    path: "/home/linuxbrew/.linuxbrew/bin"
+    state: present
+  become: false

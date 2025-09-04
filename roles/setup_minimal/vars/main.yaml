@@ -1,0 +1,13 @@
+---
+install_base_packages: true
+install_brew_base_packages: true
+brew_base_packages:
+  - fzf
+  - gcc
+  - git-delta
+  - go-task
+  - oh-my-posh
+  - pyenv
+  - python@3.12
+  - uv
+  - yq

@@ -1,0 +1,16 @@
+network_packages:
+  - dnsutils
+  - ethtool
+  - ethtool
+  - iftop
+  - iperf3
+  - iproute2
+  - iptables
+  - iputils-ping
+  - mtr-tiny
+  - net-tools
+  - nmap
+  - rsync
+  - tcpdump
+  - traceroute
+  - whois

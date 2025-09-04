@@ -1,0 +1,82 @@
+---
+- name: Load OS-specific variables
+  ansible.builtin.include_vars: "os/{{ ansible_os_family }}.yml"
+  tags: longhorn
+
+- name: Install required packages for Longhorn
+  ansible.builtin.package:
+    name: "{{ longhorn_requirement_packages }}"
+    state: present
+    update_cache: true
+  become: true
+  when: install_requirements
+  tags: longhorn
+
+- name: Enable and start open-iscsi service
+  ansible.builtin.service:
+    name: iscsid
+    state: started
+    enabled: true
+  become: true
+  when: install_requirements
+  tags: longhorn
+
+- name: Check if longhornctl is already installed
+  ansible.builtin.command: which longhornctl
+  register: longhorncli_check
+  ignore_errors: true
+  changed_when: false
+  when: install_longhorn_cli
+  tags: longhorn
+
+- name: Download longhornctl
+  ansible.builtin.get_url:
+    url: "https://github.com/longhorn/cli/releases/download/v{{ longhorn_version }}/longhornctl-{{ longhorncli_os }}-{{ longhorncli_arch }}"
+    dest: "{{ longhorncli_install_path }}"
+    mode: "0755"
+    owner: root
+    group: root
+  become: true
+  when: install_longhorn_cli and (longhorncli_check.rc | default(1)) != 0
+  tags: longhorn
+
+- name: Run Longhorn preflight check
+  ansible.builtin.command: longhornctl check preflight
+  register: preflight_result
+  changed_when: false
+  ignore_errors: true
+  run_once: true
+  when: run_preflight_check
+  tags: longhorn
+
+- name: Show preflight check output
+  ansible.builtin.debug:
+    msg: "{{ preflight_result.stdout_lines | default([]) }}"
+  run_once: true
+  when: run_preflight_check and preflight_result is defined
+  tags: longhorn
+
+- name: Add Longhorn Helm repository
+  kubernetes.core.helm_repository:
+    name: "{{ longhorn_helm_repo_name }}"
+    repo_url: "{{ longhorn_helm_repo_url }}"
+  delegate_to: localhost
+  become: false
+  run_once: true
+  when: install_longhorn
+  tags: longhorn
+
+- name: Install Longhorn via Helm
+  kubernetes.core.helm:
+    name: "{{ longhorn_helm_release_name }}"
+    chart_ref: "{{ longhorn_helm_repo_name }}/longhorn"
+    chart_version: "{{ longhorn_version }}"
+    release_namespace: "{{ longhorn_namespace }}"
+    create_namespace: true
+    state: present
+    wait: true
+  delegate_to: localhost
+  become: false
+  run_once: true
+  when: install_longhorn
+  tags: longhorn

@@ -1,0 +1,32 @@
+---
+- name: Ensure legal banner is set for /etc/issue.net
+  ansible.builtin.copy:
+    src: files/banner.txt
+    dest: /etc/issue.net
+    mode: '0644'
+  become: true
+- name: Ensure legal banner is set for /etc/issue
+  ansible.builtin.copy:
+    src: files/banner.txt
+    dest: /etc/issue
+    mode: '0644'
+  become: true
+- name: Ensure legal banner is set for /etc/ssh/sshd_config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: '^%Banner%'
+    line: 'Banner /etc/issue.net'
+    validate: /usr/sbin/sshd -t -f %s
+  become: true
+- name: Empty /etc/motd
+  ansible.builtin.copy:
+    content: ''
+    dest: /etc/motd
+    mode: '0644'
+  become: true
+- name: Reload sshd to apply banner changes
+  ansible.builtin.service:
+    name: sshd
+    state: reloaded
+  become: true

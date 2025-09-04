@@ -1,0 +1,49 @@
+---
+- name: install etckeeper
+  ansible.builtin.package:
+    name: etckeeper
+    state: latest
+  become: true
+
+- name: Set git config for etckeeper (actually for user root).
+  ansible.builtin.blockinfile:
+    path: /root/.gitconfig
+    block: |
+      [user]
+        name = {{ etckeeper_user }}
+        email = {{ etckeeper_email }}
+    create: true
+    mode: '0644'
+  become: true
+
+- name: Run only once checker logic
+  ansible.builtin.stat:
+    path: /etc/.etckeeper.initmarker
+  register: initmarker
+
+- name: Print etckeeper init check result
+  debug:
+    msg: "Did we run etckeeper already: {{ initmarker.stat.exists }}"
+
+- name: etckeeper init
+  command: /usr/bin/etckeeper init
+  args:
+    chdir: /etc
+  become: true
+  when: not initmarker.stat.exists
+
+
+- name: etckeeper initial commit
+  command: /usr/bin/git commit -a -m "Initial commit"
+  args:
+    chdir: /etc
+  become: true
+  when: not initmarker.stat.exists
+
+- name: Create init marker for etckeeper
+  ansible.builtin.file:
+    path: /etc/.etckeeper.initmarker
+    state: touch
+    mode: u=rw,g=r,o=r
+  become: true
+  when: not initmarker.stat.exists

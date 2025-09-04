@@ -1,0 +1,5 @@
+# oh-my-posh themes directory
+omp_themes_dir: "~/.poshthemes/"
+default_omp_theme: "debian.omp.yaml"
+# Path to user home directory
+home: "{{ ansible_env.HOME }}"

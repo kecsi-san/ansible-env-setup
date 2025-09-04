@@ -1,0 +1,3 @@
+---
+etckeeper_user: "{{ admin_user }}"
+etckeeper_email: "{{ admin_email }}"

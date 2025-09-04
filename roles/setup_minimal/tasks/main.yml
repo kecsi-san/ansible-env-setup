@@ -1,0 +1,26 @@
+---
+- name: load os specific variables
+  include_vars: "os/{{ ansible_distribution }}.yml"
+  tags: minimal, always
+
+- name: Install base packages
+  ansible.builtin.package:
+    name: "{{ base_packages + compress_packages }}"
+    state: present
+    update_cache: yes
+  tags: minimal, always
+  when: base_packages is defined
+  become: true
+
+- name: Install brew packages
+  community.general.homebrew:
+    name: "{{ item }}"
+    state: present
+    update_homebrew: yes
+  loop: >
+    {{
+      (install_brew_base_packages | bool) | ternary(brew_base_packages, []) 
+    }}
+  when: brew_base_packages is defined and install_brew_base_packages is defined and install_brew_base_packages | bool
+  tags: minimal, always
+  become: false

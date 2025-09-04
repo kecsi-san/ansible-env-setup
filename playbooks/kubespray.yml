@@ -1,0 +1,8 @@
+---
+- hosts: kube
+  name: Setup Kubernetes Cluster with Kubespray
+  become: true
+  remote_user: "{{ ansible_ssh_user }}"
+
+- name: Run Kubespray cluster playbook
+  ansible.builtin.import_playbook: kubernetes_sigs.kubespray.cluster

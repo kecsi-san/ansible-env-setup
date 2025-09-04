@@ -1,0 +1,13 @@
+---
+- hosts: kube
+  name: Configure prerequisite settings
+  become: true
+  remote_user: "{{ ansible_ssh_user }}"
+  roles:
+    - role: configure_ssh
+      become: true
+      tags:
+        - ssh
+    - role: configure_sudo
+      tags:
+        - sudo

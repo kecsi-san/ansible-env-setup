@@ -1,0 +1,24 @@
+
+***************************************************************
+*                                                             *
+*    WARNING: Unauthorized Access Prohibited                  *
+*                                                             *
+*    This system is for authorized users only. By accessing   *
+*    this machine, you acknowledge and accept the following:  *
+*                                                             *
+*    1. This system is subject to monitoring and auditing.    *
+*       Automated and manual methods are enforced to ensure   *
+*       security compliance.                                  *
+*                                                             *
+*    2. There is no expectation of privacy on this machine.   *
+*       All activities are monitored and logged.              *
+*                                                             *
+*    3. Unauthorized access is strictly prohibited and may    *
+*       result in legal action. Violations will be reported   *
+*       to the proper law enforcement agencies.               *
+*                                                             *
+*    By proceeding, you agree to these terms and conditions   *
+*    and consent to all monitoring activities.                *
+*                                                             *
+***************************************************************
+

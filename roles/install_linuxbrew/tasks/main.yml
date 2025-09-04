@@ -1,0 +1,7 @@
+---
+- name: install linuxbrew
+  ansible.builtin.include_role:
+    name: markosamuli.linuxbrew
+  tags: 
+    - brew
+    - always

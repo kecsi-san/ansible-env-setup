@@ -1,0 +1,9 @@
+---
+install_requirements: true
+install_longhorn_cli: true
+run_preflight_check: false
+install_longhorn: true
+
+longhorn_version: "1.11.0"
+longhorn_namespace: "longhorn-system"
+longhorn_helm_release_name: "longhorn"

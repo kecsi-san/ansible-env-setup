@@ -1,0 +1,12 @@
+---
+- name: Setup sudo w/o pwd for any cmd for user {{ sudo_user }}
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ sudo_user }}"
+    state: present
+    regexp: '^%{{ sudo_user }}   ALL ='
+    line: '{{ sudo_user }}   ALL = NOPASSWD: ALL'
+    create: true
+    validate: /usr/sbin/visudo -cf %s
+  become: true
+  tags:
+    - sudo

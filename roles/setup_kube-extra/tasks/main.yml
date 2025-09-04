@@ -1,0 +1,15 @@
+---
+# Copy kubeconfig from remote cluster node and adjust context name and current-context
+- name: Copy kubeconfig from remote cluster node
+  ansible.builtin.command: > 
+    scp {{ kube_control_plane_host }}:.kube/config {{ ansible_env.HOME }}/.kube/k8s-{{ domain_name | replace('.', '-') }}.yaml
+    yq e -i '.contexts[0].name = "admin@k8s"' {{ ansible_env.HOME }}/.kube/k8s-{{ domain_name | replace('.', '-') }}.yaml
+    yq e -i '.current-context = "admin@k8s"' {{ ansible_env.HOME }}/.kube/k8s-{{ domain_name | replace('.', '-') }}.yaml
+  become: false
+  delegate_to: localhost
+  run_once: true
+
+# add KUBECONFIG environment variable to point to the copied kubeconfig into .profile
+- name: Set KUBECONFIG environment variable in .profile 
+  ansible.builtin.lineinfile:
+  

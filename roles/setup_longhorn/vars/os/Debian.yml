@@ -1,0 +1,12 @@
+---
+longhorn_requirement_packages:
+  - bash
+  - curl
+  - grep
+  - gawk
+  - util-linux
+  - open-iscsi
+  - cryptsetup
+  - dmsetup
+  - nfs-common
+  - nfs-kernel-server

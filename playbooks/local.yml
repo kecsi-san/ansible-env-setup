@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  name: Configure local system, basically testing playbook
+  connection: local
+  become: true
+  roles:
+    - role: configure_sudo
+      tags:
+        - sudo
+    - role: install_linuxbrew
+      tags:
+        - brew
+    - role: setup_minimal
+      tags:
+        - minimal
+    - role: setup_network-tools
+      tags:
+        - network

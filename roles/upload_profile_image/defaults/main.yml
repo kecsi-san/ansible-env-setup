@@ -1,0 +1,6 @@
+# oh-my-posh themes directory
+upload_profile_image: true
+profile_image_file: ".face"
+# Path to user home directory
+home: "{{ ansible_env.HOME }}"
+gdm_user: "{{ ansible_env.USER }}"

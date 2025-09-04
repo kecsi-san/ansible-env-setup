@@ -1,0 +1,38 @@
+---
+- name: Gnome/X user profile image (~/.face)
+  ansible.builtin.copy:
+    src: files/{{ profile_image_file }}
+    dest: "{{ home }}/{{ profile_image_file }}"
+    mode: '0644'
+  become: false
+  when: upload_profile_image
+- name: AccountsService user image (copy of ~/.face)
+  ansible.builtin.copy:
+    src: files/{{ profile_image_file }}
+    dest: /var/lib/AccountsService/icons/{{ gdm_user }}
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  when: upload_profile_image
+- name: Touch AccountsService user info file
+  ansible.builtin.file:
+    path: /var/lib/AccountsService/users/{{ gdm_user }}
+    state: touch
+    mode: u=rw,g=r,o=r
+    modification_time: preserve
+    access_time: preserve
+  become: true
+  when: upload_profile_image
+- name: AccountsService user info contents
+  ansible.builtin.lineinfile:
+    path: /var/lib/AccountsService/users/{{ gdm_user }}
+    state: present
+    line: "{{ item }}"
+  with_items:
+    - '[User]'
+    - 'Language=en_GB'
+    - 'XSession={{ gdm_user }}'
+    - 'Icon=/var/lib/AccountsService/icons/{{ gdm_user }}'
+  become: true
+  when: upload_profile_image

@@ -1,0 +1,50 @@
+---
+- name: Create oh-my-posh themes directory
+  ansible.builtin.file:
+    path: "{{ omp_themes_dir }}"
+    state: directory
+    mode: 0755
+  become: false
+- name: Copy omp theme file
+  ansible.builtin.copy:
+    src: files/{{ default_omp_theme }}
+    dest: "{{ omp_themes_dir }}/{{ default_omp_theme }}"
+    mode: '0644'
+  become: false
+- name: Add oh-my-posh init into .bashrc (if it exists)
+  block:
+    - name: Set path to .bashrc
+      ansible.builtin.set_fact:
+        bashrc_path: "{{ home }}/.bashrc"
+      when: bashrc_path is undefined
+
+    - name: Check whether .bashrc file exists
+      ansible.builtin.stat:
+        path: "{{ bashrc_path }}"
+      register: bashrc_st
+
+    - name: Resolve .bashrc symlink
+      ansible.builtin.set_fact:
+        bashrc_path: "{{ bashrc_st.stat.lnk_source }}"
+      when:
+        - bashrc_st.stat.exists
+        - bashrc_st.stat.islnk
+  
+    - name: Check whether oh-my-posh is loaded in .bashrc
+      ansible.builtin.command: >-
+        grep -EFq 'oh-my-posh init' {{ bashrc_path }}
+      register: check_bashrc_linuxbrew
+      ignore_errors: true
+      changed_when: false
+      failed_when: false
+      when: bashrc_st.stat.exists
+
+    - name: Load omp in .bashrc
+      ansible.builtin.blockinfile:
+        dest: "{{ bashrc_path }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK: oh-my-posh"
+        block: |
+          eval "$(oh-my-posh init bash --config {{ omp_themes_dir }}/{{ default_omp_theme }})"
+      when:
+        - bashrc_st.stat.exists
+        - check_bashrc_linuxbrew.rc != 0

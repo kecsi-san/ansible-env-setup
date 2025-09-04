@@ -1,0 +1,41 @@
+---
+- name: Add fzf init into .bashrc (if it exists)
+  block:
+    - name: Set path to .bashrc
+      ansible.builtin.set_fact:
+        bashrc_path: "{{ home }}/.bashrc"
+      when: bashrc_path is undefined
+
+    - name: Check whether .bashrc file exists
+      ansible.builtin.stat:
+        path: "{{ bashrc_path }}"
+      register: bashrc_st
+
+    - name: Resolve .bashrc symlink
+      ansible.builtin.set_fact:
+        bashrc_path: "{{ bashrc_st.stat.lnk_source }}"
+      when:
+        - bashrc_st.stat.exists
+        - bashrc_st.stat.islnk
+  
+    - name: Check whether fzf is loaded in .bashrc
+      ansible.builtin.command: >-
+        grep -EFq 'fzf' {{ bashrc_path }}
+      register: check_bashrc_fzf
+      ignore_errors: true
+      changed_when: false
+      failed_when: false
+      when: bashrc_st.stat.exists
+
+    - name: Load omp in .bashrc
+      ansible.builtin.blockinfile:
+        dest: "{{ bashrc_path }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK: fzf"
+        block: |
+          eval "$(fzf --bash)"
+      when:
+        - bashrc_st.stat.exists
+        - check_bashrc_fzf.rc != 0
+  become: false
+  tags:
+    - fzf

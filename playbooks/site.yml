@@ -1,0 +1,78 @@
+---
+- hosts: kube
+  become: false
+  remote_user: "{{ ansible_ssh_user }}"
+  roles:
+    - role: debian_upgrade
+      become: true
+      tags:
+        - update
+        - maintenance
+    - role: configure_ssh
+      become: true
+      tags:
+        - ssh
+        - prerequisites
+        - developer
+    - role: configure_sudo
+      become: true
+      tags:
+        - sudo
+        - prerequisites
+        - developer
+    - role: configure_etc-hosts
+      become: true
+      tags:
+        - hosts
+        - prerequisites
+    - role: setup_legal_banner
+      become: true
+      tags:
+        - banner
+        - security
+    - role: upload_profile_image
+      become: false
+      tags:
+        - face
+        - desktop
+    - role: install_nerd_fonts
+      become: false
+      tags:
+        - fonts
+        - desktop
+    - role: configure_oh-my-posh
+      become: false
+      tags:
+        - omp
+        - fancy
+        - developer
+    - role: configure_fzf
+      become: false
+      tags:
+        - fzf
+        - fancy
+        - developer
+    - role: configure_git
+      become: false
+      tags:
+        - gitconfig
+        - git
+        - developer
+    - role: disable_hibernation
+      become: true
+      tags:
+        - hibernation
+        - server
+    - role: install_ssh_keys
+      become: false
+      tags:
+        - ssh
+        - developer
+    - role: setup_minimal
+      become: true
+      tags:
+        - minimal
+    - role: setup_network-tools
+      become: true
+      tags:
+        - network

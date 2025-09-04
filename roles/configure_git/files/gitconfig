@@ -1,0 +1,93 @@
+[user]
+    name = {{ git_user_name }}
+    email = {{ git_user_email }}
+    signingkey = {{ git_user_signingkey }}
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    up = rebase
+    ci = commit
+    lo = log --oneline --decorate --graph --all
+    ll = log --all --graph --decorate --show-signature
+    sq = "!f(){ git reset --soft HEAD~${1} && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; };f"
+[core]
+    editor = vim
+    autocrlf = input
+    excludesfile = ~/.gitignore
+[color]
+    ui = auto
+
+# Copypasta, my friends. https://blog.gitbutler.com/how-git-core-devs-configure-git/
+# clearly makes git better
+[column]
+    ui = auto
+[branch]
+    sort = -committerdate
+[tag]
+    sort = version:refname
+[init]
+	defaultBranch = main
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+[push]
+    default = simple
+    autoSetupRemote = true
+    followTags = true
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
+# why the hell not?
+[help]
+    autocorrect = prompt
+[commit]
+    verbose = true
+    gpgsign = false
+[rerere]
+    enabled = true
+    autoupdate = true
+[rebase]
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
+# a matter of taste (uncomment if you dare)
+[core]
+    # fsmonitor = true
+    # untrackedCache = true
+[merge]
+    # (just 'diff3' if git version < 2.3)
+    # conflictstyle = zdiff3 
+[pull]
+    rebase = true
+# Copypasta end.
+# lfs
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+# delta diff
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+[delta]
+    features = decorations
+    line-numbers = true
+[delta "interactive"]
+    keep-plus-minus-markers = false
+[delta "decorations"]
+    commit-decoration-style = blue ol
+    commit-style = raw
+    file-style = omit
+    hunk-header-decoration-style = blue box
+    hunk-header-file-style = red
+    hunk-header-line-number-style = "#067a00"
+    hunk-header-style = file line-number syntax

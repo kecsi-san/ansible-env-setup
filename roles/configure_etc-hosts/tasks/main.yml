@@ -1,0 +1,13 @@
+---
+- name: Add ansible group hosts into /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_host }} {{item}}.{{domain_name}} {{item}}.localdomain {{item}}"
+    state: present
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups.kube + [ 'api.k8s' ] }}"
+  become: true
+  tags: 
+    - hosts
+    - configure-etc-hosts

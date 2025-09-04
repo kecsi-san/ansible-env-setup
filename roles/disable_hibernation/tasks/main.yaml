@@ -1,0 +1,31 @@
+---
+- name: Create /etc/systemd/sleep.conf.d/nosuspend.conf to disable suspend in systemd
+  ansible.builtin.blockinfile:
+    path: /etc/systemd/sleep.conf.d/nosuspend.conf
+    block: |
+      [Sleep]
+      AllowSuspend=no
+      AllowHibernation=no
+      AllowSuspendThenHibernate=no
+      AllowHybridSleep=no
+    create: true
+    mode: '0644'
+  register: created_nosuspend_conf
+  become: true
+
+- name: Force reload systemd to reread configs
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+  when: created_nosuspend_conf.changed
+  become: true
+
+- name: Disable/mask multiple systemd services related to sleep/hibernation
+  ansible.builtin.systemd_service:
+    masked: true
+    name: "{{ item }}"
+  become: true
+  loop: 
+      - sleep.target
+      - suspend.target
+      - hibernate.target
+      - hybrid-sleep.target
