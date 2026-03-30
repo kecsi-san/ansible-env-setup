@@ -1,41 +1,50 @@
-.vagrant
-.ansible
-*.retry
+# =============================================================================
+# Ansible
+# =============================================================================
+.ansible                          # Ansible local cache directory
+*.retry                           # Failed playbook host lists
+**/vagrant_ansible_inventory      # Auto-generated Vagrant inventory
+roles/**/molecule/**/__pycache__/ # Molecule test bytecode cache
 
-# Ansible Galaxy installed roles (install via: ansible-galaxy install -r requirements.yml)
+# Galaxy-installed roles and collections — not vendored, install with:
+#   ansible-galaxy install -r requirements.yml
 roles/markosamuli.linuxbrew/
-**/vagrant_ansible_inventory
-*.iml
-temp
-contrib/offline/*.tar.gz
-.idea
-.vscode
-.tox
-.cache
-*.bak
-*.tfstate
-*.tfstate*backup
-*.lock.hcl
-.terraform/
-contrib/terraform/aws/credentials.tfvars
-.terraform.lock.hcl
-/ssh-bastion.conf
-**/*.sw[pon]
-*~
-vagrant/
-plugins/mitogen
+ansible_collections
 
+# =============================================================================
+# Kubernetes / Kubespray
+# =============================================================================
+kubernetes_sigs-kubespray*tar.gz  # Downloaded Kubespray collection archive
 
-# Byte-compiled / optimized / DLL files
+# =============================================================================
+# Vagrant
+# =============================================================================
+.vagrant                          # Vagrant VM state directory
+vagrant/                          # Local Vagrant workspace
+plugins/mitogen                   # Mitogen Ansible connection plugin
+
+# =============================================================================
+# Terraform / IaC
+# =============================================================================
+.terraform/                       # Terraform provider cache
+.terraform.lock.hcl               # Terraform provider lock file (project-specific)
+*.tfstate                         # Terraform state — contains sensitive infra data
+*.tfstate*backup                  # Terraform state backups
+*.lock.hcl                        # Generic HCL lock files
+contrib/offline/*.tar.gz          # Offline package archives
+contrib/terraform/aws/credentials.tfvars  # AWS credentials — never commit
+
+# =============================================================================
+# Python
+# =============================================================================
 __pycache__/
 *.py[cod]
 *$py.class
-
-# Distribution / packaging
 .Python
-env/
+.python-version                   # pyenv local version pin
+
+# Packaging artifacts
 build/
-credentials/
 develop-eggs/
 dist/
 downloads/
@@ -48,85 +57,66 @@ var/
 .installed.cfg
 *.egg
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
+# pip logs
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# Test and coverage reports
 htmlcov/
 .tox/
 .coverage
 .coverage.*
-.cache
 nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
 
-# Translations
-*.mo
-*.pot
-
-# Django stuff / logs
-*.log
-*/logs/*
-local_settings.py
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-# IPython Notebook
-.ipynb_checkpoints
-
-# pyenv
-.python-version
-
-# dotenv
-.env
-
-# virtualenv
+# Virtual environments
 .venv/
 venv/
+env/
 ENV/
 
-# molecule
-roles/**/molecule/**/__pycache__/
+# =============================================================================
+# IDE / Editor
+# =============================================================================
+.idea                             # JetBrains IDE project files
+.vscode                           # VS Code workspace settings
+*.iml                             # IntelliJ module files
+**/*.sw[pon]                      # Vim swap files
+*~                                # Backup files (emacs, gedit, etc.)
+*.bak                             # Generic backup files
 
-# macOS
-.DS_Store
+# =============================================================================
+# OS
+# =============================================================================
+.DS_Store                         # macOS Finder metadata
 
-# Temp location used by our scripts
-scripts/tmp/
-tmp.md
+# =============================================================================
+# Secrets and sensitive inventory
+# =============================================================================
 
-# Ansible collection files
-kubernetes_sigs-kubespray*tar.gz
-ansible_collections
-
-# Inventory hosts file contains sensitive network info — use inventory/hosts.example as a template
+# Real host IPs and hostnames — copy inventory/hosts.example and fill in your values
 inventory/hosts
 
-# Infrastructure secrets — use inventory/group_vars/all/secrets.yml.example as a template
+# Infrastructure secrets (domain, DNS, SSH user, kube-vip) — copy secrets.yml.example
 inventory/group_vars/all/secrets.yml
 
-# todo
-todo.md*
+# Credentials directories and dynamic SSH config generated by Kubespray
+credentials/
+/ssh-bastion.conf
 
-# claude
-.claude
+# =============================================================================
+# Project / misc
+# =============================================================================
+temp
+tmp.md
+scripts/tmp/
+*.log
+*/logs/*
+todo.md*                          # Local task notes
+
+# =============================================================================
+# Claude Code
+# =============================================================================
+.claude                           # Local Claude Code settings (machine-specific)
