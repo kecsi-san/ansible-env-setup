@@ -63,11 +63,6 @@
       tags:
         - hibernation
         - server
-    - role: install_ssh_keys
-      become: false
-      tags:
-        - ssh
-        - developer
     - role: setup_minimal
       become: true
       tags:

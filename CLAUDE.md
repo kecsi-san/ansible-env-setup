@@ -76,7 +76,6 @@ ansible-playbook --syntax-check playbooks/local.yml
 | `disable_hibernation` | Creates `/etc/systemd/sleep.conf.d/nosuspend.conf`; masks sleep targets |
 | `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` (galaxy role, not vendored) |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via `homebrew_cask` |
-| `install_ssh_keys` | Deploys Ed25519 public key to `~/.ssh/authorized_keys` |
 | `setup_etckeeper` | Installs etckeeper; initialises git-backed `/etc` tracking |
 | `setup_legal_banner` | Copies `banner.txt` to `/etc/issue*`; clears MOTD; reloads sshd |
 | `setup_longhorn` | Installs iSCSI deps, longhornctl, and Longhorn via Helm |

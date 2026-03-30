@@ -16,7 +16,7 @@ Status legend: ✅ Done | 🔧 Implemented (not wired) | 🚧 Incomplete | 📋 
 | `configure_sudo` | Configures passwordless sudo for `admin_user` | site.yml, local.yml, prerequisite.yml |
 | `debian_upgrade` | `apt update && upgrade && autoremove` | site.yml, upgrade.yml |
 | `disable_hibernation` | Disables suspend/hibernate via systemd | site.yml |
-| `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` galaxy role | local.yml |
+| `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` (installed via `ansible-galaxy install -r requirements.yml`) | local.yml |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew | site.yml |
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | site.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
@@ -42,7 +42,6 @@ Status legend: ✅ Done | 🔧 Implemented (not wired) | 🚧 Incomplete | 📋 
 
 | Role | Issue |
 |------|-------|
-| `install_ssh_keys` | Referenced in `site.yml` but `tasks/main.yml` is empty — will silently do nothing |
 | `upload_fav_bgimages` | Has wallpaper files in `files/` but no `tasks/main.yml` |
 
 ---

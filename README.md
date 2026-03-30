@@ -85,9 +85,8 @@ ansible-playbook --ask-become-pass -t fonts,omp,fzf playbooks/site.yml
 | `debian_upgrade` | `apt update && upgrade && autoremove` |
 | `debian_dist_upgrade_12to13` | Full Debian 12→13 in-place upgrade |
 | `disable_hibernation` | Disables suspend/hibernate via systemd |
-| `install_linuxbrew` | Installs Homebrew (via `markosamuli.linuxbrew` galaxy role) |
+| `install_linuxbrew` | Installs Homebrew (via `markosamuli.linuxbrew` galaxy role, not vendored) |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew |
-| `install_ssh_keys` | Deploys Ed25519 public key to `authorized_keys` |
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper |
 | `setup_kube-extra` | Copies kubeconfig from cluster node; sets `KUBECONFIG` |
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD |
