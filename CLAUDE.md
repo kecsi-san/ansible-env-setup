@@ -74,7 +74,7 @@ ansible-playbook --syntax-check playbooks/local.yml
 | `debian_upgrade` | `apt update && upgrade && autoremove --purge` |
 | `debian_dist_upgrade_12to13` | Full Debian 12→13 migration; verifies 5GB free space; reboots |
 | `disable_hibernation` | Creates `/etc/systemd/sleep.conf.d/nosuspend.conf`; masks sleep targets |
-| `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` external role |
+| `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` (galaxy role, not vendored) |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via `homebrew_cask` |
 | `install_ssh_keys` | Deploys Ed25519 public key to `~/.ssh/authorized_keys` |
 | `setup_etckeeper` | Installs etckeeper; initialises git-backed `/etc` tracking |
@@ -83,6 +83,7 @@ ansible-playbook --syntax-check playbooks/local.yml
 | `setup_minimal` | Installs base + compression APT packages; optional brew base packages |
 | `setup_network-tools` | Installs network diagnostic APT packages |
 | `setup_kube-extra` | Copies kubeconfig from cluster; adjusts context via yq; sets `KUBECONFIG` |
+| `upload_fav_bgimages` | Uploads wallpaper images to the remote host |
 | `upload_profile_image` | Copies `~/.face` and AccountsService profile image (GNOME/GDM) |
 | `report_done` | Text-to-speech completion announcement via `community.general.say` |
 
