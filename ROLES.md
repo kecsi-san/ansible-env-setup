@@ -93,7 +93,6 @@ Use `roles/role_template/` as a starting point when creating a new role.
 
 | Role | Purpose | Notes |
 |------|---------|-------|
-| `debian_dist_upgrade` | Debian major version in-place upgrade | Older/simpler version — likely superseded by `debian_dist_upgrade_12to13`; consider removing |
 | `debian_dist_upgrade_12to13` | Full Debian 12→13 migration with disk space check and reboot | Needs its own playbook (e.g. `dist-upgrade.yml`) |
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper | `etckeeper: true` is set in group_vars but role is not in any playbook |
 | `setup_kube-extra` | Copies kubeconfig from cluster node; sets `KUBECONFIG` | Needs wiring into `post-k8s.yml` |
