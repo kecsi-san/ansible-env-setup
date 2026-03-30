@@ -2,8 +2,25 @@
 - hosts: kube
   become: false
   remote_user: "{{ ansible_ssh_user }}"
-  roles:
-    - role: setup_longhorn
+  tasks:
+    - name: Setup Longhorn distributed storage
+      ansible.builtin.import_role:
+        name: setup_longhorn
       tags:
         - longhorn
         - storage
+
+    - name: Setup kube-extra (kubeconfig + KUBECONFIG env)
+      ansible.builtin.import_role:
+        name: setup_kube-extra
+      become: false
+      tags:
+        - kubeconfig
+        - kubernetes
+
+    - name: Report done
+      ansible.builtin.import_role:
+        name: report_done
+      become: false
+      tags:
+        - always
