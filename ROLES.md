@@ -83,6 +83,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | site.yml, local.yml |
 | `setup_network-tools` | Installs network diagnostic tools | site.yml, local.yml |
+| `report_done` | Text-to-speech playbook completion notification | site.yml, local.yml |
 | `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME XML descriptor | site.yml |
 | `upload_profile_image` | Sets GNOME/GDM profile picture | site.yml |
 
@@ -94,7 +95,6 @@ Use `roles/role_template/` as a starting point when creating a new role.
 |------|---------|-------|
 | `debian_dist_upgrade` | Debian major version in-place upgrade | Older/simpler version — likely superseded by `debian_dist_upgrade_12to13`; consider removing |
 | `debian_dist_upgrade_12to13` | Full Debian 12→13 migration with disk space check and reboot | Needs its own playbook (e.g. `dist-upgrade.yml`) |
-| `report_done` | Text-to-speech playbook completion notification | Could be appended to `site.yml` and `local.yml` |
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper | `etckeeper: true` is set in group_vars but role is not in any playbook |
 | `setup_kube-extra` | Copies kubeconfig from cluster node; sets `KUBECONFIG` | Needs wiring into `post-k8s.yml` |
 
