@@ -40,6 +40,9 @@ ansible-playbook --ask-become-pass playbooks/local.yml
 ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 ansible-playbook --ask-become-pass playbooks/site.yml
 
+# Pre-Kubernetes node preparation
+ansible-playbook --ask-become-pass playbooks/pre-k8s.yml
+
 # Install Kubernetes cluster (via Kubespray)
 ansible-playbook -i inventory/hosts playbooks/kubespray.yml
 
@@ -132,3 +135,21 @@ Uses [kubespray](https://github.com/kubernetes-sigs/kubespray) (release-2.29) co
 - 3-node etcd cluster
 
 Kubespray group vars live alongside custom role vars in `inventory/group_vars/` — the same inventory serves both.
+
+### Kubernetes cluster setup order
+
+Run playbooks in this sequence for a full cluster deployment:
+
+```bash
+# 1. SSH keys + passwordless sudo
+ansible-playbook --ask-become-pass playbooks/prerequisite.yml
+
+# 2. Node preparation (etckeeper, future pre-cluster tooling)
+ansible-playbook --ask-become-pass playbooks/pre-k8s.yml
+
+# 3. Install Kubernetes cluster via Kubespray
+ansible-playbook -i inventory/hosts playbooks/kubespray.yml
+
+# 4. Post-cluster setup (Longhorn storage, kubeconfig)
+ansible-playbook --ask-become-pass playbooks/post-k8s.yml
+```
