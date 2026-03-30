@@ -20,16 +20,16 @@ ansible-playbook --ask-become-pass playbooks/local.yml
 ansible-playbook --ask-become-pass playbooks/site.yml
 
 # Run prerequisite SSH/sudo setup before site.yml
-ansible-playbook --ask-become-pass -i inventory/hosts playbooks/prerequisite.yml
+ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 
 # Pre-Kubernetes node preparation (etckeeper etc.)
 ansible-playbook --ask-become-pass playbooks/pre-k8s.yml
 
 # Install Kubernetes cluster
-ansible-playbook -i inventory/hosts playbooks/kubespray.yml
+ansible-playbook playbooks/kubespray.yml
 
 # Reset/tear down Kubernetes cluster
-ansible-playbook -i inventory/hosts playbooks/reset-kubespray.yml
+ansible-playbook playbooks/reset-kubespray.yml
 
 # Post-Kubernetes setup (Longhorn storage etc.)
 ansible-playbook --ask-become-pass playbooks/post-k8s.yml

@@ -44,7 +44,7 @@ ansible-playbook --ask-become-pass playbooks/site.yml
 ansible-playbook --ask-become-pass playbooks/pre-k8s.yml
 
 # Install Kubernetes cluster (via Kubespray)
-ansible-playbook -i inventory/hosts playbooks/kubespray.yml
+ansible-playbook playbooks/kubespray.yml
 
 # Post-Kubernetes setup (Longhorn distributed storage)
 ansible-playbook --ask-become-pass playbooks/post-k8s.yml
@@ -148,7 +148,7 @@ ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 ansible-playbook --ask-become-pass playbooks/pre-k8s.yml
 
 # 3. Install Kubernetes cluster via Kubespray
-ansible-playbook -i inventory/hosts playbooks/kubespray.yml
+ansible-playbook playbooks/kubespray.yml
 
 # 4. Post-cluster setup (Longhorn storage, kubeconfig)
 ansible-playbook --ask-become-pass playbooks/post-k8s.yml
