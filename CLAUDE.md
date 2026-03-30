@@ -22,6 +22,9 @@ ansible-playbook --ask-become-pass playbooks/site.yml
 # Run prerequisite SSH/sudo setup before site.yml
 ansible-playbook --ask-become-pass -i inventory/hosts playbooks/prerequisite.yml
 
+# Pre-Kubernetes node preparation (etckeeper etc.)
+ansible-playbook --ask-become-pass playbooks/pre-k8s.yml
+
 # Install Kubernetes cluster
 ansible-playbook -i inventory/hosts playbooks/kubespray.yml
 
@@ -54,7 +57,8 @@ ansible-playbook --syntax-check playbooks/local.yml
 - `site.yml` — mirrors local.yml but targets `kube` group (remote hosts)
 - `prerequisite.yml` — must run before `site.yml`; sets up SSH keys and passwordless sudo
 - `kubespray.yml` / `reset-kubespray.yml` — delegate entirely to the Kubespray collection
-- `post-k8s.yml` — runs after Kubernetes cluster is up; installs cluster-level tools (Longhorn)
+- `pre-k8s.yml` — runs after `prerequisite.yml` and before `kubespray.yml`; prepares nodes (etckeeper)
+- `post-k8s.yml` — runs after Kubernetes cluster is up; installs cluster-level tools (Longhorn, kube-extra)
 - `upgrade.yml` — OS package upgrades across all kube hosts
 
 **Roles** (`roles/`) are the building blocks. The LEGO principle means roles should have no dependencies on each other. Add new functionality by writing a new role and including it in the appropriate playbook.

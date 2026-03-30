@@ -80,6 +80,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` galaxy role | local.yml |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew | site.yml |
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | site.yml |
+| `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-k8s.yml |
 | `setup_kube-extra` | Copies kubeconfig from cluster node; sets `KUBECONFIG` | post-k8s.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | site.yml, local.yml |
@@ -95,7 +96,6 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | Role | Purpose | Notes |
 |------|---------|-------|
 | `debian_dist_upgrade_12to13` | Full Debian 12→13 migration with disk space check and reboot | Needs its own playbook (e.g. `dist-upgrade.yml`) |
-| `setup_etckeeper` | Git-backs `/etc` via etckeeper | `etckeeper: true` is set in group_vars but role is not in any playbook |
 
 ---
 
