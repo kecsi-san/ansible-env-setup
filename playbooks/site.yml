@@ -2,77 +2,118 @@
 - hosts: kube
   become: false
   remote_user: "{{ ansible_ssh_user }}"
-  roles:
-    - role: debian_upgrade
+  tasks:
+    - name: Upgrade Debian packages
+      ansible.builtin.import_role:
+        name: debian_upgrade
       become: true
       tags:
         - update
         - maintenance
-    - role: configure_ssh
+
+    - name: Configure SSH
+      ansible.builtin.import_role:
+        name: configure_ssh
       become: true
       tags:
         - ssh
         - prerequisites
         - developer
-    - role: configure_sudo
+
+    - name: Configure sudo
+      ansible.builtin.import_role:
+        name: configure_sudo
       become: true
       tags:
         - sudo
         - prerequisites
         - developer
-    - role: configure_etc-hosts
+
+    - name: Configure /etc/hosts
+      ansible.builtin.import_role:
+        name: configure_etc-hosts
       become: true
       tags:
         - hosts
         - prerequisites
-    - role: setup_legal_banner
+
+    - name: Setup legal banner
+      ansible.builtin.import_role:
+        name: setup_legal_banner
       become: true
       tags:
         - banner
         - security
-    - role: upload_profile_image
+
+    - name: Upload profile image
+      ansible.builtin.import_role:
+        name: upload_profile_image
       become: false
       tags:
         - face
         - desktop
-    - role: upload_fav_bgimages
+
+    - name: Upload favourite background images
+      ansible.builtin.import_role:
+        name: upload_fav_bgimages
       become: true
       tags:
         - bgimages
         - desktop
-    - role: install_nerd_fonts
+
+    - name: Install nerd fonts
+      ansible.builtin.import_role:
+        name: install_nerd_fonts
       become: false
       tags:
         - fonts
         - desktop
-    - role: configure_oh-my-posh
+
+    - name: Configure oh-my-posh
+      ansible.builtin.import_role:
+        name: configure_oh-my-posh
       become: false
       tags:
         - omp
         - fancy
         - developer
-    - role: configure_fzf
+
+    - name: Configure fzf
+      ansible.builtin.import_role:
+        name: configure_fzf
       become: false
       tags:
         - fzf
         - fancy
         - developer
-    - role: configure_git
+
+    - name: Configure git
+      ansible.builtin.import_role:
+        name: configure_git
       become: false
       tags:
         - gitconfig
         - git
         - developer
-    - role: disable_hibernation
+
+    - name: Disable hibernation
+      ansible.builtin.import_role:
+        name: disable_hibernation
       become: true
       tags:
         - hibernation
         - server
-    - role: setup_minimal
+
+    - name: Setup minimal packages
+      ansible.builtin.import_role:
+        name: setup_minimal
       become: true
       tags:
         - minimal
-    - role: setup_network-tools
+
+    - name: Setup network tools
+      ansible.builtin.import_role:
+        name: setup_network-tools
       become: true
       tags:
         - network

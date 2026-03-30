@@ -3,16 +3,27 @@
   name: Configure local system, basically testing playbook
   connection: local
   become: true
-  roles:
-    - role: configure_sudo
+  tasks:
+    - name: Configure sudo
+      ansible.builtin.import_role:
+        name: configure_sudo
       tags:
         - sudo
-    - role: install_linuxbrew
+
+    - name: Install linuxbrew
+      ansible.builtin.import_role:
+        name: install_linuxbrew
       tags:
         - brew
-    - role: setup_minimal
+
+    - name: Setup minimal packages
+      ansible.builtin.import_role:
+        name: setup_minimal
       tags:
         - minimal
-    - role: setup_network-tools
+
+    - name: Setup network tools
+      ansible.builtin.import_role:
+        name: setup_network-tools
       tags:
         - network
