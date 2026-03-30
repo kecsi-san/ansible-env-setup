@@ -32,33 +32,39 @@ Edit `inventory/hosts` with your host IPs and `secrets.yml` with your domain nam
 
 ### 2. Run a playbook
 
+> **Note:** `--ask-become-pass` is intentionally omitted from all commands below. This project
+> configures passwordless sudo via the `configure_sudo` role (run as part of `prerequisite.yml`).
+> If you prefer to keep sudo password-protected, add `--ask-become-pass` to each command.
+> `prerequisite.yml` itself always requires `--ask-become-pass` since passwordless sudo is not yet
+> set up at that point.
+
 ```bash
 # Local workstation setup
-ansible-playbookplaybooks/local.yml
+ansible-playbook playbooks/local.yml
 
-# Remote hosts: run prerequisites first, then full setup
-ansible-playbookplaybooks/prerequisite.yml
-ansible-playbookplaybooks/site.yml
+# Remote hosts: run prerequisites first (requires password), then full setup
+ansible-playbook --ask-become-pass playbooks/prerequisite.yml
+ansible-playbook playbooks/site.yml
 
 # Pre-Kubernetes node preparation
-ansible-playbookplaybooks/pre-k8s.yml
+ansible-playbook playbooks/pre-k8s.yml
 
 # Install Kubernetes cluster (via Kubespray)
 ansible-playbook playbooks/kubespray.yml
 
 # Post-Kubernetes setup (Longhorn distributed storage)
-ansible-playbookplaybooks/post-k8s.yml
+ansible-playbook playbooks/post-k8s.yml
 
 # OS upgrades across all hosts
-ansible-playbookplaybooks/upgrade.yml
+ansible-playbook playbooks/upgrade.yml
 ```
 
 ### Run specific roles with tags
 
 ```bash
-ansible-playbook-t ssh,sudo playbooks/prerequisite.yml
-ansible-playbook-t minimal,brew playbooks/local.yml
-ansible-playbook-t fonts,omp,fzf playbooks/site.yml
+ansible-playbook --ask-become-pass -t ssh,sudo playbooks/prerequisite.yml
+ansible-playbook -t minimal,brew playbooks/local.yml
+ansible-playbook -t fonts,omp,fzf playbooks/site.yml
 ```
 
 ## Playbooks
@@ -141,15 +147,15 @@ Kubespray group vars live alongside custom role vars in `inventory/group_vars/` 
 Run playbooks in this sequence for a full cluster deployment:
 
 ```bash
-# 1. SSH keys + passwordless sudo
-ansible-playbookplaybooks/prerequisite.yml
+# 1. SSH keys + passwordless sudo (password required — sudo not yet configured)
+ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 
 # 2. Node preparation (etckeeper, future pre-cluster tooling)
-ansible-playbookplaybooks/pre-k8s.yml
+ansible-playbook playbooks/pre-k8s.yml
 
 # 3. Install Kubernetes cluster via Kubespray
 ansible-playbook playbooks/kubespray.yml
 
 # 4. Post-cluster setup (Longhorn storage, kubeconfig)
-ansible-playbookplaybooks/post-k8s.yml
+ansible-playbook playbooks/post-k8s.yml
 ```
