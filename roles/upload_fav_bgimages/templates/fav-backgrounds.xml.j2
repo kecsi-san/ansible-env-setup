@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+{% for image in fav_bgimages %}
+  <wallpaper deleted="false">
+    <name>{{ image | basename | splitext | first | replace('-', ' ') | replace('_', ' ') | title }}</name>
+    <filename>/usr/share/backgrounds/{{ image | basename }}</filename>
+    <options>zoom</options>
+  </wallpaper>
+{% endfor %}
+</wallpapers>

@@ -93,7 +93,7 @@ ansible-playbook --ask-become-pass -t fonts,omp,fzf playbooks/site.yml
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages |
 | `setup_network-tools` | Installs network diagnostic tools |
-| `upload_fav_bgimages` | Uploads wallpaper images to remote hosts |
+| `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME background picker XML |
 | `upload_profile_image` | Sets GNOME/GDM profile picture |
 | `report_done` | Text-to-speech playbook completion notification |
 

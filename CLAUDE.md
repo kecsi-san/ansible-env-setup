@@ -82,7 +82,7 @@ ansible-playbook --syntax-check playbooks/local.yml
 | `setup_minimal` | Installs base + compression APT packages; optional brew base packages |
 | `setup_network-tools` | Installs network diagnostic APT packages |
 | `setup_kube-extra` | Copies kubeconfig from cluster; adjusts context via yq; sets `KUBECONFIG` |
-| `upload_fav_bgimages` | Uploads wallpaper images to the remote host |
+| `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME background picker XML |
 | `upload_profile_image` | Copies `~/.face` and AccountsService profile image (GNOME/GDM) |
 | `report_done` | Text-to-speech completion announcement via `community.general.say` |
 

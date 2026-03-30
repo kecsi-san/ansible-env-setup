@@ -35,6 +35,11 @@
       tags:
         - face
         - desktop
+    - role: upload_fav_bgimages
+      become: true
+      tags:
+        - bgimages
+        - desktop
     - role: install_nerd_fonts
       become: false
       tags:

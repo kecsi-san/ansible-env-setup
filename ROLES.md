@@ -22,6 +22,7 @@ Status legend: ✅ Done | 🔧 Implemented (not wired) | 🚧 Incomplete | 📋 
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | site.yml, local.yml |
 | `setup_network-tools` | Installs network diagnostic tools | site.yml, local.yml |
+| `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME XML descriptor | site.yml |
 | `upload_profile_image` | Sets GNOME/GDM profile picture | site.yml |
 
 ---
@@ -40,9 +41,7 @@ Status legend: ✅ Done | 🔧 Implemented (not wired) | 🚧 Incomplete | 📋 
 
 ## 🚧 Incomplete — needs work before use
 
-| Role | Issue |
-|------|-------|
-| `upload_fav_bgimages` | Has wallpaper files in `files/` but no `tasks/main.yml` |
+_(none currently)_
 
 ---
 

@@ -1,0 +1,38 @@
+---
+- name: Ensure /usr/share/backgrounds directory exists
+  ansible.builtin.file:
+    path: /usr/share/backgrounds
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Upload wallpaper images to /usr/share/backgrounds
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /usr/share/backgrounds/
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  with_fileglob:
+    - "files/*.jpg"
+
+- name: Ensure /usr/share/gnome-background-properties directory exists
+  ansible.builtin.file:
+    path: /usr/share/gnome-background-properties
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Generate GNOME background properties XML descriptor
+  ansible.builtin.template:
+    src: fav-backgrounds.xml.j2
+    dest: /usr/share/gnome-background-properties/fav-backgrounds.xml
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
