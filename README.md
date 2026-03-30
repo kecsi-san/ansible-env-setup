@@ -34,31 +34,31 @@ Edit `inventory/hosts` with your host IPs and `secrets.yml` with your domain nam
 
 ```bash
 # Local workstation setup
-ansible-playbook --ask-become-pass playbooks/local.yml
+ansible-playbookplaybooks/local.yml
 
 # Remote hosts: run prerequisites first, then full setup
-ansible-playbook --ask-become-pass playbooks/prerequisite.yml
-ansible-playbook --ask-become-pass playbooks/site.yml
+ansible-playbookplaybooks/prerequisite.yml
+ansible-playbookplaybooks/site.yml
 
 # Pre-Kubernetes node preparation
-ansible-playbook --ask-become-pass playbooks/pre-k8s.yml
+ansible-playbookplaybooks/pre-k8s.yml
 
 # Install Kubernetes cluster (via Kubespray)
 ansible-playbook playbooks/kubespray.yml
 
 # Post-Kubernetes setup (Longhorn distributed storage)
-ansible-playbook --ask-become-pass playbooks/post-k8s.yml
+ansible-playbookplaybooks/post-k8s.yml
 
 # OS upgrades across all hosts
-ansible-playbook --ask-become-pass playbooks/upgrade.yml
+ansible-playbookplaybooks/upgrade.yml
 ```
 
 ### Run specific roles with tags
 
 ```bash
-ansible-playbook --ask-become-pass -t ssh,sudo playbooks/prerequisite.yml
-ansible-playbook --ask-become-pass -t minimal,brew playbooks/local.yml
-ansible-playbook --ask-become-pass -t fonts,omp,fzf playbooks/site.yml
+ansible-playbook-t ssh,sudo playbooks/prerequisite.yml
+ansible-playbook-t minimal,brew playbooks/local.yml
+ansible-playbook-t fonts,omp,fzf playbooks/site.yml
 ```
 
 ## Playbooks
@@ -142,14 +142,14 @@ Run playbooks in this sequence for a full cluster deployment:
 
 ```bash
 # 1. SSH keys + passwordless sudo
-ansible-playbook --ask-become-pass playbooks/prerequisite.yml
+ansible-playbookplaybooks/prerequisite.yml
 
 # 2. Node preparation (etckeeper, future pre-cluster tooling)
-ansible-playbook --ask-become-pass playbooks/pre-k8s.yml
+ansible-playbookplaybooks/pre-k8s.yml
 
 # 3. Install Kubernetes cluster via Kubespray
 ansible-playbook playbooks/kubespray.yml
 
 # 4. Post-cluster setup (Longhorn storage, kubeconfig)
-ansible-playbook --ask-become-pass playbooks/post-k8s.yml
+ansible-playbookplaybooks/post-k8s.yml
 ```
