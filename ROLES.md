@@ -4,6 +4,67 @@ Status legend: ✅ Done | 🔧 Implemented (not wired) | 🚧 Incomplete | 📋 
 
 ---
 
+## Naming Standard
+
+Role names follow the pattern: **`<verb>_<subject>`** or **`<verb>_<subject>-<qualifier>`**
+
+### Verbs
+
+| Verb | When to use |
+|------|-------------|
+| `configure_` | Modifying config files, adjusting settings, or wiring shell initialisation |
+| `setup_` | Installing packages/services or performing multi-step environment setup |
+| `install_` | Installing a single tool or package manager via a package manager |
+| `upload_` | Copying or deploying static files to remote hosts |
+| `disable_` | Disabling or masking a system feature or service |
+| `debian_` | OS-specific upgrade or migration tasks (Debian only) |
+| `report_` | Notifications or announcements triggered at playbook completion |
+
+### Subject
+
+- Use **lowercase** only
+- Use a **hyphen** (`-`) to separate multiple words within the subject: e.g. `setup_network-tools`, `setup_cloud-aws`
+- Use an **underscore** (`_`) only as the separator between verb and subject
+
+### Examples
+
+```
+configure_ssh          ✅ correct
+setup_cloud-aws        ✅ correct
+install_linuxbrew      ✅ correct
+upload_fav_bgimages    ✅ correct
+setupNetworkTools      ❌ wrong — no camelCase
+setup_network_tools    ❌ wrong — underscores in subject
+networktools_setup     ❌ wrong — subject before verb
+```
+
+---
+
+## Directory and File Structure
+
+Every role must have `tasks/main.yml` and `README.md`. Add the others as needed.
+
+```
+roles/<role-name>/
+├── tasks/
+│   └── main.yml           # Required — task definitions
+├── defaults/
+│   └── main.yml           # User-overridable variables (lowest precedence)
+├── vars/
+│   ├── main.yml           # Role-internal constants (not meant to be overridden)
+│   └── os/
+│       └── Debian.yml     # OS-specific variable overrides
+├── files/                 # Static files deployed with ansible.builtin.copy
+├── templates/             # Jinja2 templates deployed with ansible.builtin.template
+├── handlers/
+│   └── main.yml           # Handlers triggered by notify:
+└── README.md              # Required — purpose, variables, usage, notes
+```
+
+Use `roles/role_template/` as a starting point when creating a new role.
+
+---
+
 ## ✅ Done — implemented and wired into a playbook
 
 | Role | Purpose | Playbook(s) |
@@ -12,11 +73,11 @@ Status legend: ✅ Done | 🔧 Implemented (not wired) | 🚧 Incomplete | 📋 
 | `configure_fzf` | Adds fzf shell integration to `~/.bashrc` | site.yml |
 | `configure_git` | Deploys `~/.gitconfig` | site.yml |
 | `configure_oh-my-posh` | Installs Pluto OMP theme and shell init | site.yml |
-| `configure_ssh` | Hardens `sshd_config` | site.yml, prerequisite.yml |
+| `configure_ssh` | Deploys SSH authorized key | site.yml, prerequisite.yml |
 | `configure_sudo` | Configures passwordless sudo for `admin_user` | site.yml, local.yml, prerequisite.yml |
 | `debian_upgrade` | `apt update && upgrade && autoremove` | site.yml, upgrade.yml |
 | `disable_hibernation` | Disables suspend/hibernate via systemd | site.yml |
-| `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` (installed via `ansible-galaxy install -r requirements.yml`) | local.yml |
+| `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` galaxy role | local.yml |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew | site.yml |
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | site.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
