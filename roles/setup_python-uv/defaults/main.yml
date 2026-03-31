@@ -34,7 +34,6 @@ uv_pip_packages:
   - aws-lambda-powertools
   - aws-xray-sdk
   - datadog-api-client
-  - diagraform
   - diagrams
   - dot2mmd
   - graphviz

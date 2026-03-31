@@ -16,7 +16,7 @@ Covers **Tier 3** of the tool management strategy (Python-only packages). See [T
 
 **31 library packages** via `uv pip install` into `~/.venv/devops`:
 - Cloud / API clients: `atlassian-python-api`, `aws-lambda-powertools`, `aws-xray-sdk`, `datadog-api-client`, `hvac`, `jira`, `nc-py-api`, `openai`, `python-jenkins`
-- IaC / security: `diagraform`, `parliament`, `pyhcl`, `tfparse`
+- IaC / security: `parliament`, `pyhcl`, `tfparse`
 - Diagramming: `aspose-diagram`, `aspose-diagram-python`, `diagrams`, `dot2mmd`, `graphviz`
 - Docs / formatting: `markdown2`, `matplotlib`, `mkdocstrings-python`, `tinycss2`
 - Testing: `pytest-asyncio`, `pytest-cov`, `pytest-mock`, `requests-mock`
@@ -59,7 +59,6 @@ Installed into a shared virtualenv at `~/.venv/devops`. These are primarily used
 | `aws-lambda-powertools` | AWS Lambda utilities (tracing, logging, metrics) |
 | `aws-xray-sdk` | AWS X-Ray distributed tracing |
 | `datadog-api-client` | Datadog API client |
-| `diagraform` | Terraform infrastructure diagram generator |
 | `diagrams` | Diagrams-as-code (cloud architecture) |
 | `dot2mmd` | Graphviz DOT to Mermaid converter |
 | `graphviz` | Graphviz Python bindings |
