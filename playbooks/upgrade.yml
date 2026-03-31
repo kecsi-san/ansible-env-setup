@@ -1,9 +1,12 @@
 ---
 - hosts: kube
   name: Upgrade Debian OS packages
-  become: true
+  become: false
   remote_user: "{{ ansible_ssh_user }}"
-  roles:
-    - role: debian_upgrade
+  tasks:
+    - name: Upgrade Debian packages
+      ansible.builtin.import_role:
+        name: debian_upgrade
+      become: true
       tags:
         - upgrade

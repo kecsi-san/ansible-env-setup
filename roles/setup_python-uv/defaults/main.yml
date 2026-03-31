@@ -2,10 +2,8 @@
 # Path to the uv binary (installed via Homebrew on Linux)
 uv_bin: /home/linuxbrew/.linuxbrew/bin/uv
 
-# Shared virtualenv for library packages (Tier 3 pip packages).
-# Uses lookup('env', 'HOME') rather than ansible_env.HOME because fact-gathering
-# runs as root (play-level become: true), which would resolve HOME to /root.
-uv_venv_path: "{{ lookup('env', 'HOME') }}/.venv/devops"
+# Shared virtualenv for library packages (Tier 3 pip packages)
+uv_venv_path: "{{ ansible_env.HOME }}/.venv/devops"
 
 # CLI tools installed in isolated environments via `uv tool install`.
 # Use extras to pull in plugins that must share the same env (e.g. mkdocs + mkdocstrings).

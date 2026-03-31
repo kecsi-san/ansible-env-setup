@@ -2,11 +2,12 @@
 - hosts: localhost
   name: Configure local system, basically testing playbook
   connection: local
-  become: true
+  become: false
   tasks:
     - name: Configure sudo
       ansible.builtin.import_role:
         name: configure_sudo
+      become: true
       tags:
         - sudo
 
@@ -19,19 +20,20 @@
     - name: Setup minimal packages
       ansible.builtin.import_role:
         name: setup_minimal
+      become: true
       tags:
         - minimal
 
     - name: Setup network tools
       ansible.builtin.import_role:
         name: setup_network-tools
+      become: true
       tags:
         - network
 
     - name: Setup Python uv packages
       ansible.builtin.import_role:
         name: setup_python-uv
-      become: false
       tags:
         - python
         - uv
@@ -39,6 +41,5 @@
     - name: Report done
       ansible.builtin.import_role:
         name: report_done
-      become: false
       tags:
         - always
