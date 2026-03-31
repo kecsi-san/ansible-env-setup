@@ -9,7 +9,7 @@ Covers **Tier 3** of the tool management strategy (Python-only packages). See [T
 **13 CLI tools** via `uv tool install` (isolated envs, available on `~/.local/bin`):
 - Security / audit: `checkov`, `pip-audit`
 - Code quality: `black`, `flake8`, `pylint`
-- Docs: `mkdocs-material` (with `mkdocstrings-python` plugin), `pdoc3`
+- Docs: `mkdocs` (with `mkdocs-material` theme + `mkdocstrings-python` plugin), `pdoc3`
 - Package management: `pip-tools`, `pipreqs`
 - Git utilities: `git-changelog`, `git-semver`, `gitstats`
 - Infrastructure: `ansible`
@@ -41,7 +41,7 @@ Each tool gets its own isolated virtual environment (like pipx). Tools are avail
 | `git-changelog` | Changelog generator from git history |
 | `git-semver` | Semantic version bumper from git tags |
 | `gitstats` | Git repository statistics |
-| `mkdocs-material` | Documentation site builder (includes `mkdocstrings-python` plugin) |
+| `mkdocs` | Documentation site builder (with `mkdocs-material` theme + `mkdocstrings-python` plugin) |
 | `pdoc3` | API documentation generator |
 | `pip-audit` | Python dependency vulnerability scanner |
 | `pip-tools` | `pip-compile` / `pip-sync` workflow |
