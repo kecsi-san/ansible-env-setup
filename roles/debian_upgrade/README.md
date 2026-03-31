@@ -31,3 +31,4 @@ ansible-playbook playbooks/upgrade.yml
 
 - Does not reboot after upgrade — trigger manually if kernel updates require it
 - Safe to run regularly (weekly recommended)
+- Covers **Tier 1** of the tool management strategy (system-level, APT-managed packages). See [Tool Management Philosophy](../../README.md#tool-management-philosophy).

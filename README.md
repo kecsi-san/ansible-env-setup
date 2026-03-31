@@ -6,6 +6,18 @@ Supports two scenarios:
 - **Local workstation** setup (localhost)
 - **Distributed Kubernetes cluster** on bare-metal hosts (via Kubespray)
 
+## Tool Management Philosophy
+
+Tools are managed using three strategies depending on how the tool is distributed and how frequently it is updated:
+
+| # | Method | When to use | Roles |
+|---|--------|-------------|-------|
+| 1 | **APT** (system package manager) | Rarely changing tools; well-maintained in Debian repos; system-level dependencies | `setup_minimal`, `setup_network-tools`, `debian_upgrade` |
+| 2 | **Homebrew** (Linuxbrew) | Frequently updated tools; tools not in APT or lagging behind upstream | `install_linuxbrew`, `install_nerd_fonts`, `setup_minimal` (brew packages), `upgrade_brew` |
+| 3 | **uv** (Python package manager) | Tools only available as Python packages; security scanners; linters; IaC helpers | `setup_python-uv`, `upgrade_python-uv` |
+
+> **Rule of thumb:** APT for system stability, Homebrew for freshness, uv for the Python ecosystem.
+
 ## Prerequisites
 
 - Python 3 + pip

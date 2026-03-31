@@ -40,3 +40,4 @@ All variables are inherited from `markosamuli.linuxbrew`. Key ones set in group_
 
 - Set `linuxbrew: false` in group_vars to skip installation on a host group
 - Required before `install_nerd_fonts`, `configure_oh-my-posh`, `configure_fzf`, and brew packages in `setup_minimal`
+- Enables **Tier 2** of the tool management strategy (frequently updated tools via Homebrew). See [Tool Management Philosophy](../../README.md#tool-management-philosophy).

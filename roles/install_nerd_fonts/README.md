@@ -25,3 +25,4 @@ Installs two fonts via `community.general.homebrew_cask`:
 - Requires Linuxbrew to be installed (`install_linuxbrew` role)
 - `become: false` — Homebrew Cask installs fonts into the user's font directory
 - Fonts are primarily useful on desktop/developer machines, not headless servers
+- Part of **Tier 2** of the tool management strategy (Homebrew-managed). See [Tool Management Philosophy](../../README.md#tool-management-philosophy).

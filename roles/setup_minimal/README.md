@@ -15,3 +15,6 @@ prerequesite here to have (linux)brew installed earlier.
 another list of packages I prefer to install and keep up to date using brew.
 the reason to use brew is to have more frequent updates (instead of os packages)
 
+## Tool Management
+
+This role spans **Tier 1** (APT packages) and **Tier 2** (Homebrew packages) of the tool management strategy. See [Tool Management Philosophy](../../README.md#tool-management-philosophy).

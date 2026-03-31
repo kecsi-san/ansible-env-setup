@@ -18,6 +18,7 @@ Role names follow the pattern: **`<verb>_<subject>`** or **`<verb>_<subject>-<qu
 | `upload_` | Copying or deploying static files to remote hosts |
 | `disable_` | Disabling or masking a system feature or service |
 | `debian_` | OS-specific upgrade or migration tasks (Debian only) |
+| `upgrade_` | Upgrading packages managed by a specific package manager (brew, uv, etc.) |
 | `report_` | Notifications or announcements triggered at playbook completion |
 
 ### Subject
@@ -123,3 +124,5 @@ _(none currently)_
 | `setup_python-uv` | Python packaging via uv |
 | `setup_security-tools` | Security scanning and hardening utilities |
 | `setup_vscode` | VS Code installation and extension setup |
+| `upgrade_brew` | Upgrade all Homebrew packages |
+| `upgrade_python-uv` | Upgrade all uv-managed tools and packages |
