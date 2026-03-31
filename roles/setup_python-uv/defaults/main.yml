@@ -35,7 +35,6 @@ uv_pip_packages:
   - aws-xray-sdk
   - datadog-api-client
   - diagrams
-  - dot2mmd
   - graphviz
   - hvac
   - jira
