@@ -1,10 +1,14 @@
 # =============================================================================
 # Ansible
 # =============================================================================
-.ansible                          # Ansible local cache directory
-*.retry                           # Failed playbook host lists
-**/vagrant_ansible_inventory      # Auto-generated Vagrant inventory
-roles/**/molecule/**/__pycache__/ # Molecule test bytecode cache
+# Ansible local cache directory
+.ansible
+# Failed playbook host lists
+*.retry
+# Auto-generated Vagrant inventory
+**/vagrant_ansible_inventory
+# Molecule test bytecode cache
+roles/**/molecule/**/__pycache__/
 
 # Galaxy-installed roles and collections — not vendored, install with:
 #   ansible-galaxy install -r requirements.yml
@@ -14,25 +18,36 @@ ansible_collections
 # =============================================================================
 # Kubernetes / Kubespray
 # =============================================================================
-kubernetes_sigs-kubespray*tar.gz  # Downloaded Kubespray collection archive
+# Downloaded Kubespray collection archive
+kubernetes_sigs-kubespray*tar.gz
 
 # =============================================================================
 # Vagrant
 # =============================================================================
-.vagrant                          # Vagrant VM state directory
-vagrant/                          # Local Vagrant workspace
-plugins/mitogen                   # Mitogen Ansible connection plugin
+# Vagrant VM state directory
+.vagrant
+# Local Vagrant workspace
+vagrant/
+# Mitogen Ansible connection plugin
+plugins/mitogen
 
 # =============================================================================
 # Terraform / IaC
 # =============================================================================
-.terraform/                       # Terraform provider cache
-.terraform.lock.hcl               # Terraform provider lock file (project-specific)
-*.tfstate                         # Terraform state — contains sensitive infra data
-*.tfstate*backup                  # Terraform state backups
-*.lock.hcl                        # Generic HCL lock files
-contrib/offline/*.tar.gz          # Offline package archives
-contrib/terraform/aws/credentials.tfvars  # AWS credentials — never commit
+# Terraform provider cache
+.terraform/
+# Terraform provider lock file (project-specific)
+.terraform.lock.hcl
+# Terraform state — contains sensitive infra data
+*.tfstate
+# Terraform state backups
+*.tfstate*backup
+# Generic HCL lock files
+*.lock.hcl
+# Offline package archives
+contrib/offline/*.tar.gz
+# AWS credentials — never commit
+contrib/terraform/aws/credentials.tfvars
 
 # =============================================================================
 # Python
@@ -41,7 +56,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 .Python
-.python-version                   # pyenv local version pin
+# pyenv local version pin
+.python-version
 
 # Packaging artifacts
 build/
@@ -80,17 +96,24 @@ ENV/
 # =============================================================================
 # IDE / Editor
 # =============================================================================
-.idea                             # JetBrains IDE project files
-.vscode                           # VS Code workspace settings
-*.iml                             # IntelliJ module files
-**/*.sw[pon]                      # Vim swap files
-*~                                # Backup files (emacs, gedit, etc.)
-*.bak                             # Generic backup files
+# JetBrains IDE project files
+.idea
+# VS Code workspace settings
+.vscode
+# IntelliJ module files
+*.iml
+# Vim swap files
+**/*.sw[pon]
+# Backup files (emacs, gedit, etc.)
+*~
+# Generic backup files
+*.bak
 
 # =============================================================================
 # OS
 # =============================================================================
-.DS_Store                         # macOS Finder metadata
+# macOS Finder metadata
+.DS_Store
 
 # =============================================================================
 # Secrets and sensitive inventory
@@ -114,9 +137,11 @@ tmp.md
 scripts/tmp/
 *.log
 */logs/*
-todo.md*                          # Local task notes
+# Local task notes
+todo.md*
 
 # =============================================================================
 # Claude Code
 # =============================================================================
-.claude                           # Local Claude Code settings (machine-specific)
+# Local Claude Code settings (machine-specific)
+.claude
