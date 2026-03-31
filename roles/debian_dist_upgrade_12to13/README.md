@@ -21,7 +21,7 @@ Performs a safe, fully automated in-place upgrade from Debian 12 (Bookworm) to D
 This role is not yet wired into a playbook. Create a dedicated playbook or run ad-hoc:
 
 ```bash
-ansible-playbook --ask-become-pass playbooks/site.yml --tags dist-upgrade
+ansible-playbook playbooks/site.yml --tags dist-upgrade
 ```
 
 ## Notes

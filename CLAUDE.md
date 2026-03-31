@@ -14,32 +14,32 @@ pip install -r requirements.txt
 ansible-galaxy install -r requirements.yml
 
 # Run local workstation setup (uses localhost)
-ansible-playbook --ask-become-pass playbooks/local.yml
+ansible-playbook playbooks/local.yml
 
 # Run setup across kube group hosts
-ansible-playbook --ask-become-pass playbooks/site.yml
+ansible-playbook playbooks/site.yml
 
-# Run prerequisite SSH/sudo setup before site.yml
+# Run prerequisite SSH/sudo setup before site.yml (--ask-become-pass required here only — passwordless sudo not yet configured)
 ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 
 # Pre-Kubernetes node preparation (etckeeper etc.)
-ansible-playbook --ask-become-pass playbooks/pre-k8s.yml
+ansible-playbook playbooks/pre-k8s.yml
 
 # Install Kubernetes cluster
-ansible-playbook playbooks/kubespray.yml
+ansible-playbook -b playbooks/kubespray.yml
 
 # Reset/tear down Kubernetes cluster
 ansible-playbook playbooks/reset-kubespray.yml
 
 # Post-Kubernetes setup (Longhorn storage etc.)
-ansible-playbook --ask-become-pass playbooks/post-k8s.yml
+ansible-playbook playbooks/post-k8s.yml
 
 # OS upgrades on all kube group hosts
-ansible-playbook --ask-become-pass playbooks/upgrade.yml
+ansible-playbook playbooks/upgrade.yml
 
 # Run only specific roles using tags
 ansible-playbook --ask-become-pass -t ssh,sudo playbooks/prerequisite.yml
-ansible-playbook --ask-become-pass -t minimal,brew playbooks/local.yml
+ansible-playbook -t minimal,brew playbooks/local.yml
 
 # Dry run (check mode)
 ansible-playbook --check playbooks/local.yml

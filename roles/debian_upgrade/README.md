@@ -24,7 +24,7 @@ Performs a full APT package upgrade and cleans up stale packages.
 Run standalone across all kube hosts:
 
 ```bash
-ansible-playbook --ask-become-pass playbooks/upgrade.yml
+ansible-playbook playbooks/upgrade.yml
 ```
 
 ## Notes
