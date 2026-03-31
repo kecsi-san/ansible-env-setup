@@ -4,6 +4,26 @@ Installs Python-based DevOps tools and libraries using [uv](https://github.com/a
 
 Covers **Tier 3** of the tool management strategy (Python-only packages). See [Tool Management Philosophy](../../README.md#tool-management-philosophy).
 
+## Summary
+
+**13 CLI tools** via `uv tool install` (isolated envs, available on `~/.local/bin`):
+- Security / audit: `checkov`, `pip-audit`
+- Code quality: `black`, `flake8`, `pylint`
+- Docs: `mkdocs-material` (with `mkdocstrings-python` plugin), `pdoc3`
+- Package management: `pip-tools`, `pipreqs`
+- Git utilities: `git-changelog`, `git-semver`, `gitstats`
+- Infrastructure: `ansible`
+
+**31 library packages** via `uv pip install` into `~/.venv/devops`:
+- Cloud / API clients: `atlassian-python-api`, `aws-lambda-powertools`, `aws-xray-sdk`, `datadog-api-client`, `hvac`, `jira`, `nc-py-api`, `openai`, `python-jenkins`
+- IaC / security: `diagraform`, `parliament`, `pyhcl`, `tfparse`
+- Diagramming: `aspose-diagram`, `aspose-diagram-python`, `diagrams`, `dot2mmd`, `graphviz`
+- Docs / formatting: `markdown2`, `matplotlib`, `mkdocstrings-python`, `tinycss2`
+- Testing: `pytest-asyncio`, `pytest-cov`, `pytest-mock`, `requests-mock`
+- Python utilities: `jsonpath-ng`, `lxml`, `PyJWT`, `pyOpenSSL`, `setuptools-scm`
+
+---
+
 ## What it does
 
 Packages are split into two categories based on how they are used:
