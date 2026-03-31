@@ -32,7 +32,38 @@ Each tool gets its own isolated virtual environment (like pipx). Tools are avail
 
 Installed into a shared virtualenv at `~/.venv/devops`. These are primarily used as imported libraries in scripts and notebooks.
 
-`aspose-diagram`, `aspose-diagram-python`, `atlassian-python-api`, `aws-lambda-powertools`, `aws-xray-sdk`, `datadog-api-client`, `diagraform`, `diagrams`, `dot2mmd`, `graphviz`, `hvac`, `jira`, `jsonpath-ng`, `lxml`, `markdown2`, `matplotlib`, `mkdocstrings-python`, `nc-py-api`, `openai`, `parliament`, `pyhcl`, `PyJWT`, `pyOpenSSL`, `pytest-asyncio`, `pytest-cov`, `pytest-mock`, `python-jenkins`, `requests-mock`, `setuptools-scm`, `tfparse`, `tinycss2`
+| Package | Purpose |
+|---------|---------|
+| `aspose-diagram`, `aspose-diagram-python` | Diagram file format conversion |
+| `atlassian-python-api` | Jira / Confluence / Bitbucket REST client |
+| `aws-lambda-powertools` | AWS Lambda utilities (tracing, logging, metrics) |
+| `aws-xray-sdk` | AWS X-Ray distributed tracing |
+| `datadog-api-client` | Datadog API client |
+| `diagraform` | Terraform infrastructure diagram generator |
+| `diagrams` | Diagrams-as-code (cloud architecture) |
+| `dot2mmd` | Graphviz DOT to Mermaid converter |
+| `graphviz` | Graphviz Python bindings |
+| `hvac` | HashiCorp Vault API client |
+| `jira` | Jira REST API client |
+| `jsonpath-ng` | JSONPath expressions for Python |
+| `lxml` | XML/HTML processing |
+| `markdown2` | Markdown to HTML converter |
+| `matplotlib` | Data visualisation / plotting |
+| `mkdocstrings-python` | Python API autodoc plugin for MkDocs |
+| `nc-py-api` | Nextcloud API client |
+| `openai` | OpenAI API client |
+| `parliament` | AWS IAM policy linter |
+| `pyhcl` | HashiCorp Configuration Language (HCL) parser |
+| `PyJWT` | JSON Web Token encode/decode |
+| `pyOpenSSL` | OpenSSL bindings |
+| `pytest-asyncio` | pytest plugin for async tests |
+| `pytest-cov` | pytest coverage reporting |
+| `pytest-mock` | pytest mock fixtures |
+| `python-jenkins` | Jenkins REST API client |
+| `requests-mock` | Mock HTTP requests in tests |
+| `setuptools-scm` | Version management from git tags |
+| `tfparse` | Terraform HCL parser |
+| `tinycss2` | CSS parser |
 
 ## Prerequisites
 
