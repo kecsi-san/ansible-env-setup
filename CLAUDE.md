@@ -85,6 +85,7 @@ ansible-playbook --syntax-check playbooks/local.yml
 | `setup_longhorn` | Installs iSCSI deps, longhornctl, and Longhorn via Helm |
 | `setup_minimal` | Installs base + compression APT packages; optional brew base packages |
 | `setup_network-tools` | Installs network diagnostic APT packages |
+| `setup_python-uv` | Installs uv CLI tools (checkov, ansible, black, etc.) and Python library packages into `~/.venv/devops` |
 | `setup_kube-extra` | Copies kubeconfig from cluster; adjusts context via yq; sets `KUBECONFIG` |
 | `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME background picker XML |
 | `upload_profile_image` | Copies `~/.face` and AccountsService profile image (GNOME/GDM) |
@@ -92,7 +93,7 @@ ansible-playbook --syntax-check playbooks/local.yml
 
 #### Placeholder Roles (empty `tasks/main.yml`)
 
-`setup_cloud-aws`, `setup_cloud-azure`, `setup_cloud-gcp`, `setup_convinience`, `setup_email-server`, `setup_email-tools`, `setup_iac-terraform`, `setup_iac-extra`, `setup_python-pyenv`, `setup_python-uv`, `setup_security-tools`, `setup_vscode`, `setup_apt_repos`, `setup_kubernetes`
+`setup_cloud-aws`, `setup_cloud-azure`, `setup_cloud-gcp`, `setup_convinience`, `setup_email-server`, `setup_email-tools`, `setup_iac-terraform`, `setup_iac-extra`, `setup_python-pyenv`, `setup_security-tools`, `setup_vscode`, `setup_apt_repos`, `setup_kubernetes`
 
 ### Inventory Structure
 

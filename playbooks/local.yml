@@ -28,6 +28,14 @@
       tags:
         - network
 
+    - name: Setup Python uv packages
+      ansible.builtin.import_role:
+        name: setup_python-uv
+      become: false
+      tags:
+        - python
+        - uv
+
     - name: Report done
       ansible.builtin.import_role:
         name: report_done

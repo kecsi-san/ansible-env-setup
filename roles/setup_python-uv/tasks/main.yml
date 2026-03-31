@@ -1,0 +1,23 @@
+---
+- name: Install uv CLI tools
+  ansible.builtin.command:
+    cmd: "{{ uv_bin }} tool install {{ item.name }}{% for e in item.extras | default([]) %} --with {{ e }}{% endfor %}"
+  loop: "{{ uv_tools }}"
+  loop_control:
+    label: "{{ item.name }}"
+  become: false
+  changed_when: false
+
+- name: Create devops virtualenv
+  ansible.builtin.command:
+    cmd: "{{ uv_bin }} venv {{ uv_venv_path }}"
+    creates: "{{ uv_venv_path }}/pyvenv.cfg"
+  become: false
+
+- name: Install pip packages into devops venv
+  ansible.builtin.command:
+    cmd: "{{ uv_bin }} pip install {{ uv_pip_packages | join(' ') }}"
+  environment:
+    VIRTUAL_ENV: "{{ uv_venv_path }}"
+  become: false
+  changed_when: false
