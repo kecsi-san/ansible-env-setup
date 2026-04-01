@@ -10,7 +10,7 @@
 
 - name: Create devops virtualenv
   ansible.builtin.command:
-    cmd: "{{ uv_bin }} venv {{ uv_venv_path }}"
+    cmd: "{{ uv_bin }} venv --python {{ python_version }} {{ uv_venv_path }}"
     creates: "{{ uv_venv_path }}/pyvenv.cfg"
   become: false
 
