@@ -9,9 +9,12 @@ Installs the following via Homebrew (Tier 2 — frequently updated):
 | Tool | Purpose |
 |------|---------|
 | `terraform` | Infrastructure as Code provisioning |
+| `terragrunt` | Terraform wrapper for DRY configurations |
 | `terraform-docs` | Auto-generates documentation from Terraform modules |
 | `tflint` | Terraform linter and static analysis |
+| `tfupdate` | Updates version constraints in Terraform configurations |
 | `trivy` | Vulnerability and misconfiguration scanner (replaces tfsec) |
+| `terrascan` | Compliance and security violation detection for IaC |
 | `pre-commit` | Git pre-commit hook framework |
 
 > `checkov` (IaC security scanner) is handled by `setup_python-uv` as a `uv tool install` — no need to install it here.
