@@ -1,0 +1,10 @@
+{
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+    "terminal.integrated.fontFamily": "MesloLGS NF",
+    "git.autofetch": true,
+    "terminal.integrated.inheritEnv": false,
+    "workbench.iconTheme": "material-icon-theme",
+    "git.openRepositoryInParentFolders": "always",
+    "workbench.colorTheme": "One Dark Pro Mix"
+}

@@ -38,6 +38,12 @@
         - python
         - uv
 
+    - name: Setup VS Code
+      ansible.builtin.import_role:
+        name: setup_vscode
+      tags:
+        - vscode
+
     - name: Setup IaC Terraform tooling
       ansible.builtin.import_role:
         name: setup_iac-terraform

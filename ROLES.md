@@ -83,6 +83,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | site.yml |
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-k8s.yml |
 | `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy, pre-commit via Homebrew | local.yml |
+| `setup_vscode` | Installs VS Code via apt; deploys settings and 20 extensions | local.yml |
 | `setup_kube-extra` | Installs kubectl + helm via Homebrew; system-wide bash completions; `k=kubectl` alias | local.yml, post-k8s.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | site.yml, local.yml |
@@ -124,4 +125,3 @@ _(none currently)_
 | `setup_kubernetes` | Kubernetes node preparation (pre-Kubespray) |
 | `setup_python-pyenv` | Python version management via pyenv |
 | `setup_security-tools` | Security scanning and hardening utilities |
-| `setup_vscode` | VS Code installation and extension setup |
