@@ -87,7 +87,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | site.yml, local.yml |
 | `setup_network-tools` | Installs network diagnostic tools | site.yml, local.yml |
 | `setup_python-uv` | Installs uv CLI tools and Python library packages | local.yml |
-| `upgrade_brew` | `brew update && upgrade && cleanup` | local.yml, upgrade.yml |
+| `upgrade_brew` | `brew update && upgrade && cleanup` | upgrade.yml |
 | `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME XML descriptor | site.yml |
 | `upload_profile_image` | Sets GNOME/GDM profile picture | site.yml |
 

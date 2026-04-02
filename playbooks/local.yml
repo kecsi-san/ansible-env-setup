@@ -31,14 +31,6 @@
       tags:
         - network
 
-    - name: Upgrade Homebrew packages
-      ansible.builtin.import_role:
-        name: upgrade_brew
-      become: false
-      tags:
-        - upgrade
-        - brew
-
     - name: Setup Python uv packages
       ansible.builtin.import_role:
         name: setup_python-uv
