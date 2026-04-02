@@ -89,7 +89,6 @@ ansible-playbook --syntax-check playbooks/local.yml
 | `setup_kube-extra` | Copies kubeconfig from cluster; adjusts context via yq; sets `KUBECONFIG` |
 | `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME background picker XML |
 | `upload_profile_image` | Copies `~/.face` and AccountsService profile image (GNOME/GDM) |
-| `report_done` | Text-to-speech completion announcement via `community.general.say` |
 
 #### Placeholder Roles (empty `tasks/main.yml`)
 

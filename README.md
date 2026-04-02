@@ -117,7 +117,6 @@ ansible-playbook -t fonts,omp,fzf playbooks/site.yml
 | `setup_network-tools` | Installs network diagnostic tools |
 | `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME background picker XML |
 | `upload_profile_image` | Sets GNOME/GDM profile picture |
-| `report_done` | Text-to-speech playbook completion notification |
 
 ### Placeholder (not yet implemented)
 

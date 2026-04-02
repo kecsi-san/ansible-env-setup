@@ -1,6 +1,0 @@
----
-- name: Report host setup is done in a fun way
-  community.general.say:
-    msg: 'Ansible playbook execution is done.'
-    voice: Zarvox
-  delegate_to: localhost
