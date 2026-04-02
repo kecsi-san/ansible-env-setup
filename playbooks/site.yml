@@ -118,9 +118,3 @@
       tags:
         - network
 
-    - name: Report done
-      ansible.builtin.import_role:
-        name: report_done
-      become: false
-      tags:
-        - always
