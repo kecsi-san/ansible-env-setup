@@ -89,6 +89,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | site.yml, local.yml |
 | `setup_network-tools` | Installs network diagnostic tools | site.yml, local.yml |
+| `setup_security-tools` | fail2ban + rkhunter (APT), lynis (Cisofy repo), trivy (Homebrew) | site.yml, local.yml |
 | `setup_python-uv` | Installs uv CLI tools and Python library packages | local.yml |
 | `upgrade_brew` | `brew update && upgrade && cleanup` | upgrade.yml |
 | `upgrade_python-uv` | `uv tool upgrade --all` + `uv pip install --upgrade` in devops venv | upgrade.yml |
@@ -125,4 +126,3 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_email-tools` | Email client tools |
 | `setup_kubernetes` | Kubernetes node preparation (pre-Kubespray) |
 | `setup_python-pyenv` | Python version management via pyenv |
-| `setup_security-tools` | Security scanning and hardening utilities |

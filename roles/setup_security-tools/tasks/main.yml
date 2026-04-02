@@ -1,0 +1,42 @@
+---
+# APT-based security tools
+- name: Install security tools via APT
+  ansible.builtin.package:
+    name: "{{ security_apt_packages }}"
+    state: present
+  become: true
+
+# Lynis — via Cisofy official apt repo
+- name: Download Cisofy GPG key
+  ansible.builtin.get_url:
+    url: https://packages.cisofy.com/keys/cisofy-software-public.key
+    dest: /tmp/cisofy-software-public.key
+    mode: '0644'
+  become: false
+
+- name: Import Cisofy GPG key
+  ansible.builtin.shell:
+    cmd: gpg --dearmor < /tmp/cisofy-software-public.key > /etc/apt/keyrings/cisofy-software.gpg
+    creates: /etc/apt/keyrings/cisofy-software.gpg
+  become: true
+
+- name: Add Cisofy apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/cisofy-software.gpg] https://packages.cisofy.com/community/lynis/deb/ stable main"
+    filename: cisofy-lynis
+    state: present
+  become: true
+
+- name: Install lynis from Cisofy repo
+  ansible.builtin.package:
+    name: lynis
+    state: present
+    update_cache: true
+  become: true
+
+# Trivy — via Homebrew (also in setup_iac-terraform)
+- name: Install trivy via Homebrew
+  community.general.homebrew:
+    name: trivy
+    state: present
+  become: false

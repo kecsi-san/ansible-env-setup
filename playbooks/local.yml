@@ -25,6 +25,12 @@
         - apt-repos
         - docker
 
+    - name: Setup security tools
+      ansible.builtin.import_role:
+        name: setup_security-tools
+      tags:
+        - security
+
     - name: Setup minimal packages
       ansible.builtin.import_role:
         name: setup_minimal

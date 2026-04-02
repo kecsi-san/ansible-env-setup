@@ -1,0 +1,4 @@
+---
+security_apt_packages:
+  - fail2ban
+  - rkhunter

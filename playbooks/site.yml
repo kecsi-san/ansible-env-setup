@@ -118,4 +118,10 @@
       tags:
         - network
 
+    - name: Setup security tools
+      ansible.builtin.import_role:
+        name: setup_security-tools
+      tags:
+        - security
+
 
