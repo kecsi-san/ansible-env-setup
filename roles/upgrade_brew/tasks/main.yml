@@ -1,1 +1,18 @@
 ---
+- name: Update Homebrew formulae
+  community.general.homebrew:
+    update_homebrew: true
+  become: false
+
+- name: Upgrade all Homebrew packages
+  community.general.homebrew:
+    upgrade_all: true
+  become: false
+
+- name: Clean up old Homebrew versions
+  ansible.builtin.command:
+    cmd: "{{ brew_bin }} cleanup"
+  environment:
+    HOMEBREW_CLEANUP_MAX_AGE_DAYS: "{{ brew_cleanup_max_age_days }}"
+  become: false
+  changed_when: false
