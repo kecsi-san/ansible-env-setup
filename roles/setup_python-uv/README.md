@@ -17,7 +17,7 @@ Covers **Tier 3** of the tool management strategy (Python-only packages). See [T
 **31 library packages** via `uv pip install` into `~/.venv/devops`:
 - Cloud / API clients: `atlassian-python-api`, `aws-lambda-powertools`, `aws-xray-sdk`, `datadog-api-client`, `hvac`, `jira`, `nc-py-api`, `openai`, `python-jenkins`
 - IaC / security: `parliament`, `pyhcl`, `tfparse`
-- Diagramming: `aspose-diagram`, `aspose-diagram-python`, `diagrams`, `graphviz`
+- Diagramming: `diagrams`, `graphviz`
 - Docs / formatting: `markdown2`, `matplotlib`, `mkdocstrings-python`, `tinycss2`
 - Testing: `pytest-asyncio`, `pytest-cov`, `pytest-mock`, `requests-mock`
 - Python utilities: `jsonpath-ng`, `lxml`, `PyJWT`, `pyOpenSSL`, `setuptools-scm`
@@ -54,7 +54,6 @@ Installed into a shared virtualenv at `~/.venv/devops`. These are primarily used
 
 | Package | Purpose |
 |---------|---------|
-| `aspose-diagram`, `aspose-diagram-python` | Diagram file format conversion |
 | `atlassian-python-api` | Jira / Confluence / Bitbucket REST client |
 | `aws-lambda-powertools` | AWS Lambda utilities (tracing, logging, metrics) |
 | `aws-xray-sdk` | AWS X-Ray distributed tracing |

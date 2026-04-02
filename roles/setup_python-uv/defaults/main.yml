@@ -29,8 +29,6 @@ uv_tools:
 # Library packages installed into the shared devops venv via `uv pip install`.
 # Activate with: source ~/.venv/devops/bin/activate
 uv_pip_packages:
-  - aspose-diagram
-  - aspose-diagram-python
   - atlassian-python-api
   - aws-lambda-powertools
   - aws-xray-sdk
