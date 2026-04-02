@@ -1,0 +1,7 @@
+---
+iac_brew_packages:
+  - terraform
+  - terraform-docs
+  - tflint
+  - trivy
+  - pre-commit
