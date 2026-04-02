@@ -82,7 +82,8 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew | site.yml |
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | site.yml |
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-k8s.yml |
-| `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy, pre-commit via Homebrew | local.yml |
+| `setup_iac-extra` | Installs opentofu, terragrunt, terrascan, tfupdate via Homebrew | local.yml |
+| `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy via Homebrew | local.yml |
 | `setup_kube-extra` | Installs kubectl + helm via Homebrew; system-wide bash completions; `k=kubectl` alias | local.yml, post-k8s.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | site.yml, local.yml |
@@ -122,7 +123,6 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_convinience` | General convenience/quality-of-life tools |
 | `setup_email-server` | Email server setup |
 | `setup_email-tools` | Email client tools |
-| `setup_iac-extra` | Additional IaC tools (Terragrunt, Checkov, etc.) |
 | `setup_kubernetes` | Kubernetes node preparation (pre-Kubespray) |
 | `setup_python-pyenv` | Python version management via pyenv |
 | `setup_security-tools` | Security scanning and hardening utilities |

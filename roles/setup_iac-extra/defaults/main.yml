@@ -1,0 +1,6 @@
+---
+iac_extra_brew_packages:
+  - opentofu
+  - terragrunt
+  - terrascan
+  - tfupdate

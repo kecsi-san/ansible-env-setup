@@ -52,6 +52,14 @@
         - iac
         - terraform
 
+    - name: Setup extra IaC tooling
+      ansible.builtin.import_role:
+        name: setup_iac-extra
+      become: false
+      tags:
+        - iac
+        - iac-extra
+
     - name: Setup kube extra tooling
       ansible.builtin.import_role:
         name: setup_kube-extra

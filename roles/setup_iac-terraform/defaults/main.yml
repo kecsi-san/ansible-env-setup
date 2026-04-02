@@ -1,9 +1,6 @@
 ---
 iac_brew_packages:
   - terraform
-  - terragrunt
   - terraform-docs
   - tflint
-  - tfupdate
   - trivy
-  - terrascan

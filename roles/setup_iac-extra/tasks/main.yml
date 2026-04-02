@@ -1,0 +1,7 @@
+---
+- name: Install extra IaC tools via Homebrew
+  community.general.homebrew:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ iac_extra_brew_packages }}"
+  become: false
