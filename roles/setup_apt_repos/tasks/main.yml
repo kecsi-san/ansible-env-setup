@@ -1,6 +1,6 @@
 ---
-# Docker CE — official Docker apt repository
-- name: Install Docker apt prerequisites
+# Shared prerequisite for all signed repos
+- name: Install apt prerequisites
   ansible.builtin.package:
     name:
       - ca-certificates
@@ -15,12 +15,15 @@
     mode: '0755'
   become: true
 
+# --- Docker CE ---
+
 - name: Download Docker GPG key
   ansible.builtin.get_url:
     url: https://download.docker.com/linux/debian/gpg
     dest: /etc/apt/keyrings/docker.asc
     mode: '0644'
   become: true
+  when: apt_repo_docker
 
 - name: Add Docker apt repository
   ansible.builtin.apt_repository:
@@ -28,6 +31,7 @@
     filename: docker
     state: present
   become: true
+  when: apt_repo_docker
 
 - name: Install Docker CE packages
   ansible.builtin.package:
@@ -35,6 +39,7 @@
     state: present
     update_cache: true
   become: true
+  when: apt_repo_docker
 
 - name: Add user to docker group
   ansible.builtin.user:
@@ -42,3 +47,270 @@
     groups: docker
     append: true
   become: true
+  when: apt_repo_docker
+
+# --- Grafana ---
+
+- name: Download Grafana GPG key
+  ansible.builtin.get_url:
+    url: https://apt.grafana.com/gpg.key
+    dest: /etc/apt/keyrings/grafana.asc
+    mode: '0644'
+  become: true
+  when: apt_repo_grafana
+
+- name: Add Grafana apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/grafana.asc] https://apt.grafana.com stable main"
+    filename: grafana
+    state: present
+  become: true
+  when: apt_repo_grafana
+
+- name: Install Grafana
+  ansible.builtin.package:
+    name: grafana
+    state: present
+    update_cache: true
+  become: true
+  when: apt_repo_grafana
+
+# --- Telegraf (InfluxDB repo) ---
+
+- name: Download InfluxDB GPG key
+  ansible.builtin.get_url:
+    url: https://repos.influxdata.com/influxdb.key
+    dest: /etc/apt/keyrings/influxdb.asc
+    mode: '0644'
+  become: true
+  when: apt_repo_telegraf
+
+- name: Add Telegraf apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/influxdb.asc] https://repos.influxdata.com/debian {{ ansible_distribution_release }} stable"
+    filename: influxdb
+    state: present
+  become: true
+  when: apt_repo_telegraf
+
+- name: Install Telegraf
+  ansible.builtin.package:
+    name: telegraf
+    state: present
+    update_cache: true
+  become: true
+  when: apt_repo_telegraf
+
+# --- Charm / Gum (no GPG — self-signed repo) ---
+
+- name: Add Charm apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [trusted=yes] https://repo.charm.sh/apt/ /"
+    filename: charm
+    state: present
+  become: true
+  when: apt_repo_charm
+
+- name: Install Gum
+  ansible.builtin.package:
+    name: gum
+    state: present
+    update_cache: true
+  become: true
+  when: apt_repo_charm
+
+# --- Mise ---
+
+- name: Download Mise GPG key
+  ansible.builtin.get_url:
+    url: https://mise.jdx.dev/gpg-key.pub
+    dest: /etc/apt/keyrings/mise.asc
+    mode: '0644'
+  become: true
+  when: apt_repo_mise
+
+- name: Add Mise apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/mise.asc arch=amd64] https://mise.jdx.dev/deb stable main"
+    filename: mise
+    state: present
+  become: true
+  when: apt_repo_mise
+
+- name: Install Mise
+  ansible.builtin.package:
+    name: mise
+    state: present
+    update_cache: true
+  become: true
+  when: apt_repo_mise
+
+# --- Mozilla / Firefox ---
+
+- name: Download Mozilla GPG key
+  ansible.builtin.get_url:
+    url: https://packages.mozilla.org/apt/repo-signing-key.gpg
+    dest: /etc/apt/keyrings/packages.mozilla.org.asc
+    mode: '0644'
+  become: true
+  when: apt_repo_mozilla
+
+- name: Add Mozilla apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main"
+    filename: mozilla
+    state: present
+  become: true
+  when: apt_repo_mozilla
+
+- name: Set Mozilla apt pin priority
+  ansible.builtin.copy:
+    dest: /etc/apt/preferences.d/mozilla
+    content: |
+      Package: *
+      Pin: origin packages.mozilla.org
+      Pin-Priority: 1000
+    mode: '0644'
+  become: true
+  when: apt_repo_mozilla
+
+- name: Install Firefox packages
+  ansible.builtin.package:
+    name: "{{ firefox_packages }}"
+    state: present
+    update_cache: true
+  become: true
+  when: apt_repo_mozilla
+
+# --- Sury PHP ---
+
+- name: Download Sury PHP GPG key
+  ansible.builtin.get_url:
+    url: https://packages.sury.org/php/apt.gpg
+    dest: /etc/apt/keyrings/sury-php.gpg
+    mode: '0644'
+  become: true
+  when: apt_repo_sury_php
+
+- name: Add Sury PHP apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/sury-php.gpg] https://packages.sury.org/php/ {{ ansible_distribution_release }} main"
+    filename: sury-php
+    state: present
+  become: true
+  when: apt_repo_sury_php
+
+# --- Gitea (repo-only; install gitea package separately) ---
+
+- name: Download Gitea GPG key
+  ansible.builtin.get_url:
+    url: https://packaging.gitlab.io/gitea/gpg.key
+    dest: /etc/apt/keyrings/gitea.asc
+    mode: '0644'
+  become: true
+  when: apt_repo_gitea
+
+- name: Add Gitea apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/gitea.asc] https://packaging.gitlab.io/gitea gitea main"
+    filename: gitea
+    state: present
+  become: true
+  when: apt_repo_gitea
+
+# --- Duo Security ---
+
+- name: Download Duo Security GPG key
+  ansible.builtin.get_url:
+    url: https://duo.com/DUO-GPG-PUBLIC-KEY.asc
+    dest: /etc/apt/keyrings/duosecurity.asc
+    mode: '0644'
+  become: true
+  when: apt_repo_duosecurity
+
+- name: Add Duo Security apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/duosecurity.asc] https://pkg.duosecurity.com/debian {{ ansible_distribution_release }} main"
+    filename: duosecurity
+    state: present
+  become: true
+  when: apt_repo_duosecurity
+
+- name: Install duo-unix
+  ansible.builtin.package:
+    name: duo-unix
+    state: present
+    update_cache: true
+  become: true
+  when: apt_repo_duosecurity
+
+# --- Twilio CLI ---
+
+- name: Download Twilio GPG key
+  ansible.builtin.get_url:
+    url: https://twilio-cli-prod.s3.amazonaws.com/twilio_pub.asc
+    dest: /etc/apt/keyrings/twilio.asc
+    mode: '0644'
+  become: true
+  when: apt_repo_twilio
+
+- name: Add Twilio apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/twilio.asc] https://twilio-cli-prod.s3.amazonaws.com/apt/ /"
+    filename: twilio
+    state: present
+  become: true
+  when: apt_repo_twilio
+
+- name: Install Twilio CLI
+  ansible.builtin.package:
+    name: twilio
+    state: present
+    update_cache: true
+  become: true
+  when: apt_repo_twilio
+
+# --- Yarn ---
+
+- name: Download Yarn GPG key
+  ansible.builtin.get_url:
+    url: https://dl.yarnpkg.com/debian/pubkey.gpg
+    dest: /etc/apt/keyrings/yarn.asc
+    mode: '0644'
+  become: true
+  when: apt_repo_yarn
+
+- name: Add Yarn apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/yarn.asc] https://dl.yarnpkg.com/debian stable main"
+    filename: yarn
+    state: present
+  become: true
+  when: apt_repo_yarn
+
+- name: Install Yarn
+  ansible.builtin.apt:
+    name: yarn
+    state: present
+    install_recommends: false
+    update_cache: true
+  become: true
+  when: apt_repo_yarn
+
+# --- Microsoft ---
+
+- name: Download Microsoft GPG key
+  ansible.builtin.get_url:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    dest: /etc/apt/keyrings/microsoft.asc
+    mode: '0644'
+  become: true
+  when: apt_repo_microsoft
+
+- name: Add Microsoft apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ docker_arch }} signed-by=/etc/apt/keyrings/microsoft.asc] https://packages.microsoft.com/debian/{{ ansible_distribution_major_version }}/prod {{ ansible_distribution_release }} main"
+    filename: microsoft
+    state: present
+  become: true
+  when: apt_repo_microsoft

@@ -1,10 +1,29 @@
 ---
-# Architecture mapping for Docker apt repo
+# Architecture mapping (shared across repos)
 docker_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else 'arm64' if ansible_architecture == 'aarch64' else 'armhf' }}"
 
+# Repo enable/disable flags — set to true in group_vars to activate
+apt_repo_docker: true
+apt_repo_grafana: false
+apt_repo_telegraf: false
+apt_repo_charm: false
+apt_repo_mise: false
+apt_repo_mozilla: false
+apt_repo_sury_php: false
+apt_repo_gitea: false
+apt_repo_duosecurity: false
+apt_repo_twilio: false
+apt_repo_yarn: false
+apt_repo_microsoft: false
+
+# Docker CE packages
 docker_packages:
   - docker-ce
   - docker-ce-cli
   - containerd.io
   - docker-buildx-plugin
   - docker-compose-plugin
+
+# Firefox packages (apt_repo_mozilla)
+firefox_packages:
+  - firefox
