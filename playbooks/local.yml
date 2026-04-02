@@ -38,3 +38,10 @@
         - python
         - uv
 
+    - name: Setup kube extra tooling
+      ansible.builtin.import_role:
+        name: setup_kube-extra
+      tags:
+        - kube
+        - kubernetes
+

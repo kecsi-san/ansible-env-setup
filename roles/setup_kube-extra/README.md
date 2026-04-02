@@ -1,37 +1,36 @@
 # setup_kube-extra
 
-Post-cluster setup: copies the kubeconfig from a control plane node to the local machine and configures the `KUBECONFIG` environment variable.
+Installs kubectl and helm, sets up system-wide bash completions, and adds a `k=kubectl` alias.
 
 ## What it does
 
-1. Copies `.kube/config` from `{{ kube_control_plane_host }}` via SCP to `~/.kube/k8s-<domain>.yaml`
-2. Renames the context to `admin@k8s` using `yq`
-3. Sets `current-context` to `admin@k8s`
-4. Adds `KUBECONFIG` export to `~/.profile`
-
-Runs once on `localhost` (`delegate_to: localhost`, `run_once: true`).
+1. Installs `kubectl` via Homebrew (Tier 2 — follows k8s release cadence)
+2. Installs `helm` via Homebrew (Tier 2 — frequently updated)
+3. Generates and installs bash completion for `kubectl` to `/etc/bash_completion.d/kubectl`
+4. Generates and installs bash completion for `helm` to `/etc/bash_completion.d/helm`
+5. Creates `/etc/profile.d/kubectl-alias.sh` with `k=kubectl` alias and tab completion for `k`
 
 ## Variables
 
-| Variable | Source | Description |
-|----------|--------|-------------|
-| `kube_control_plane_host` | `secrets.yml` | Short SSH hostname of a control plane node |
-| `domain_name` | `secrets.yml` | Used to name the kubeconfig file (e.g. `k8s-kinet-local.yaml`) |
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `kubectl_bin` | `/home/linuxbrew/.linuxbrew/bin/kubectl` | Path to kubectl binary |
+| `helm_bin` | `/home/linuxbrew/.linuxbrew/bin/helm` | Path to helm binary |
 
 ## Usage
 
 ```yaml
-- name: Setup kube-extra
+- name: Setup kube extra tooling
   ansible.builtin.import_role:
     name: setup_kube-extra
-  become: false
   tags:
-    - kubeconfig
+    - kube
     - kubernetes
 ```
 
 ## Notes
 
-- Requires `yq` and `scp` on the control node (`yq` is installed via `setup_minimal` brew packages)
-- Not yet wired into `post-k8s.yml` — add it after `setup_longhorn`
-- The task file is currently incomplete (the `lineinfile` task for `.profile` has no arguments)
+- Requires Homebrew (`install_linuxbrew` role)
+- Completions are system-wide (`/etc/bash_completion.d/`) — requires `become: true` internally
+- The `k` alias completion relies on `__start_kubectl` being loaded from the kubectl completion script
+- Open new shell (or `source /etc/profile.d/kubectl-alias.sh`) after first run for alias to take effect

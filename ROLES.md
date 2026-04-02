@@ -82,7 +82,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew | site.yml |
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | site.yml |
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-k8s.yml |
-| `setup_kube-extra` | Copies kubeconfig from cluster node; sets `KUBECONFIG` | post-k8s.yml |
+| `setup_kube-extra` | Installs kubectl + helm via Homebrew; system-wide bash completions; `k=kubectl` alias | local.yml, post-k8s.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | site.yml, local.yml |
 | `setup_network-tools` | Installs network diagnostic tools | site.yml, local.yml |

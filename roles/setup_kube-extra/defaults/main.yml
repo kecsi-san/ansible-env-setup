@@ -1,0 +1,3 @@
+---
+kubectl_bin: /home/linuxbrew/.linuxbrew/bin/kubectl
+helm_bin: /home/linuxbrew/.linuxbrew/bin/helm
