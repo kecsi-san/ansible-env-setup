@@ -17,6 +17,14 @@
       tags:
         - brew
 
+    - name: Setup apt repositories
+      ansible.builtin.import_role:
+        name: setup_apt_repos
+      become: true
+      tags:
+        - apt-repos
+        - docker
+
     - name: Setup minimal packages
       ansible.builtin.import_role:
         name: setup_minimal

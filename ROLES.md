@@ -82,6 +82,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew | site.yml |
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | site.yml |
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-k8s.yml |
+| `setup_apt_repos` | Adds Docker CE apt repo; installs docker-ce + compose plugin; adds user to docker group | local.yml |
 | `setup_iac-extra` | Installs opentofu, terragrunt, terrascan, tfupdate via Homebrew | local.yml |
 | `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy via Homebrew | local.yml |
 | `setup_kube-extra` | Installs kubectl, helm, argocd, flux via Homebrew; system-wide bash completions; `k=kubectl` alias | local.yml, post-k8s.yml |
@@ -116,7 +117,6 @@ Use `roles/role_template/` as a starting point when creating a new role.
 
 | Role | Intended Purpose |
 |------|-----------------|
-| `setup_apt_repos` | Manage custom APT repository sources |
 | `setup_cloud-aws` | AWS CLI and tooling setup |
 | `setup_cloud-azure` | Azure CLI and tooling setup |
 | `setup_cloud-gcp` | GCP CLI and tooling setup |
