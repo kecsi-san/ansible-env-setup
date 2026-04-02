@@ -1,1 +1,14 @@
 ---
+- name: Upgrade all uv CLI tools
+  ansible.builtin.command:
+    cmd: "{{ uv_bin }} tool upgrade --all"
+  become: false
+  changed_when: false
+
+- name: Upgrade pip packages in devops venv
+  ansible.builtin.command:
+    cmd: "{{ uv_bin }} pip install --upgrade {{ uv_pip_packages | join(' ') }}"
+  environment:
+    VIRTUAL_ENV: "{{ uv_venv_path }}"
+  become: false
+  changed_when: false

@@ -1,0 +1,36 @@
+---
+# Path to the uv binary (installed via Homebrew on Linux)
+uv_bin: /home/linuxbrew/.linuxbrew/bin/uv
+
+# Shared virtualenv for library packages — must match setup_python-uv
+uv_venv_path: "{{ ansible_env.HOME }}/.venv/devops"
+
+# Keep in sync with setup_python-uv/defaults/main.yml
+uv_pip_packages:
+  - atlassian-python-api
+  - aws-lambda-powertools
+  - aws-xray-sdk
+  - datadog-api-client
+  - diagrams
+  - graphviz
+  - hvac
+  - jira
+  - jsonpath-ng
+  - lxml
+  - markdown2
+  - matplotlib
+  - mkdocstrings-python
+  - nc-py-api
+  - openai
+  - parliament
+  - pyhcl
+  - PyJWT
+  - pyOpenSSL
+  - pytest-asyncio
+  - pytest-cov
+  - pytest-mock
+  - python-jenkins
+  - requests-mock
+  - setuptools-scm
+  - tfparse
+  - tinycss2
