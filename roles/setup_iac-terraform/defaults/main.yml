@@ -7,4 +7,3 @@ iac_brew_packages:
   - tfupdate
   - trivy
   - terrascan
-  - pre-commit
