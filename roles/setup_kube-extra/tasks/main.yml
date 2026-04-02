@@ -11,6 +11,18 @@
     state: present
   become: false
 
+- name: Install argocd CLI via Homebrew
+  community.general.homebrew:
+    name: argocd
+    state: present
+  become: false
+
+- name: Install flux CLI via Homebrew (fluxcd tap)
+  community.general.homebrew:
+    name: fluxcd/tap/flux
+    state: present
+  become: false
+
 - name: Generate kubectl bash completion
   ansible.builtin.command:
     cmd: "{{ kubectl_bin }} completion bash"
@@ -36,6 +48,34 @@
   ansible.builtin.copy:
     content: "{{ helm_completion.stdout }}"
     dest: /etc/bash_completion.d/helm
+    mode: '0644'
+  become: true
+
+- name: Generate argocd bash completion
+  ansible.builtin.command:
+    cmd: "{{ argocd_bin }} completion bash"
+  register: argocd_completion
+  changed_when: false
+  become: false
+
+- name: Install argocd bash completion system-wide
+  ansible.builtin.copy:
+    content: "{{ argocd_completion.stdout }}"
+    dest: /etc/bash_completion.d/argocd
+    mode: '0644'
+  become: true
+
+- name: Generate flux bash completion
+  ansible.builtin.command:
+    cmd: "{{ flux_bin }} completion bash"
+  register: flux_completion
+  changed_when: false
+  become: false
+
+- name: Install flux bash completion system-wide
+  ansible.builtin.copy:
+    content: "{{ flux_completion.stdout }}"
+    dest: /etc/bash_completion.d/flux
     mode: '0644'
   become: true
 

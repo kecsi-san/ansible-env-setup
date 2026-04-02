@@ -84,7 +84,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-k8s.yml |
 | `setup_iac-extra` | Installs opentofu, terragrunt, terrascan, tfupdate via Homebrew | local.yml |
 | `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy via Homebrew | local.yml |
-| `setup_kube-extra` | Installs kubectl + helm via Homebrew; system-wide bash completions; `k=kubectl` alias | local.yml, post-k8s.yml |
+| `setup_kube-extra` | Installs kubectl, helm, argocd, flux via Homebrew; system-wide bash completions; `k=kubectl` alias | local.yml, post-k8s.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | site.yml, local.yml |
 | `setup_network-tools` | Installs network diagnostic tools | site.yml, local.yml |
