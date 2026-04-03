@@ -3,8 +3,8 @@
 Ansible automation for setting up and maintaining developer and DevOps environments. Uses a modular **LEGO approach**: each role is self-contained and independently runnable via tags.
 
 Supports two scenarios:
-- **Local workstation** setup (localhost)
-- **Distributed Kubernetes cluster** on bare-metal hosts (via Kubespray)
+- **Local workstation** setup (localhost) — primarily tested on **Debian 13 under WSL2** on Windows
+- **Distributed Kubernetes cluster** on bare-metal hosts (via Kubespray) — tested on **Debian 13 nodes**
 
 ## Tool Management Philosophy
 
