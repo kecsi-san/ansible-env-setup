@@ -8,5 +8,6 @@
     create: true
     validate: /usr/sbin/visudo -cf %s
   become: true
+  when: ansible_system == 'Linux'
   tags:
     - sudo
