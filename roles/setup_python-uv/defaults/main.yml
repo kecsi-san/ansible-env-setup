@@ -12,19 +12,24 @@ uv_tools:
   - name: ansible
   - name: black
   - name: checkov
+  - name: commitizen
   - name: flake8
   - name: git-changelog
   - name: git-semver
   - name: gitstats
+  - name: jupyter
   - name: mkdocs
     extras:
       - mkdocs-material
       - mkdocstrings-python
+  - name: mypy
   - name: pdoc3
   - name: pip-audit
   - name: pip-tools
   - name: pipreqs
   - name: pylint
+  - name: pytest
+  - name: ruff
 
 # Library packages installed into the shared devops venv via `uv pip install`.
 # Activate with: source ~/.venv/devops/bin/activate

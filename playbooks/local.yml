@@ -95,19 +95,24 @@
           - name: ansible
           - name: black
           - name: checkov
+          - name: commitizen
           - name: flake8
           - name: git-changelog
           - name: git-semver
           - name: gitstats
+          - name: jupyter
           - name: mkdocs
             extras:
               - mkdocs-material
               - mkdocstrings-python
+          - name: mypy
           - name: pdoc3
           - name: pip-audit
           - name: pip-tools
           - name: pipreqs
           - name: pylint
+          - name: pytest
+          - name: ruff
         uv_pip_packages:
           - atlassian-python-api
           - aws-lambda-powertools
