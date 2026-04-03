@@ -2,7 +2,7 @@
 
 Manages custom APT repositories and installs packages from them.
 
-Local-only role — not included in `site.yml`.
+Local-only role — not included in `k8s-nodes.yml`.
 
 Each repository is independently controlled by a boolean flag in `defaults/main.yml` (all off by default except Docker).
 

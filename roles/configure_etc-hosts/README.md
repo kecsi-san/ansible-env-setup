@@ -56,12 +56,12 @@ The `api.k8s` entry maps to the kube-vip VIP (`192.168.1.100`), which is the HA 
 Run only this role:
 
 ```bash
-ansible-playbook playbooks/site.yml --tags configure-etc-hosts
+ansible-playbook playbooks/k8s-nodes.yml --tags configure-etc-hosts
 ```
 
 ## Example playbook
 
-This role is included in `playbooks/site.yml` and runs early in the play order, before roles that depend on inter-node connectivity:
+This role is included in `playbooks/k8s-nodes.yml` and runs early in the play order, before roles that depend on inter-node connectivity:
 
 ```yaml
 - role: configure_etc-hosts
@@ -71,7 +71,7 @@ This role is included in `playbooks/site.yml` and runs early in the play order, 
     - prerequisites
 ```
 
-It should also be run as part of `playbooks/prerequisite.yml` before the first Kubespray installation so that nodes can resolve each other during cluster bootstrap.
+It should also be run as part of `playbooks/prerequik8s-nodes.yml` before the first Kubespray installation so that nodes can resolve each other during cluster bootstrap.
 
 ## Notes
 

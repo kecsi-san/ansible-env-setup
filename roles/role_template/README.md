@@ -38,7 +38,7 @@ _Optional step-by-step breakdown of tasks._
 Run standalone:
 
 ```bash
-ansible-playbook -t <primary-tag> playbooks/site.yml
+ansible-playbook -t <primary-tag> playbooks/k8s-nodes.yml
 ```
 
 ## Notes

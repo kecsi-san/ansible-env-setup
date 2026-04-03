@@ -70,31 +70,31 @@ Use `roles/role_template/` as a starting point when creating a new role.
 
 | Role | Purpose | Playbook(s) |
 |------|---------|-------------|
-| `configure_etc-hosts` | Manages `/etc/hosts` with cluster node entries | site.yml |
-| `configure_fzf` | Adds fzf shell integration to `~/.bashrc` | site.yml |
-| `configure_git` | Deploys `~/.gitconfig` | site.yml |
-| `configure_oh-my-posh` | Installs Pluto OMP theme and shell init | site.yml |
-| `configure_ssh` | Deploys SSH authorized key | site.yml, prerequisite.yml |
-| `configure_sudo` | Configures passwordless sudo for `admin_user` | site.yml, local.yml, prerequisite.yml |
-| `debian_upgrade` | `apt update && upgrade && autoremove` | site.yml, upgrade.yml |
-| `disable_hibernation` | Disables suspend/hibernate via systemd | site.yml |
+| `configure_etc-hosts` | Manages `/etc/hosts` with cluster node entries | k8s-nodes.yml |
+| `configure_fzf` | Adds fzf shell integration to `~/.bashrc` | k8s-nodes.yml |
+| `configure_git` | Deploys `~/.gitconfig` | k8s-nodes.yml |
+| `configure_oh-my-posh` | Installs Pluto OMP theme and shell init | k8s-nodes.yml |
+| `configure_ssh` | Deploys SSH authorized key | k8s-nodes.yml, prerequisite.yml |
+| `configure_sudo` | Configures passwordless sudo for `admin_user` | k8s-nodes.yml, local.yml, prerequisite.yml |
+| `debian_upgrade` | `apt update && upgrade && autoremove` | k8s-nodes.yml, upgrade.yml |
+| `disable_hibernation` | Disables suspend/hibernate via systemd | k8s-nodes.yml |
 | `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` galaxy role | local.yml |
-| `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew | site.yml |
-| `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | site.yml |
+| `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew | k8s-nodes.yml |
+| `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | k8s-nodes.yml |
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-k8s.yml |
 | `setup_apt_repos` | Adds Docker CE apt repo; installs docker-ce + compose plugin; adds user to docker group | local.yml |
 | `setup_iac-extra` | Installs opentofu, terragrunt, terrascan, tfupdate via Homebrew | local.yml |
 | `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy via Homebrew | local.yml |
 | `setup_kube-extra` | Installs kubectl, helm, argocd, flux via Homebrew; system-wide bash completions; `k=kubectl` alias | local.yml, post-k8s.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
-| `setup_minimal` | Installs base APT packages; optional Homebrew base packages | site.yml, local.yml |
-| `setup_network-tools` | Installs network diagnostic tools | site.yml, local.yml |
-| `setup_security-tools` | fail2ban + rkhunter (APT), lynis (Cisofy repo), trivy (Homebrew) | site.yml, local.yml |
+| `setup_minimal` | Installs base APT packages; optional Homebrew base packages | k8s-nodes.yml, local.yml |
+| `setup_network-tools` | Installs network diagnostic tools | k8s-nodes.yml, local.yml |
+| `setup_security-tools` | fail2ban + rkhunter (APT), lynis (Cisofy repo), trivy (Homebrew) | k8s-nodes.yml, local.yml |
 | `setup_python-uv` | Installs uv CLI tools and Python library packages | local.yml |
 | `upgrade_brew` | `brew update && upgrade && cleanup` | upgrade.yml |
 | `upgrade_python-uv` | `uv tool upgrade --all` + `uv pip install --upgrade` in devops venv | upgrade.yml |
-| `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME XML descriptor | site.yml |
-| `upload_profile_image` | Sets GNOME/GDM profile picture | site.yml |
+| `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME XML descriptor | k8s-nodes.yml |
+| `upload_profile_image` | Sets GNOME/GDM profile picture | k8s-nodes.yml |
 
 ---
 

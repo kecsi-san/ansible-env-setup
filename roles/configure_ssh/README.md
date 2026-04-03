@@ -29,5 +29,5 @@ Deploys the SSH public key to the remote user's `authorized_keys`.
 
 ## Notes
 
-- Run this role via `prerequisite.yml` before `site.yml` so key-based auth is in place
+- Run this role via `prerequisite.yml` before `k8s-nodes.yml` so key-based auth is in place
 - `manage_dir: yes` ensures `~/.ssh/` is created with correct permissions if missing

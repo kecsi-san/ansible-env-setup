@@ -30,7 +30,7 @@ Uploads a collection of wallpaper images to the system and registers them in the
 Run standalone with:
 
 ```bash
-ansible-playbook -t bgimages playbooks/site.yml
+ansible-playbook -t bgimages playbooks/k8s-nodes.yml
 ```
 
 ## Notes

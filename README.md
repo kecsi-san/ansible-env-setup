@@ -56,7 +56,7 @@ ansible-playbook playbooks/local.yml
 
 # Remote hosts: run prerequisites first (requires password), then full setup
 ansible-playbook --ask-become-pass playbooks/prerequisite.yml
-ansible-playbook playbooks/site.yml
+ansible-playbook playbooks/k8s-nodes.yml
 
 # Pre-Kubernetes node preparation
 ansible-playbook playbooks/pre-k8s.yml
@@ -76,7 +76,7 @@ ansible-playbook playbooks/upgrade.yml
 ```bash
 ansible-playbook --ask-become-pass -t ssh,sudo playbooks/prerequisite.yml
 ansible-playbook -t minimal,brew playbooks/local.yml
-ansible-playbook -t fonts,omp,fzf playbooks/site.yml
+ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 ```
 
 ## Playbooks
@@ -84,8 +84,8 @@ ansible-playbook -t fonts,omp,fzf playbooks/site.yml
 | Playbook | Target | Purpose |
 |----------|--------|---------|
 | `local.yml` | localhost | Local workstation setup and testing |
-| `site.yml` | `kube` group | Full setup across remote hosts |
-| `prerequisite.yml` | `kube` group | SSH hardening + passwordless sudo (run before site.yml) |
+| `k8s-nodes.yml` | `kube` group | Full setup across remote hosts |
+| `prerequisite.yml` | `kube` group | SSH hardening + passwordless sudo (run before k8s-nodes.yml) |
 | `pre-k8s.yml` | `kube` group | Node preparation before Kubespray (etckeeper) |
 | `kubespray.yml` | `kube` group | Install Kubernetes cluster via Kubespray |
 | `reset-kubespray.yml` | `kube` group | Tear down Kubernetes cluster |

@@ -4,7 +4,7 @@
 
 Installs VS Code, deploys user settings, and installs extensions.
 
-Local-only role — not included in `site.yml`.
+Local-only role — not included in `k8s-nodes.yml`.
 
 ## What it does
 

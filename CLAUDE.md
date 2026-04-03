@@ -17,9 +17,9 @@ ansible-galaxy install -r requirements.yml
 ansible-playbook playbooks/local.yml
 
 # Run setup across kube group hosts
-ansible-playbook playbooks/site.yml
+ansible-playbook playbooks/k8s-nodes.yml
 
-# Run prerequisite SSH/sudo setup before site.yml (--ask-become-pass required here only — passwordless sudo not yet configured)
+# Run prerequisite SSH/sudo setup before k8s-nodes.yml (--ask-become-pass required here only — passwordless sudo not yet configured)
 ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 
 # Pre-Kubernetes node preparation (etckeeper etc.)
@@ -54,8 +54,8 @@ ansible-playbook --syntax-check playbooks/local.yml
 
 **Playbooks** (`playbooks/`) orchestrate roles for specific scenarios:
 - `local.yml` — localhost only; used for testing and local workstation setup
-- `site.yml` — mirrors local.yml but targets `kube` group (remote hosts)
-- `prerequisite.yml` — must run before `site.yml`; sets up SSH keys and passwordless sudo
+- `k8s-nodes.yml` — mirrors local.yml but targets `kube` group (remote hosts)
+- `prerequisite.yml` — must run before `k8s-nodes.yml`; sets up SSH keys and passwordless sudo
 - `kubespray.yml` / `reset-kubespray.yml` — delegate entirely to the Kubespray collection
 - `pre-k8s.yml` — runs after `prerequisite.yml` and before `kubespray.yml`; prepares nodes (etckeeper)
 - `post-k8s.yml` — runs after Kubernetes cluster is up; installs cluster-level tools (Longhorn, kube-extra)
@@ -139,7 +139,7 @@ roles/<role-name>/
 
 Tags enable selective role execution without running the full playbook:
 - `local.yml` tags: `sudo`, `brew`, `minimal`, `network`
-- `site.yml` tags: `update`, `ssh`, `hosts`, `banner`, `fonts`, `omp`, `fzf`, `gitconfig`, `hibernation`
+- `k8s-nodes.yml` tags: `update`, `ssh`, `hosts`, `banner`, `fonts`, `omp`, `fzf`, `gitconfig`, `hibernation`
 
 Always tag new roles consistently so users can run them individually.
 
