@@ -1,4 +1,5 @@
-# oh-my-posh themes directory
+---
+profile_image_enabled: true
 upload_profile_image: true
 profile_image_file: ".face"
 # Path to user home directory

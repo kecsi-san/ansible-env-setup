@@ -1,3 +1,6 @@
+---
+omp_enabled: true
+
 # oh-my-posh themes directory
 omp_themes_dir: "~/.poshthemes/"
 default_omp_theme: "debian.omp.yaml"
