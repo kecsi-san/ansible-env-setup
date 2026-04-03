@@ -1,4 +1,8 @@
 ---
+# Set to true once VS Code is properly installed and the role is ready to run.
+# In WSL2: VS Code must be installed on Windows — the Linux apt install does not work.
+vscode_enabled: false
+
 vscode_bin: code
 
 vscode_extensions:

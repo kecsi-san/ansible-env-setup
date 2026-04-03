@@ -207,8 +207,9 @@
     - name: Setup VS Code
       ansible.builtin.import_role:
         name: setup_vscode
-      when: ansible_system == 'Linux'
+      when: ansible_system == 'Linux' and vscode_enabled
       vars:
+        vscode_enabled: false  # incomplete role — see roles/setup_vscode/README.md
         vscode_extensions:
           - docker.docker
           - github.copilot-chat
