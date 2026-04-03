@@ -17,7 +17,6 @@ uv_tools:
   - name: git-changelog
   - name: git-semver
   - name: gitstats
-  - name: jupyter
   - name: mkdocs
     extras:
       - mkdocs-material
