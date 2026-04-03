@@ -2,6 +2,7 @@
 - name: load os specific variables
   include_vars: "os/{{ ansible_distribution }}.yml"
   tags: minimal, always
+  when: ansible_system == 'Linux'
 
 - name: Install base packages
   ansible.builtin.package:
@@ -9,7 +10,7 @@
     state: present
     update_cache: yes
   tags: minimal, always
-  when: base_packages is defined
+  when: ansible_system == 'Linux' and base_packages is defined
   become: true
 
 - name: Install brew packages

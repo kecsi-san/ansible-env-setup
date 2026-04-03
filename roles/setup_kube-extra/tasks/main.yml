@@ -29,6 +29,7 @@
   register: kubectl_completion
   changed_when: false
   become: false
+  when: ansible_system == 'Linux'
 
 - name: Install kubectl bash completion system-wide
   ansible.builtin.copy:
@@ -36,6 +37,7 @@
     dest: /etc/bash_completion.d/kubectl
     mode: '0644'
   become: true
+  when: ansible_system == 'Linux'
 
 - name: Generate helm bash completion
   ansible.builtin.command:
@@ -43,6 +45,7 @@
   register: helm_completion
   changed_when: false
   become: false
+  when: ansible_system == 'Linux'
 
 - name: Install helm bash completion system-wide
   ansible.builtin.copy:
@@ -50,6 +53,7 @@
     dest: /etc/bash_completion.d/helm
     mode: '0644'
   become: true
+  when: ansible_system == 'Linux'
 
 - name: Generate argocd bash completion
   ansible.builtin.command:
@@ -57,6 +61,7 @@
   register: argocd_completion
   changed_when: false
   become: false
+  when: ansible_system == 'Linux'
 
 - name: Install argocd bash completion system-wide
   ansible.builtin.copy:
@@ -64,6 +69,7 @@
     dest: /etc/bash_completion.d/argocd
     mode: '0644'
   become: true
+  when: ansible_system == 'Linux'
 
 - name: Generate flux bash completion
   ansible.builtin.command:
@@ -71,6 +77,7 @@
   register: flux_completion
   changed_when: false
   become: false
+  when: ansible_system == 'Linux'
 
 - name: Install flux bash completion system-wide
   ansible.builtin.copy:
@@ -78,6 +85,7 @@
     dest: /etc/bash_completion.d/flux
     mode: '0644'
   become: true
+  when: ansible_system == 'Linux'
 
 - name: Install kubectl alias and completion system-wide
   ansible.builtin.copy:
@@ -87,3 +95,4 @@
       complete -o default -F __start_kubectl k
     mode: '0644'
   become: true
+  when: ansible_system == 'Linux'
