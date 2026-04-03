@@ -122,7 +122,7 @@ ansible-playbook -t fonts,omp,fzf playbooks/site.yml
 
 `setup_cloud-aws`, `setup_cloud-azure`, `setup_cloud-gcp`, `setup_convinience`,
 `setup_email-server`, `setup_email-tools`, `setup_iac-terraform`, `setup_iac-extra`,
-`setup_python-pyenv`, `setup_python-uv`, `setup_security-tools`, `setup_vscode`,
+`setup_python-uv`, `setup_security-tools`, `setup_vscode`,
 `setup_apt_repos`, `setup_kubernetes`
 
 ## Inventory Structure

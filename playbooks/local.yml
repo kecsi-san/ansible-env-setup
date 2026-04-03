@@ -72,7 +72,6 @@
           - go-task
           - oh-my-posh
           - pre-commit
-          - pyenv
           - python@3.12
           - uv
           - yq

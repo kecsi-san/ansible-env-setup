@@ -124,4 +124,3 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_convinience` | General convenience/quality-of-life tools |
 | `setup_email-server` | Email server setup |
 | `setup_email-tools` | Email client tools |
-| `setup_python-pyenv` | Python version management via pyenv |
