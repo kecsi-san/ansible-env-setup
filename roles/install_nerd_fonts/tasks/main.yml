@@ -1,14 +1,10 @@
 ---
-- name: Install nerd fonts Meslo as Brew Cask
+- name: Install nerd fonts via Homebrew Cask
   community.general.homebrew_cask:
-    name: font-meslo-lg-nerd-font
+    name: "{{ item.key }}"
     path: "/home/linuxbrew/.linuxbrew/bin"
     state: present
-  become: false
-
-- name: Install nerd fonts Fira Code as Brew Cask
-  community.general.homebrew_cask:
-    name: font-fira-code-nerd-font
-    path: "/home/linuxbrew/.linuxbrew/bin"
-    state: present
+  loop: "{{ nerd_fonts | dict2items | selectattr('value', 'equalto', true) | list }}"
+  loop_control:
+    label: "{{ item.key }}"
   become: false

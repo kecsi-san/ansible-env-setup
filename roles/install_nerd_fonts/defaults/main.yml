@@ -1,0 +1,54 @@
+---
+# Nerd Font cask names — set to true to install, false to skip.
+# Full list available at: https://www.nerdfonts.com/font-downloads
+nerd_fonts:
+  font-meslo-lg-nerd-font: true          # Meslo LG — recommended for oh-my-posh
+  font-fira-code-nerd-font: true         # Fira Code — ligatures
+  font-3270-nerd-font: false
+  font-agave-nerd-font: false
+  font-anonymice-nerd-font: false
+  font-arimo-nerd-font: false
+  font-aurulent-sans-mono-nerd-font: false
+  font-bigblue-terminal-nerd-font: false
+  font-bitstream-vera-sans-mono-nerd-font: false
+  font-blex-mono-nerd-font: false
+  font-caskaydia-cove-nerd-font: false
+  font-code-new-roman-nerd-font: false
+  font-cousine-nerd-font: false
+  font-daddy-time-mono-nerd-font: false
+  font-dejavu-sans-mono-nerd-font: false
+  font-droid-sans-mono-nerd-font: false
+  font-fantasque-sans-mono-nerd-font: false
+  font-fira-mono-nerd-font: false
+  font-go-mono-nerd-font: false
+  font-gohufont-nerd-font: false
+  font-hack-nerd-font: false
+  font-hasklug-nerd-font: false
+  font-heavy-data-nerd-font: false
+  font-hurmit-nerd-font: false
+  font-im-writing-nerd-font: false
+  font-inconsolata-go-nerd-font: false
+  font-inconsolata-lgc-nerd-font: false
+  font-inconsolata-nerd-font: false
+  font-iosevka-nerd-font: false
+  font-jetbrains-mono-nerd-font: false
+  font-lekton-nerd-font: false
+  font-liberation-nerd-font: false
+  font-monofur-nerd-font: false
+  font-monoid-nerd-font: false
+  font-mononoki-nerd-font: false
+  font-mplus-nerd-font: false
+  font-noto-nerd-font: false
+  font-open-dyslexic-nerd-font: false
+  font-overpass-nerd-font: false
+  font-profont-nerd-font: false
+  font-proggy-clean-tt-nerd-font: false
+  font-roboto-mono-nerd-font: false
+  font-sauce-code-pro-nerd-font: false
+  font-shure-tech-mono-nerd-font: false
+  font-space-mono-nerd-font: false
+  font-terminess-ttf-nerd-font: false
+  font-tinos-nerd-font: false
+  font-ubuntu-mono-nerd-font: false
+  font-ubuntu-nerd-font: false
+  font-victor-mono-nerd-font: false
