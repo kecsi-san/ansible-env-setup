@@ -124,3 +124,9 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_convinience` | General convenience/quality-of-life tools |
 | `setup_email-server` | Email server setup |
 | `setup_email-tools` | Email client tools |
+| `setup_mlops-tools` | MLOps tooling (MLflow, DVC, ZenML, Prefect, etc.) |
+| `setup_aiops-tools` | AIOps tooling (OpenTelemetry, Prometheus, Grafana CLI, etc.) |
+| `setup_mle-tools` | ML Engineering tooling (BentoML, Feast, vLLM, etc.) |
+| `setup_nodejs-dev-tools` | Node.js development tooling (node, pnpm, eslint, etc.) |
+| `setup_go-dev-tools` | Go development tooling (go, golangci-lint, gopls, etc.) |
+| `setup_rust-dev-tools` | Rust development tooling (rustup, cargo, clippy, etc.) |
