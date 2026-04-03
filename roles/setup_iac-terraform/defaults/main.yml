@@ -1,4 +1,6 @@
 ---
+iac_terraform_enabled: true
+
 iac_brew_packages:
   - terraform
   - terraform-docs

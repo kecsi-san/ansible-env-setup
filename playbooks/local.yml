@@ -237,8 +237,10 @@
     - name: Setup IaC Terraform tooling
       ansible.builtin.import_role:
         name: setup_iac-terraform
+      when: iac_terraform_enabled
       become: false
       vars:
+        iac_terraform_enabled: true
         iac_brew_packages:
           - terraform
           - terraform-docs
@@ -251,8 +253,10 @@
     - name: Setup extra IaC tooling
       ansible.builtin.import_role:
         name: setup_iac-extra
+      when: iac_extra_enabled
       become: false
       vars:
+        iac_extra_enabled: true
         iac_extra_brew_packages:
           - opentofu
           - terragrunt
