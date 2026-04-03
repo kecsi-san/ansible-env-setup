@@ -120,3 +120,12 @@ source ~/.venv/devops/bin/activate
 - `become: false` — all packages are installed in user space
 - `changed_when: false` on install tasks — uv is idempotent but doesn't produce reliable change output; use `upgrade_python-uv` to actually upgrade packages
 - Adding or removing packages from the lists reruns the install on next playbook run (new packages get installed; removed packages are not uninstalled automatically)
+
+## Platform limitations
+
+**Currently Linux-only.** Two hardcoded assumptions prevent this role from running on macOS as-is:
+
+- `uv_bin` defaults to `/home/linuxbrew/.linuxbrew/bin/uv` — the Linuxbrew path
+- `uv_venv_path` is derived from `ansible_env.HOME` which resolves correctly on Linux but the binary path above won't exist on macOS
+
+To add Mac support, `uv_bin` would need to resolve dynamically (e.g. `/opt/homebrew/bin/uv` on Apple Silicon, `/usr/local/bin/uv` on Intel).
