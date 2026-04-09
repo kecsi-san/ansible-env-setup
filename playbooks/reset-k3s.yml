@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  name: Uninstall k3s local development cluster
+  connection: local
+  become: false
+  vars:
+    k3s_cluster_name: dev
+    k3s_kubeconfig_path: "{{ ansible_env.HOME }}/.kube/k3s.yaml"
+  tasks:
+    # ── Linux ────────────────────────────────────────────────────────────────
+    - name: Check if k3s uninstall script exists
+      ansible.builtin.stat:
+        path: /usr/local/bin/k3s-uninstall.sh
+      register: k3s_uninstall_script
+      when: ansible_system == 'Linux'
+
+    - name: Uninstall k3s
+      ansible.builtin.command:
+        cmd: /usr/local/bin/k3s-uninstall.sh
+      become: true
+      changed_when: true
+      when: ansible_system == 'Linux' and k3s_uninstall_script.stat.exists
+
+    # ── macOS ─────────────────────────────────────────────────────────────────
+    - name: Delete k3d cluster
+      ansible.builtin.command:
+        cmd: k3d cluster delete {{ k3s_cluster_name }}
+      become: false
+      changed_when: true
+      failed_when: false
+      when: ansible_system == 'Darwin'
+
+    # ── Common ────────────────────────────────────────────────────────────────
+    - name: Remove kubeconfig file
+      ansible.builtin.file:
+        path: "{{ k3s_kubeconfig_path }}"
+        state: absent
+
+    - name: Remove k3s kubeconfig block from ~/.bashrc
+      ansible.builtin.blockinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK — k3s kubeconfig"
+        state: absent

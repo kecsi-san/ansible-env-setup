@@ -69,6 +69,10 @@ ansible-playbook playbooks/post-kubespray.yml
 
 # OS upgrades across all hosts
 ansible-playbook playbooks/upgrade.yml
+
+# Local k3s dev cluster (single-node, localhost)
+ansible-playbook playbooks/k3s.yml
+ansible-playbook playbooks/reset-k3s.yml   # to uninstall
 ```
 
 ### Run specific roles with tags
@@ -89,7 +93,7 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | Category | Pattern | Examples |
 |----------|---------|---------|
 | Environment setup | `<target>.yml` | `local.yml`, `k8s-nodes.yml` |
-| Kubernetes cluster ops | `[<phase>-]<tool>.yml` | `kubespray.yml`, `pre-kubespray.yml`, `post-kubespray.yml`, `reset-kubespray.yml` |
+| Kubernetes cluster ops | `[<phase>-]<tool>.yml` | `kubespray.yml`, `pre-kubespray.yml`, `post-kubespray.yml`, `reset-kubespray.yml`, `k3s.yml`, `reset-k3s.yml` |
 | Maintenance | `<operation>.yml` | `upgrade.yml`, `prerequisite.yml` |
 | One-off operations | `<specific-action>.yml` | `dist-upgrade.yml` |
 
@@ -100,11 +104,13 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | `local.yml` | localhost | Local workstation setup |
 | `k8s-nodes.yml` | `kube` group | Full setup across remote hosts |
 | `prerequisite.yml` | `kube` group | SSH hardening + passwordless sudo (run before k8s-nodes.yml) |
-| `pre-kubespray.yml` | `kube` group | Node preparation before Kubespray (etckeeper) |
-| `kubespray.yml` | `kube` group | Install Kubernetes cluster via Kubespray |
-| `reset-kubespray.yml` | `kube` group | Tear down Kubernetes cluster |
-| `post-kubespray.yml` | `kube` group | Post-cluster setup (Longhorn storage) |
 | `upgrade.yml` | `kube` group | OS package upgrades |
+| `pre-kubespray.yml` | `kube` group | Node prep before Kubespray (etckeeper) — **bare-metal cluster** |
+| `kubespray.yml` | `kube` group | Install Kubernetes cluster via Kubespray — **bare-metal cluster** |
+| `reset-kubespray.yml` | `kube` group | Tear down Kubespray cluster — **bare-metal cluster** |
+| `post-kubespray.yml` | `kube` group | Post-cluster setup (Longhorn storage) — **bare-metal cluster** |
+| `k3s.yml` | localhost | Install single-node k3s cluster — **local dev** (Linux native / macOS via k3d) |
+| `reset-k3s.yml` | localhost | Uninstall k3s local dev cluster |
 
 ## Roles
 
@@ -129,6 +135,7 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages |
 | `setup_network-tools` | Installs network diagnostic tools |
+| `setup_k3s` | Single-node local dev cluster — Linux native k3s / macOS via k3d |
 | `setup_go-dev-tools` | go, gopls, golangci-lint; optional: delve, goreleaser, ko, air |
 | `setup_nodejs-dev-tools` | node, pnpm; optional brew tools + npm global packages |
 | `setup_rust-dev-tools` | rustup + stable toolchain (rustc, cargo, rustfmt, clippy); optional cargo tools |
@@ -160,6 +167,18 @@ Key variables in `secrets.yml`: `domain_name`, `admin_user`, `ansible_ssh_user`,
 
 ## Kubernetes
 
+Two Kubernetes strategies are supported — each targets a different environment:
+
+| | Kubespray | k3s |
+|-|-----------|-----|
+| **Target** | Bare-metal remote hosts (`kube` group) | localhost only |
+| **Use case** | Production-grade HA cluster | Local development cluster |
+| **Nodes** | Multi-node (3 control plane + workers) | Single-node |
+| **macOS support** | No | Yes (via k3d) |
+| **Playbooks** | `pre-kubespray.yml` → `kubespray.yml` → `post-kubespray.yml` | `k3s.yml` |
+
+### Kubespray (bare-metal cluster)
+
 Uses [kubespray](https://github.com/kubernetes-sigs/kubespray) (release-2.29) configured for:
 
 - HA control plane with kube-vip at `api.k8s.<domain_name>:6443`
@@ -167,8 +186,6 @@ Uses [kubespray](https://github.com/kubernetes-sigs/kubespray) (release-2.29) co
 - 3-node etcd cluster
 
 Kubespray group vars live alongside custom role vars in `inventory/group_vars/` — the same inventory serves both.
-
-### Kubernetes cluster setup order
 
 Run playbooks in this sequence for a full cluster deployment:
 
@@ -184,4 +201,19 @@ ansible-playbook -b playbooks/kubespray.yml
 
 # 4. Post-cluster setup (Longhorn storage, kubeconfig)
 ansible-playbook playbooks/post-kubespray.yml
+```
+
+### k3s (local dev cluster)
+
+Single-node cluster on localhost — no inventory or SSH required.
+
+- **Linux (WSL2):** native k3s via the official installer script
+- **macOS:** k3s via k3d (k3s in Docker) — requires Docker Desktop or OrbStack
+
+```bash
+# Install
+ansible-playbook playbooks/k3s.yml
+
+# Uninstall
+ansible-playbook playbooks/reset-k3s.yml
 ```

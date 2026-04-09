@@ -94,6 +94,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_network-tools` | Installs network diagnostic tools | k8s-nodes.yml, local.yml |
 | `setup_security-tools` | fail2ban + rkhunter (APT), lynis (Cisofy repo), trivy (Homebrew) | k8s-nodes.yml, local.yml |
 | `setup_python-uv` | Installs uv CLI tools and Python library packages | local.yml |
+| `setup_k3s` | Single-node k3s local dev cluster (Linux native / macOS via k3d) | k3s.yml |
 | `setup_go-dev-tools` | go, gopls, golangci-lint via Homebrew; optional: delve, goreleaser, ko, air | local.yml |
 | `setup_nodejs-dev-tools` | node, pnpm via Homebrew; optional brew + npm global packages | local.yml |
 | `setup_rust-dev-tools` | rustup + stable toolchain (rustc, cargo, rustfmt, clippy); optional cargo tools | local.yml |

@@ -153,12 +153,16 @@ Always tag new roles consistently so users can run them individually.
 
 ### Kubernetes Setup
 
-Uses the `kubernetes-sigs/kubespray` collection (release-2.29 branch, installed via `requirements.yml`). The cluster is configured for:
-- HA control plane with internal load balancer (kube-vip) at `api.k8s.<domain_name>:6443`
-- Calico CNI
-- 3-node etcd cluster
-- Upstream DNS configured via `secrets.yml`
+Two strategies, two different targets:
 
-Kubespray group vars live in `inventory/group_vars/` alongside the custom roles' vars — the same inventory serves both.
+**Kubespray — bare-metal multi-node cluster (`kube` group)**
+- Uses `kubernetes-sigs/kubespray` collection (release-2.29 branch, installed via `requirements.yml`)
+- HA control plane with kube-vip at `api.k8s.<domain_name>:6443`, Calico CNI, 3-node etcd
+- Kubespray group vars live in `inventory/group_vars/` alongside custom role vars — same inventory serves both
+- Post-cluster setup (`post-kubespray.yml`) installs Longhorn distributed block storage via `setup_longhorn`
 
-Post-cluster setup is handled by `playbooks/post-kubespray.yml` which currently installs Longhorn distributed block storage via the `setup_longhorn` role.
+**k3s — single-node local dev cluster (localhost)**
+- Linux (WSL2): native k3s via official installer script (`get.k3s.io`)
+- macOS: k3s via k3d (k3s in Docker) installed through Homebrew — requires Docker Desktop or OrbStack
+- Kubeconfig written to `~/.kube/k3s.yaml` and appended to `KUBECONFIG` in `~/.bashrc`
+- Managed by `setup_k3s` role; playbooks: `k3s.yml` (install), `reset-k3s.yml` (uninstall)

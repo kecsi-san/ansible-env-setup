@@ -1,0 +1,22 @@
+---
+k3s_enabled: true
+
+# Cluster name — used by k3d on macOS; cosmetic on Linux
+k3s_cluster_name: dev
+
+# Kubeconfig destination (both platforms)
+k3s_kubeconfig_path: "{{ ansible_env.HOME }}/.kube/k3s.yaml"
+
+# ── Linux-specific ────────────────────────────────────────────────────────────
+# Disable built-in Traefik ingress controller (recommended for dev — bring your own)
+k3s_disable_traefik: true
+
+# Disable built-in ServiceLB (klipper) load balancer
+k3s_disable_servicelb: false
+
+# ── macOS-specific (k3d) ─────────────────────────────────────────────────────
+# Number of k3d agent nodes (0 = server-only single-node cluster)
+k3d_agents: 0
+
+# k3d API port exposed on localhost
+k3d_api_port: 6443

@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  name: Install k3s local development cluster
+  connection: local
+  become: false
+  tasks:
+    - name: Setup k3s
+      ansible.builtin.import_role:
+        name: setup_k3s
+      when: k3s_enabled
+      vars:
+        k3s_enabled: true
+        k3s_cluster_name: dev
+        k3s_disable_traefik: true
+        k3s_disable_servicelb: false
+        k3d_agents: 0
+        k3d_api_port: 6443
+      tags:
+        - k3s

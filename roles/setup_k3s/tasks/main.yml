@@ -1,0 +1,111 @@
+---
+# ── Linux: native k3s install ─────────────────────────────────────────────────
+- name: Check if k3s is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/k3s
+  register: k3s_binary
+  when: ansible_system == 'Linux'
+
+- name: Download k3s installer
+  ansible.builtin.get_url:
+    url: https://get.k3s.io
+    dest: /tmp/k3s-install.sh
+    mode: '0755'
+  when: ansible_system == 'Linux' and not k3s_binary.stat.exists
+
+- name: Install k3s
+  ansible.builtin.command:
+    cmd: /tmp/k3s-install.sh
+  environment:
+    INSTALL_K3S_EXEC: >-
+      {{ '--disable traefik' if k3s_disable_traefik else '' }}
+      {{ '--disable servicelb' if k3s_disable_servicelb else '' }}
+  when: ansible_system == 'Linux' and not k3s_binary.stat.exists
+  become: true
+  changed_when: true
+
+- name: Wait for k3s node to be ready
+  ansible.builtin.command:
+    cmd: k3s kubectl get nodes
+  register: k3s_nodes
+  until: k3s_nodes.rc == 0
+  retries: 15
+  delay: 5
+  become: true
+  changed_when: false
+  when: ansible_system == 'Linux'
+
+- name: Ensure ~/.kube directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.kube"
+    state: directory
+    mode: '0700'
+  when: ansible_system == 'Linux'
+
+- name: Copy k3s kubeconfig to user home
+  ansible.builtin.copy:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: "{{ k3s_kubeconfig_path }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0600'
+    remote_src: true
+  become: true
+  when: ansible_system == 'Linux'
+
+# ── macOS: k3s via k3d (k3s in Docker) ───────────────────────────────────────
+- name: Install k3d via Homebrew
+  community.general.homebrew:
+    name: k3d
+    state: present
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Check if k3d cluster already exists
+  ansible.builtin.command:
+    cmd: k3d cluster get {{ k3s_cluster_name }}
+  register: k3d_cluster_check
+  failed_when: false
+  changed_when: false
+  when: ansible_system == 'Darwin'
+
+- name: Create k3d cluster
+  ansible.builtin.command:
+    cmd: >-
+      k3d cluster create {{ k3s_cluster_name }}
+      --agents {{ k3d_agents }}
+      --api-port {{ k3d_api_port }}
+      {{ '--k3s-arg --disable=traefik@server:*' if k3s_disable_traefik else '' }}
+  become: false
+  changed_when: true
+  when: ansible_system == 'Darwin' and k3d_cluster_check.rc != 0
+
+- name: Ensure ~/.kube directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.kube"
+    state: directory
+    mode: '0700'
+  when: ansible_system == 'Darwin'
+
+- name: Export k3d kubeconfig
+  ansible.builtin.shell:
+    cmd: k3d kubeconfig get {{ k3s_cluster_name }} > {{ k3s_kubeconfig_path }}
+  become: false
+  changed_when: true
+  when: ansible_system == 'Darwin'
+
+- name: Set kubeconfig permissions
+  ansible.builtin.file:
+    path: "{{ k3s_kubeconfig_path }}"
+    mode: '0600'
+  when: ansible_system == 'Darwin'
+
+# ── Common: shell integration ─────────────────────────────────────────────────
+- name: Add k3s kubeconfig to PATH in ~/.bashrc
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK — k3s kubeconfig"
+    block: |
+      # k3s local cluster kubeconfig
+      export KUBECONFIG="${KUBECONFIG:+${KUBECONFIG}:}{{ k3s_kubeconfig_path }}"
+    create: false
