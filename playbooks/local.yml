@@ -275,6 +275,10 @@
         aws_brew_packages:
           - awscli
           - aws-sam-cli
+        aws_optional_brew_packages:
+          okta-aws-cli: false
+          eksctl: false
+          aws-vault: false
       tags:
         - cloud
         - aws

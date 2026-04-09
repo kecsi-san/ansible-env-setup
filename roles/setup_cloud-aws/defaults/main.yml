@@ -6,6 +6,12 @@ aws_brew_packages:
   - awscli
   - aws-sam-cli
 
+# Optional tools — set to true to install
+aws_optional_brew_packages:
+  okta-aws-cli: false
+  eksctl: false
+  aws-vault: false
+
 # Session Manager Plugin — Linux only (no Homebrew formula for Linux)
 session_manager_plugin_url: "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb"
 session_manager_plugin_deb: "/tmp/session-manager-plugin.deb"

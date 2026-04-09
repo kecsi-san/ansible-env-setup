@@ -6,6 +6,14 @@
     state: present
   become: false
 
+# Optional AWS tools via Homebrew
+- name: Install optional AWS tools via Homebrew
+  community.general.homebrew:
+    name: "{{ aws_optional_brew_packages | dict2items | selectattr('value', 'equalto', true) | map(attribute='key') | list }}"
+    state: present
+  become: false
+  when: aws_optional_brew_packages.values() | list | select | list | length > 0
+
 # Session Manager Plugin — Linux only (.deb from AWS)
 - name: Download Session Manager Plugin installer
   ansible.builtin.get_url:
