@@ -266,6 +266,19 @@
         - iac
         - iac-extra
 
+    - name: Setup AWS cloud tooling
+      ansible.builtin.import_role:
+        name: setup_cloud-aws
+      when: aws_enabled
+      vars:
+        aws_enabled: true
+        aws_brew_packages:
+          - awscli
+          - aws-sam-cli
+      tags:
+        - cloud
+        - aws
+
     - name: Setup kube extra tooling
       ansible.builtin.import_role:
         name: setup_kube-extra

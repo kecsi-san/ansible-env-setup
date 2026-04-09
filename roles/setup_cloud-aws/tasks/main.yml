@@ -1,0 +1,23 @@
+---
+# AWS CLI + SAM CLI via Homebrew (cross-platform)
+- name: Install AWS tools via Homebrew
+  community.general.homebrew:
+    name: "{{ aws_brew_packages }}"
+    state: present
+  become: false
+
+# Session Manager Plugin — Linux only (.deb from AWS)
+- name: Download Session Manager Plugin installer
+  ansible.builtin.get_url:
+    url: "{{ session_manager_plugin_url }}"
+    dest: "{{ session_manager_plugin_deb }}"
+    mode: '0644'
+  become: false
+  when: ansible_system == 'Linux'
+
+- name: Install Session Manager Plugin
+  ansible.builtin.apt:
+    deb: "{{ session_manager_plugin_deb }}"
+    state: present
+  become: true
+  when: ansible_system == 'Linux'

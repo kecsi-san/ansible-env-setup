@@ -1,0 +1,11 @@
+---
+aws_enabled: true
+
+# Installed via Homebrew (cross-platform)
+aws_brew_packages:
+  - awscli
+  - aws-sam-cli
+
+# Session Manager Plugin — Linux only (no Homebrew formula for Linux)
+session_manager_plugin_url: "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb"
+session_manager_plugin_deb: "/tmp/session-manager-plugin.deb"
