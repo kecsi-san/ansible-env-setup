@@ -85,6 +85,9 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_apt_repos` | Adds Docker CE apt repo; installs docker-ce + compose plugin; adds user to docker group | local.yml |
 | `setup_iac-extra` | Installs opentofu, terragrunt, terrascan, tfupdate via Homebrew | local.yml |
 | `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy via Homebrew | local.yml |
+| `setup_cloud-aws` | awscli, aws-sam-cli, session-manager-plugin; optional: okta-aws-cli, eksctl, aws-vault | local.yml |
+| `setup_cloud-azure` | azure-cli; optional: azd, bicep, azcopy, kubelogin | local.yml |
+| `setup_cloud-gcp` | google-cloud-sdk (gcloud/gsutil/bq); optional: gke-gcloud-auth-plugin, cloud-sql-proxy | local.yml |
 | `setup_kube-extra` | Installs kubectl, helm, argocd, flux via Homebrew; system-wide bash completions; `k=kubectl` alias | local.yml, post-k8s.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | k8s-nodes.yml, local.yml |
@@ -118,9 +121,6 @@ Use `roles/role_template/` as a starting point when creating a new role.
 
 | Role | Intended Purpose |
 |------|-----------------|
-| `setup_cloud-aws` | AWS CLI and tooling setup |
-| `setup_cloud-azure` | Azure CLI and tooling setup |
-| `setup_cloud-gcp` | GCP CLI and tooling setup |
 | `setup_convinience` | General convenience/quality-of-life tools |
 | `setup_email-server` | Email server setup |
 | `setup_email-tools` | Email client tools |
