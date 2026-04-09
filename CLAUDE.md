@@ -23,7 +23,7 @@ ansible-playbook playbooks/k8s-nodes.yml
 ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 
 # Pre-Kubernetes node preparation (etckeeper etc.)
-ansible-playbook playbooks/pre-k8s.yml
+ansible-playbook playbooks/pre-kubespray.yml
 
 # Install Kubernetes cluster
 ansible-playbook -b playbooks/kubespray.yml
@@ -32,7 +32,7 @@ ansible-playbook -b playbooks/kubespray.yml
 ansible-playbook playbooks/reset-kubespray.yml
 
 # Post-Kubernetes setup (Longhorn storage etc.)
-ansible-playbook playbooks/post-k8s.yml
+ansible-playbook playbooks/post-kubespray.yml
 
 # OS upgrades on all kube group hosts
 ansible-playbook playbooks/upgrade.yml
@@ -57,9 +57,17 @@ ansible-playbook --syntax-check playbooks/local.yml
 - `k8s-nodes.yml` — mirrors local.yml but targets `kube` group (remote hosts)
 - `prerequisite.yml` — must run before `k8s-nodes.yml`; sets up SSH keys and passwordless sudo
 - `kubespray.yml` / `reset-kubespray.yml` — delegate entirely to the Kubespray collection
-- `pre-k8s.yml` — runs after `prerequisite.yml` and before `kubespray.yml`; prepares nodes (etckeeper)
-- `post-k8s.yml` — runs after Kubernetes cluster is up; installs cluster-level tools (Longhorn, kube-extra)
+- `pre-kubespray.yml` — runs after `prerequisite.yml` and before `kubespray.yml`; prepares nodes (etckeeper)
+- `post-kubespray.yml` — runs after Kubernetes cluster is up; installs cluster-level tools (Longhorn, kube-extra)
 - `upgrade.yml` — OS package upgrades across all kube hosts
+
+**Playbook naming convention:**
+- Lowercase, hyphens only (no underscores), `.yml` extension
+- Categories and patterns:
+  - Environment setup → `<target>.yml` (e.g. `local.yml`, `k8s-nodes.yml`)
+  - Kubernetes cluster ops → `[<phase>-]<tool>.yml` (e.g. `kubespray.yml`, `pre-kubespray.yml`, `post-kubespray.yml`, `reset-kubespray.yml`)
+  - Maintenance → `<operation>.yml` (e.g. `upgrade.yml`, `prerequisite.yml`)
+  - One-off operations → `<specific-action>.yml` (e.g. `dist-upgrade.yml`)
 
 **Roles** (`roles/`) are the building blocks. The LEGO principle means roles should have no dependencies on each other. Add new functionality by writing a new role and including it in the appropriate playbook.
 
@@ -153,4 +161,4 @@ Uses the `kubernetes-sigs/kubespray` collection (release-2.29 branch, installed 
 
 Kubespray group vars live in `inventory/group_vars/` alongside the custom roles' vars — the same inventory serves both.
 
-Post-cluster setup is handled by `playbooks/post-k8s.yml` which currently installs Longhorn distributed block storage via the `setup_longhorn` role.
+Post-cluster setup is handled by `playbooks/post-kubespray.yml` which currently installs Longhorn distributed block storage via the `setup_longhorn` role.

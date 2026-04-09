@@ -54,7 +54,7 @@ This role automates the full installation lifecycle: OS-level prerequisites on e
 All tasks are tagged `longhorn`. Use this to run only this role when included in a larger playbook:
 
 ```bash
-ansible-playbook playbooks/post-k8s.yml --tags longhorn
+ansible-playbook playbooks/post-kubespray.yml --tags longhorn
 ```
 
 ## Example usage
@@ -62,25 +62,25 @@ ansible-playbook playbooks/post-k8s.yml --tags longhorn
 ### Run the full role (default)
 
 ```bash
-ansible-playbook playbooks/post-k8s.yml
+ansible-playbook playbooks/post-kubespray.yml
 ```
 
 ### Only install node prerequisites (skip Helm deploy)
 
 ```bash
-ansible-playbook playbooks/post-k8s.yml -e install_longhorn=false
+ansible-playbook playbooks/post-kubespray.yml -e install_longhorn=false
 ```
 
 ### Run preflight check before deploying
 
 ```bash
-ansible-playbook playbooks/post-k8s.yml -e run_preflight_check=true -e install_longhorn=false
+ansible-playbook playbooks/post-kubespray.yml -e run_preflight_check=true -e install_longhorn=false
 ```
 
 ### Upgrade Longhorn to a newer version
 
 ```bash
-ansible-playbook playbooks/post-k8s.yml -e longhorn_version=1.12.0
+ansible-playbook playbooks/post-kubespray.yml -e longhorn_version=1.12.0
 ```
 
 ## What the role does (task order)

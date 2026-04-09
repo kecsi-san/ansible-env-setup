@@ -81,15 +81,15 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` galaxy role | local.yml |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew | k8s-nodes.yml |
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | k8s-nodes.yml |
-| `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-k8s.yml |
+| `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-kubespray.yml |
 | `setup_apt_repos` | Adds Docker CE apt repo; installs docker-ce + compose plugin; adds user to docker group | local.yml |
 | `setup_iac-extra` | Installs opentofu, terragrunt, terrascan, tfupdate via Homebrew | local.yml |
 | `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy via Homebrew | local.yml |
 | `setup_cloud-aws` | awscli, aws-sam-cli, session-manager-plugin; optional: okta-aws-cli, eksctl, aws-vault | local.yml |
 | `setup_cloud-azure` | azure-cli; optional: azd, bicep, azcopy, kubelogin | local.yml |
 | `setup_cloud-gcp` | google-cloud-sdk (gcloud/gsutil/bq); optional: gke-gcloud-auth-plugin, cloud-sql-proxy | local.yml |
-| `setup_kube-extra` | Installs kubectl, helm, argocd, flux via Homebrew; system-wide bash completions; `k=kubectl` alias | local.yml, post-k8s.yml |
-| `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
+| `setup_kube-extra` | Installs kubectl, helm, argocd, flux via Homebrew; system-wide bash completions; `k=kubectl` alias | local.yml, post-kubespray.yml |
+| `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-kubespray.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | k8s-nodes.yml, local.yml |
 | `setup_network-tools` | Installs network diagnostic tools | k8s-nodes.yml, local.yml |
 | `setup_security-tools` | fail2ban + rkhunter (APT), lynis (Cisofy repo), trivy (Homebrew) | k8s-nodes.yml, local.yml |

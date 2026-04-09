@@ -59,13 +59,13 @@ ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 ansible-playbook playbooks/k8s-nodes.yml
 
 # Pre-Kubernetes node preparation
-ansible-playbook playbooks/pre-k8s.yml
+ansible-playbook playbooks/pre-kubespray.yml
 
 # Install Kubernetes cluster (via Kubespray)
 ansible-playbook -b playbooks/kubespray.yml
 
 # Post-Kubernetes setup (Longhorn distributed storage)
-ansible-playbook playbooks/post-k8s.yml
+ansible-playbook playbooks/post-kubespray.yml
 
 # OS upgrades across all hosts
 ansible-playbook playbooks/upgrade.yml
@@ -89,8 +89,7 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | Category | Pattern | Examples |
 |----------|---------|---------|
 | Environment setup | `<target>.yml` | `local.yml`, `k8s-nodes.yml` |
-| Kubernetes lifecycle | `<phase>-k8s.yml` | `pre-k8s.yml`, `post-k8s.yml` |
-| Kubernetes tool ops | `[<action>-]<tool>.yml` | `kubespray.yml`, `reset-kubespray.yml` |
+| Kubernetes cluster ops | `[<phase>-]<tool>.yml` | `kubespray.yml`, `pre-kubespray.yml`, `post-kubespray.yml`, `reset-kubespray.yml` |
 | Maintenance | `<operation>.yml` | `upgrade.yml`, `prerequisite.yml` |
 | One-off operations | `<specific-action>.yml` | `dist-upgrade.yml` |
 
@@ -101,10 +100,10 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | `local.yml` | localhost | Local workstation setup |
 | `k8s-nodes.yml` | `kube` group | Full setup across remote hosts |
 | `prerequisite.yml` | `kube` group | SSH hardening + passwordless sudo (run before k8s-nodes.yml) |
-| `pre-k8s.yml` | `kube` group | Node preparation before Kubespray (etckeeper) |
+| `pre-kubespray.yml` | `kube` group | Node preparation before Kubespray (etckeeper) |
 | `kubespray.yml` | `kube` group | Install Kubernetes cluster via Kubespray |
 | `reset-kubespray.yml` | `kube` group | Tear down Kubernetes cluster |
-| `post-k8s.yml` | `kube` group | Post-cluster setup (Longhorn storage) |
+| `post-kubespray.yml` | `kube` group | Post-cluster setup (Longhorn storage) |
 | `upgrade.yml` | `kube` group | OS package upgrades |
 
 ## Roles
@@ -178,11 +177,11 @@ Run playbooks in this sequence for a full cluster deployment:
 ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 
 # 2. Node preparation (etckeeper, future pre-cluster tooling)
-ansible-playbook playbooks/pre-k8s.yml
+ansible-playbook playbooks/pre-kubespray.yml
 
 # 3. Install Kubernetes cluster via Kubespray
 ansible-playbook -b playbooks/kubespray.yml
 
 # 4. Post-cluster setup (Longhorn storage, kubeconfig)
-ansible-playbook playbooks/post-k8s.yml
+ansible-playbook playbooks/post-kubespray.yml
 ```
