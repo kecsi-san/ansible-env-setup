@@ -1,0 +1,12 @@
+---
+gcp_enabled: true
+
+# Core tools — always installed via Homebrew
+# google-cloud-sdk bundles gcloud, gsutil and bq in one package
+gcp_brew_packages:
+  - google-cloud-sdk
+
+# Optional tools — set to true to install
+gcp_optional_brew_packages:
+  gke-gcloud-auth-plugin: false   # kubectl auth plugin for GKE clusters
+  cloud-sql-proxy: false          # secure local connections to Cloud SQL

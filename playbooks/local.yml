@@ -300,6 +300,21 @@
         - cloud
         - azure
 
+    - name: Setup GCP cloud tooling
+      ansible.builtin.import_role:
+        name: setup_cloud-gcp
+      when: gcp_enabled
+      vars:
+        gcp_enabled: true
+        gcp_brew_packages:
+          - google-cloud-sdk
+        gcp_optional_brew_packages:
+          gke-gcloud-auth-plugin: false
+          cloud-sql-proxy: false
+      tags:
+        - cloud
+        - gcp
+
     - name: Setup kube extra tooling
       ansible.builtin.import_role:
         name: setup_kube-extra

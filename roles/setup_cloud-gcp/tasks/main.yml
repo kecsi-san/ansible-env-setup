@@ -1,0 +1,15 @@
+---
+# Core GCP tools via Homebrew (cross-platform)
+- name: Install GCP tools via Homebrew
+  community.general.homebrew:
+    name: "{{ gcp_brew_packages }}"
+    state: present
+  become: false
+
+# Optional GCP tools via Homebrew
+- name: Install optional GCP tools via Homebrew
+  community.general.homebrew:
+    name: "{{ gcp_optional_brew_packages | dict2items | selectattr('value', 'equalto', true) | map(attribute='key') | list }}"
+    state: present
+  become: false
+  when: gcp_optional_brew_packages.values() | list | select | list | length > 0
