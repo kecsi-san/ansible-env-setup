@@ -279,6 +279,11 @@
           okta-aws-cli: false
           eksctl: false
           aws-vault: false
+        aws_python_packages_enabled: true
+        aws_python_packages:
+          - aws-lambda-powertools
+          - aws-xray-sdk
+          - parliament
       tags:
         - cloud
         - aws

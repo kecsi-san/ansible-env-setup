@@ -8,8 +8,6 @@ uv_venv_path: "{{ ansible_env.HOME }}/.venv/devops"
 # Keep in sync with setup_python-uv/defaults/main.yml
 uv_pip_packages:
   - atlassian-python-api
-  - aws-lambda-powertools
-  - aws-xray-sdk
   - datadog-api-client
   - diagrams
   - graphviz
@@ -22,7 +20,6 @@ uv_pip_packages:
   - mkdocstrings-python
   - nc-py-api
   - openai
-  - parliament
   - pyhcl
   - PyJWT
   - pyOpenSSL

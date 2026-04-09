@@ -29,3 +29,13 @@
     state: present
   become: true
   when: ansible_system == 'Linux'
+
+# AWS Python library packages via uv pip (into shared devops venv)
+- name: Install AWS Python packages into devops venv
+  ansible.builtin.command:
+    cmd: "{{ uv_bin }} pip install {{ aws_python_packages | join(' ') }}"
+  environment:
+    VIRTUAL_ENV: "{{ uv_venv_path }}"
+  become: false
+  changed_when: false
+  when: aws_python_packages_enabled

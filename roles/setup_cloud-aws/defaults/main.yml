@@ -15,3 +15,14 @@ aws_optional_brew_packages:
 # Session Manager Plugin — Linux only (no Homebrew formula for Linux)
 session_manager_plugin_url: "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb"
 session_manager_plugin_deb: "/tmp/session-manager-plugin.deb"
+
+# AWS Python library packages — installed into the shared devops venv via uv pip
+aws_python_packages_enabled: true
+aws_python_packages:
+  - aws-lambda-powertools   # Lambda middleware, tracing, logging, metrics
+  - aws-xray-sdk            # Distributed tracing
+  - parliament              # AWS IAM policy linter
+
+# uv settings — must match setup_python-uv
+uv_bin: /home/linuxbrew/.linuxbrew/bin/uv
+uv_venv_path: "{{ ansible_env.HOME }}/.venv/devops"
