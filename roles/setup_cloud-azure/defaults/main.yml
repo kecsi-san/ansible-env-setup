@@ -1,5 +1,5 @@
 ---
-azure_enabled: true
+azure_enabled: false
 
 # Core tools — always installed via Homebrew
 azure_brew_packages:

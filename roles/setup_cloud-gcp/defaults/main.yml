@@ -1,5 +1,5 @@
 ---
-gcp_enabled: true
+gcp_enabled: false
 
 # Core tools — always installed via Homebrew
 # google-cloud-sdk bundles gcloud, gsutil and bq in one package

@@ -288,7 +288,7 @@
         name: setup_cloud-azure
       when: azure_enabled
       vars:
-        azure_enabled: true
+        azure_enabled: false
         azure_brew_packages:
           - azure-cli
         azure_optional_brew_packages:
@@ -305,7 +305,7 @@
         name: setup_cloud-gcp
       when: gcp_enabled
       vars:
-        gcp_enabled: true
+        gcp_enabled: false
         gcp_brew_packages:
           - google-cloud-sdk
         gcp_optional_brew_packages:
