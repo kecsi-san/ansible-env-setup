@@ -283,6 +283,23 @@
         - cloud
         - aws
 
+    - name: Setup Azure cloud tooling
+      ansible.builtin.import_role:
+        name: setup_cloud-azure
+      when: azure_enabled
+      vars:
+        azure_enabled: true
+        azure_brew_packages:
+          - azure-cli
+        azure_optional_brew_packages:
+          azure-dev: false
+          bicep: false
+          azcopy: false
+          kubelogin: false
+      tags:
+        - cloud
+        - azure
+
     - name: Setup kube extra tooling
       ansible.builtin.import_role:
         name: setup_kube-extra

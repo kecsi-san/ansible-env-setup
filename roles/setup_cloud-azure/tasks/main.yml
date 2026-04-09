@@ -1,0 +1,15 @@
+---
+# Core Azure tools via Homebrew (cross-platform)
+- name: Install Azure tools via Homebrew
+  community.general.homebrew:
+    name: "{{ azure_brew_packages }}"
+    state: present
+  become: false
+
+# Optional Azure tools via Homebrew
+- name: Install optional Azure tools via Homebrew
+  community.general.homebrew:
+    name: "{{ azure_optional_brew_packages | dict2items | selectattr('value', 'equalto', true) | map(attribute='key') | list }}"
+    state: present
+  become: false
+  when: azure_optional_brew_packages.values() | list | select | list | length > 0

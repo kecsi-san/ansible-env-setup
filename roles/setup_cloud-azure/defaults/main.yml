@@ -1,0 +1,13 @@
+---
+azure_enabled: true
+
+# Core tools — always installed via Homebrew
+azure_brew_packages:
+  - azure-cli
+
+# Optional tools — set to true to install
+azure_optional_brew_packages:
+  azure-dev: false       # azd — Azure Developer CLI
+  bicep: false           # Bicep IaC language
+  azcopy: false          # Azure Storage copy tool
+  kubelogin: false       # Azure AD auth plugin for kubectl (AKS)
