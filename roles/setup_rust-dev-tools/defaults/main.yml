@@ -1,0 +1,20 @@
+---
+rust_dev_enabled: true
+
+# rustup install profile: minimal | default | complete
+# minimal: rustc, rust-std, cargo
+# default: minimal + rustfmt, clippy, rust-docs
+rustup_profile: default
+
+# rustup toolchain to install (stable | beta | nightly)
+rustup_toolchain: stable
+
+# Optional cargo-installed tools — set to true to install
+# These are installed via `cargo install` (not brew) for better compatibility
+rust_cargo_tools:
+  cargo-watch: false   # watch for changes and re-run cargo commands
+  cargo-edit: false    # add/rm/upgrade deps from CLI (cargo add, cargo rm)
+  cargo-nextest: false # faster test runner (replaces cargo test)
+  cross: false         # cross-compilation (uses Docker)
+  bacon: false         # background code checker (cargo check watcher)
+  sccache: false       # shared compilation cache

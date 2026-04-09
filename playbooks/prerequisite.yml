@@ -9,5 +9,6 @@
       tags:
         - ssh
     - role: configure_sudo
+      become: true
       tags:
         - sudo

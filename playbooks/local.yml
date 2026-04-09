@@ -321,3 +321,61 @@
       tags:
         - kube
         - kubernetes
+
+    - name: Setup Go development tooling
+      ansible.builtin.import_role:
+        name: setup_go-dev-tools
+      when: go_dev_enabled
+      vars:
+        go_dev_enabled: true
+        go_brew_packages:
+          - go
+          - gopls
+          - golangci-lint
+        go_optional_brew_packages:
+          delve: false
+          goreleaser: false
+          ko: false
+          air: false
+      tags:
+        - go
+        - dev
+
+    - name: Setup Node.js development tooling
+      ansible.builtin.import_role:
+        name: setup_nodejs-dev-tools
+      when: nodejs_dev_enabled
+      vars:
+        nodejs_dev_enabled: true
+        nodejs_brew_packages:
+          - node
+          - pnpm
+        nodejs_optional_brew_packages:
+          yarn: false
+          typescript: false
+          tsx: false
+          eslint: false
+          prettier: false
+        nodejs_npm_global_packages: []
+      tags:
+        - nodejs
+        - dev
+
+    - name: Setup Rust development tooling
+      ansible.builtin.import_role:
+        name: setup_rust-dev-tools
+      when: rust_dev_enabled
+      vars:
+        rust_dev_enabled: true
+        rustup_profile: default
+        rustup_toolchain: stable
+        rust_cargo_tools:
+          cargo-watch: false
+          cargo-edit: false
+          cargo-nextest: false
+          cross: false
+          bacon: false
+          sccache: false
+      tags:
+        - rust
+        - dev

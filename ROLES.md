@@ -94,6 +94,9 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_network-tools` | Installs network diagnostic tools | k8s-nodes.yml, local.yml |
 | `setup_security-tools` | fail2ban + rkhunter (APT), lynis (Cisofy repo), trivy (Homebrew) | k8s-nodes.yml, local.yml |
 | `setup_python-uv` | Installs uv CLI tools and Python library packages | local.yml |
+| `setup_go-dev-tools` | go, gopls, golangci-lint via Homebrew; optional: delve, goreleaser, ko, air | local.yml |
+| `setup_nodejs-dev-tools` | node, pnpm via Homebrew; optional brew + npm global packages | local.yml |
+| `setup_rust-dev-tools` | rustup + stable toolchain (rustc, cargo, rustfmt, clippy); optional cargo tools | local.yml |
 | `upgrade_brew` | `brew update && upgrade && cleanup` | upgrade.yml |
 | `upgrade_python-uv` | `uv tool upgrade --all` + `uv pip install --upgrade` in devops venv | upgrade.yml |
 | `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME XML descriptor | k8s-nodes.yml |
@@ -127,6 +130,3 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_mlops-tools` | MLOps tooling (MLflow, DVC, ZenML, Prefect, etc.) |
 | `setup_aiops-tools` | AIOps tooling (OpenTelemetry, Prometheus, Grafana CLI, etc.) |
 | `setup_mle-tools` | ML Engineering tooling (BentoML, Feast, vLLM, etc.) |
-| `setup_nodejs-dev-tools` | Node.js development tooling (node, pnpm, eslint, etc.) |
-| `setup_go-dev-tools` | Go development tooling (go, golangci-lint, gopls, etc.) |
-| `setup_rust-dev-tools` | Rust development tooling (rustup, cargo, clippy, etc.) |

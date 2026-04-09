@@ -19,10 +19,10 @@
         - upgrade
         - brew
 
-    - name: Upgrade uv tools and packages
-      ansible.builtin.import_role:
-        name: upgrade_python-uv
-      become: false
-      tags:
-        - upgrade
-        - uv
+    # - name: Upgrade uv tools and packages
+    #   ansible.builtin.import_role:
+    #     name: upgrade_python-uv
+    #   become: false
+    #   tags:
+    #     - upgrade
+    #     - uv

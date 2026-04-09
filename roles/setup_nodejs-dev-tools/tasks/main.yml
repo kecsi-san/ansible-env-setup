@@ -1,2 +1,25 @@
 ---
-# Placeholder — not yet implemented
+# Core Node.js tools via Homebrew (cross-platform)
+- name: Install Node.js tools via Homebrew
+  community.general.homebrew:
+    name: "{{ nodejs_brew_packages }}"
+    state: present
+  become: false
+
+# Optional Node.js tools via Homebrew
+- name: Install optional Node.js tools via Homebrew
+  community.general.homebrew:
+    name: "{{ nodejs_optional_brew_packages | dict2items | selectattr('value', 'equalto', true) | map(attribute='key') | list }}"
+    state: present
+  become: false
+  when: nodejs_optional_brew_packages.values() | list | select | list | length > 0
+
+# Global npm packages (tools not in Homebrew or better managed via npm -g)
+- name: Install global npm packages
+  community.general.npm:
+    name: "{{ item }}"
+    global: true
+    state: present
+  loop: "{{ nodejs_npm_global_packages }}"
+  become: false
+  when: nodejs_npm_global_packages | length > 0

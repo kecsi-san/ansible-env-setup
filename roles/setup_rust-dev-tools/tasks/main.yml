@@ -1,2 +1,40 @@
 ---
-# Placeholder — not yet implemented
+# Install rustup (official Rust toolchain installer)
+# Uses the official installer script — rustup itself manages rustc, cargo, rustfmt, clippy
+- name: Check if rustup is already installed
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.cargo/bin/rustup"
+  register: rustup_binary
+
+- name: Download rustup installer
+  ansible.builtin.get_url:
+    url: "https://sh.rustup.rs"
+    dest: /tmp/rustup-init.sh
+    mode: '0755'
+  when: not rustup_binary.stat.exists
+
+- name: Install rustup and default toolchain
+  ansible.builtin.command:
+    cmd: "/tmp/rustup-init.sh -y --profile {{ rustup_profile }} --default-toolchain {{ rustup_toolchain }} --no-modify-path"
+  when: not rustup_binary.stat.exists
+  changed_when: true
+
+- name: Add Cargo bin to PATH in ~/.bashrc
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK — rust/cargo"
+    block: |
+      # Rust / Cargo
+      export PATH="${HOME}/.cargo/bin:${PATH}"
+    create: false
+
+# Optional cargo tools — installed via cargo install
+- name: Install optional cargo tools
+  ansible.builtin.command:
+    cmd: "{{ ansible_env.HOME }}/.cargo/bin/cargo install {{ item.key }}"
+    creates: "{{ ansible_env.HOME }}/.cargo/bin/{{ item.key }}"
+  loop: "{{ rust_cargo_tools | dict2items | selectattr('value', 'equalto', true) | list }}"
+  loop_control:
+    label: "{{ item.key }}"
+  become: false
+  when: rust_cargo_tools.values() | list | select | list | length > 0

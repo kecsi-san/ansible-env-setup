@@ -81,9 +81,24 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 
 ## Playbooks
 
+### Naming convention
+
+- **Syntax:** lowercase, words separated by hyphens, `.yml` extension — no underscores
+- **Pattern:** name reflects what the playbook does and/or where it runs
+
+| Category | Pattern | Examples |
+|----------|---------|---------|
+| Environment setup | `<target>.yml` | `local.yml`, `k8s-nodes.yml` |
+| Kubernetes lifecycle | `<phase>-k8s.yml` | `pre-k8s.yml`, `post-k8s.yml` |
+| Kubernetes tool ops | `[<action>-]<tool>.yml` | `kubespray.yml`, `reset-kubespray.yml` |
+| Maintenance | `<operation>.yml` | `upgrade.yml`, `prerequisite.yml` |
+| One-off operations | `<specific-action>.yml` | `dist-upgrade.yml` |
+
+### Inventory
+
 | Playbook | Target | Purpose |
 |----------|--------|---------|
-| `local.yml` | localhost | Local workstation setup and testing |
+| `local.yml` | localhost | Local workstation setup |
 | `k8s-nodes.yml` | `kube` group | Full setup across remote hosts |
 | `prerequisite.yml` | `kube` group | SSH hardening + passwordless sudo (run before k8s-nodes.yml) |
 | `pre-k8s.yml` | `kube` group | Node preparation before Kubespray (etckeeper) |
@@ -115,15 +130,16 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages |
 | `setup_network-tools` | Installs network diagnostic tools |
+| `setup_go-dev-tools` | go, gopls, golangci-lint; optional: delve, goreleaser, ko, air |
+| `setup_nodejs-dev-tools` | node, pnpm; optional brew tools + npm global packages |
+| `setup_rust-dev-tools` | rustup + stable toolchain (rustc, cargo, rustfmt, clippy); optional cargo tools |
 | `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME background picker XML |
 | `upload_profile_image` | Sets GNOME/GDM profile picture |
 
 ### Placeholder (not yet implemented)
 
-`setup_cloud-aws`, `setup_cloud-azure`, `setup_cloud-gcp`, `setup_convinience`,
-`setup_email-server`, `setup_email-tools`, `setup_iac-terraform`, `setup_iac-extra`,
-`setup_python-uv`, `setup_security-tools`, `setup_vscode`,
-`setup_apt_repos`, `setup_kubernetes`
+`setup_convinience`, `setup_email-server`, `setup_email-tools`,
+`setup_mlops-tools`, `setup_aiops-tools`, `setup_mle-tools`
 
 ## Inventory Structure
 

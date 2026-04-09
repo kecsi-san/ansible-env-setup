@@ -1,0 +1,22 @@
+---
+nodejs_dev_enabled: true
+
+# Core Node.js tools via Homebrew
+nodejs_brew_packages:
+  - node
+  - pnpm
+
+# Optional Node.js tools — set to true to install
+nodejs_optional_brew_packages:
+  yarn: false         # alternative package manager
+  typescript: false   # tsc compiler + type checker
+  tsx: false          # run TypeScript directly (ts-node alternative)
+  eslint: false       # JavaScript/TypeScript linter
+  prettier: false     # opinionated code formatter
+
+# Global npm packages installed after Node.js
+# These are tools not available via Homebrew or better managed via npm -g
+nodejs_npm_global_packages: []
+# Example:
+#   - "@angular/cli"
+#   - "create-react-app"

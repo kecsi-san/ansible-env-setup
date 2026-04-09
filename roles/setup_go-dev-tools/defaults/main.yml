@@ -1,0 +1,15 @@
+---
+go_dev_enabled: true
+
+# Core Go tools via Homebrew
+go_brew_packages:
+  - go
+  - gopls
+  - golangci-lint
+
+# Optional Go tools — set to true to install
+go_optional_brew_packages:
+  delve: false        # debugger
+  goreleaser: false   # release automation
+  ko: false           # container image builder for Go apps
+  air: false          # live reload for Go apps

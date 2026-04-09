@@ -1,2 +1,15 @@
 ---
-# Placeholder — not yet implemented
+# Core Go tools via Homebrew (cross-platform)
+- name: Install Go tools via Homebrew
+  community.general.homebrew:
+    name: "{{ go_brew_packages }}"
+    state: present
+  become: false
+
+# Optional Go tools via Homebrew
+- name: Install optional Go tools via Homebrew
+  community.general.homebrew:
+    name: "{{ go_optional_brew_packages | dict2items | selectattr('value', 'equalto', true) | map(attribute='key') | list }}"
+    state: present
+  become: false
+  when: go_optional_brew_packages.values() | list | select | list | length > 0
