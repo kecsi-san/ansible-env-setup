@@ -63,6 +63,7 @@
       tags:
         - face
         - desktop
+        - personalise
 
     - name: Upload favourite background images
       ansible.builtin.import_role:
@@ -86,6 +87,7 @@
       tags:
         - bgimages
         - desktop
+        - personalise
 
     - name: Install nerd fonts
       ansible.builtin.import_role:
@@ -146,6 +148,7 @@
       tags:
         - fonts
         - desktop
+        - personalise
 
     - name: Configure oh-my-posh
       ansible.builtin.import_role:
@@ -158,8 +161,8 @@
         default_omp_theme: "debian.omp.yaml"
       tags:
         - omp
-        - fancy
-        - developer
+        - desktop
+        - personalise
 
     - name: Configure fzf
       ansible.builtin.import_role:
@@ -170,8 +173,8 @@
         fzf_enabled: true
       tags:
         - fzf
-        - fancy
-        - developer
+        - desktop
+        - personalise
 
     - name: Configure git
       ansible.builtin.import_role:
