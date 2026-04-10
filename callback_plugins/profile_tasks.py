@@ -12,6 +12,44 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
+DOCUMENTATION = '''
+    name: profile_tasks
+    type: aggregate
+    short_description: adds time information to tasks
+    description:
+      - Ansible callback plugin for timing individual tasks and overall execution time.
+      - Local override of ansible.posix.profile_tasks with a compact timestamp format.
+    requirements:
+      - enable in configuration - see examples section below for details.
+    options:
+      output_limit:
+        description: Number of tasks to display in the summary
+        default: 20
+        env:
+          - name: PROFILE_TASKS_TASK_OUTPUT_LIMIT
+        ini:
+          - section: callback_profile_tasks
+            key: task_output_limit
+      sort_order:
+        description: Adjust the sorting output of summary tasks
+        choices: ['descending', 'ascending', 'none']
+        default: 'descending'
+        env:
+          - name: PROFILE_TASKS_SORT_ORDER
+        ini:
+          - section: callback_profile_tasks
+            key: sort_order
+      summary_only:
+        description: Only show summary, not individual task profiles.
+        type: bool
+        default: False
+        env:
+          - name: PROFILE_TASKS_SUMMARY_ONLY
+        ini:
+          - section: callback_profile_tasks
+            key: summary_only
+'''
+
 import collections
 import time
 
