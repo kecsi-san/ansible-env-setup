@@ -49,7 +49,6 @@
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: '0600'
-    remote_src: true
   become: true
   when: ansible_system == 'Linux'
 
