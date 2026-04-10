@@ -11,9 +11,4 @@ repos:
         types: [yaml]
         args: [--strict]
 
-      - id: ansible-lint
-        name: ansible-lint
-        entry: ansible-lint
-        language: system
-        pass_filenames: false
-        always_run: true
+      # ansible-lint runs in CI (GitHub Actions) — too slow for pre-commit (~70s)
