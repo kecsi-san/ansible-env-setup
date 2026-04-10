@@ -3,6 +3,8 @@ extends: default
 
 # Exclude Kubespray-managed config files and OMP theme files (not Ansible YAML)
 ignore: |
+  .venv/
+  collections/
   inventory/group_vars/k8s_cluster/
   inventory/group_vars/all/openstack.yml
   roles/configure_oh-my-posh/files/
