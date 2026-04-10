@@ -94,6 +94,7 @@
         python_version: 3.12
         uv_tools:
           - name: ansible
+          - name: ansible-lint
           - name: black
           - name: checkov
           - name: commitizen
@@ -113,6 +114,7 @@
           - name: pylint
           - name: pytest
           - name: ruff
+          - name: yamllint
         uv_pip_packages:
           - atlassian-python-api
           - aws-lambda-powertools

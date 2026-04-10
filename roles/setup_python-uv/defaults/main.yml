@@ -10,6 +10,7 @@ uv_venv_path: "{{ ansible_env.HOME }}/.venv/devops"
 # Use extras to pull in plugins that must share the same env (e.g. mkdocs + mkdocstrings).
 uv_tools:
   - name: ansible
+  - name: ansible-lint
   - name: black
   - name: checkov
   - name: commitizen
@@ -29,6 +30,7 @@ uv_tools:
   - name: pylint
   - name: pytest
   - name: ruff
+  - name: yamllint
 
 # Library packages installed into the shared devops venv via `uv pip install`.
 # Activate with: source ~/.venv/devops/bin/activate

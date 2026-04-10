@@ -1,0 +1,16 @@
+---
+profile: moderate
+
+exclude_paths:
+  - .venv/
+  - collections/
+
+# Roles installed via ansible-galaxy (not vendored) — prevent "role not found" errors
+mock_roles:
+  - markosamuli.linuxbrew
+
+skip_list:
+  - yaml[line-length]  # line length is managed by .yamllint
+
+warn_list:
+  - experimental
