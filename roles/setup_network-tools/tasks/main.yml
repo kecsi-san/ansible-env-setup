@@ -1,14 +1,13 @@
 ---
-- name: load os specific variables
-  include_vars: "os/{{ ansible_distribution }}.yml"
+- name: Load OS specific variables
+  ansible.builtin.include_vars: "os/{{ ansible_distribution }}.yml"
   tags: network, always
 
-- name: Install base packages
+- name: Install network packages
   ansible.builtin.package:
     name: "{{ network_packages }}"
     state: present
-    update_cache: yes
+    update_cache: true
   tags: network, always
   when: network_packages is defined
   become: true
-

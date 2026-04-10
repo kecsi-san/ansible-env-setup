@@ -17,7 +17,7 @@
       when:
         - bashrc_st.stat.exists
         - bashrc_st.stat.islnk
-  
+
     - name: Check whether fzf is loaded in .bashrc
       ansible.builtin.command: >-
         grep -EFq 'fzf' {{ bashrc_path }}

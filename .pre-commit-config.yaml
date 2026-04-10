@@ -1,12 +1,19 @@
 ---
+# Uses system-installed tools (installed via setup_python-uv role).
+# Avoids isolated-env version conflicts between ansible-lint and ansible-core.
 repos:
-  - repo: https://github.com/adrienverge/yamllint
-    rev: v1.35.1
+  - repo: local
     hooks:
       - id: yamllint
+        name: yamllint
+        entry: yamllint
+        language: system
+        types: [yaml]
         args: [--strict]
 
-  - repo: https://github.com/ansible/ansible-lint
-    rev: v24.9.2
-    hooks:
       - id: ansible-lint
+        name: ansible-lint
+        entry: ansible-lint
+        language: system
+        pass_filenames: false
+        always_run: true

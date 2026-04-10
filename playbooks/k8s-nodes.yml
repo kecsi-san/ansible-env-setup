@@ -1,5 +1,6 @@
 ---
-- hosts: kube
+- name: Configure Kubernetes nodes
+  hosts: kube
   become: false
   remote_user: "{{ ansible_ssh_user }}"
   tasks:

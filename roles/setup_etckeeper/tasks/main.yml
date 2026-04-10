@@ -1,5 +1,5 @@
 ---
-- name: install etckeeper
+- name: Install etckeeper
   ansible.builtin.package:
     name: etckeeper
     state: latest
@@ -22,23 +22,23 @@
   register: initmarker
 
 - name: Print etckeeper init check result
-  debug:
+  ansible.builtin.debug:
     msg: "Did we run etckeeper already: {{ initmarker.stat.exists }}"
 
-- name: etckeeper init
-  command: /usr/bin/etckeeper init
+- name: Initialize etckeeper
+  ansible.builtin.command: /usr/bin/etckeeper init
   args:
     chdir: /etc
   become: true
   when: not initmarker.stat.exists
 
-
-- name: etckeeper initial commit
-  command: /usr/bin/git commit -a -m "Initial commit"
+- name: Create etckeeper initial commit
+  ansible.builtin.command: /usr/bin/git commit -a -m "Initial commit" # noqa: command-instead-of-module
   args:
     chdir: /etc
   become: true
   when: not initmarker.stat.exists
+  changed_when: true
 
 - name: Create init marker for etckeeper
   ansible.builtin.file:

@@ -1,6 +1,13 @@
 ---
 extends: default
 
+# Exclude Kubespray-managed config files and OMP theme files (not Ansible YAML)
+ignore: |
+  inventory/group_vars/k8s_cluster/
+  inventory/group_vars/all/openstack.yml
+  roles/configure_oh-my-posh/files/
+  roles/setup_apt_repos/tasks/main.yml
+
 rules:
   line-length:
     max: 160
@@ -8,7 +15,13 @@ rules:
   truthy:
     allowed-values: ['true', 'false']
     check-keys: false
+  # ansible-lint requires comments-indentation to be disabled
+  comments-indentation: false
   comments:
     min-spaces-from-content: 1
   braces:
     max-spaces-inside: 1
+  # ansible-lint requires octal protection rules
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true

@@ -24,8 +24,8 @@
     masked: true
     name: "{{ item }}"
   become: true
-  loop: 
-      - sleep.target
-      - suspend.target
-      - hibernate.target
-      - hybrid-sleep.target
+  loop:
+    - sleep.target
+    - suspend.target
+    - hibernate.target
+    - hybrid-sleep.target

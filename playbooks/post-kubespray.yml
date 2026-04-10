@@ -1,5 +1,6 @@
 ---
-- hosts: kube
+- name: Post-Kubespray cluster setup
+  hosts: kube
   become: false
   remote_user: "{{ ansible_ssh_user }}"
   tasks:
@@ -17,4 +18,3 @@
       tags:
         - kubeconfig
         - kubernetes
-

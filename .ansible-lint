@@ -1,16 +1,26 @@
 ---
 profile: moderate
 
+# Skip galaxy role install — roles are mocked below and already installed separately
+offline: true
+
 exclude_paths:
   - .venv/
   - collections/
+  - roles/markosamuli.linuxbrew/    # vendored third-party galaxy role
+  - playbooks/kubespray.yml         # delegates entirely to kubespray collection (not installed in lint env)
+  - playbooks/reset-kubespray.yml   # delegates entirely to kubespray collection (not installed in lint env)
 
 # Roles installed via ansible-galaxy (not vendored) — prevent "role not found" errors
 mock_roles:
   - markosamuli.linuxbrew
 
 skip_list:
-  - yaml[line-length]  # line length is managed by .yamllint
+  - yaml[line-length]             # line length managed by .yamllint
+  - var-naming[no-role-prefix]    # intentional: we don't use role-name prefixes on vars
+  - role-name                     # intentional: our naming convention uses hyphens (see ROLES.md)
+  # syntax-check[unknown-module] is unskippable — unknown modules are suppressed via exclude_paths
 
 warn_list:
   - experimental
+  - key-order

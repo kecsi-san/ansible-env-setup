@@ -1,1 +1,2 @@
+---
 sudo_user: "{{ admin_user }}"

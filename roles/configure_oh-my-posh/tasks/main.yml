@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ omp_themes_dir }}"
     state: directory
-    mode: 0755
+    mode: '0755'
   become: false
 - name: Copy omp theme file
   ansible.builtin.copy:
@@ -29,7 +29,7 @@
       when:
         - bashrc_st.stat.exists
         - bashrc_st.stat.islnk
-  
+
     - name: Check whether oh-my-posh is loaded in .bashrc
       ansible.builtin.command: >-
         grep -EFq 'oh-my-posh init' {{ bashrc_path }}
