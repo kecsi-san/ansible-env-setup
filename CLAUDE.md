@@ -84,7 +84,6 @@ ansible-playbook --syntax-check playbooks/local.yml
 | `configure_ssh` | Hardens `/etc/ssh/sshd_config` |
 | `configure_sudo` | Creates `/etc/sudoers.d/{user}` with NOPASSWD (visudo-validated) |
 | `debian_upgrade` | `apt update && upgrade && autoremove --purge` |
-| `debian_dist_upgrade_12to13` | Full Debian 12→13 migration; verifies 5GB free space; reboots |
 | `disable_hibernation` | Creates `/etc/systemd/sleep.conf.d/nosuspend.conf`; masks sleep targets |
 | `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` (galaxy role, not vendored) |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via `homebrew_cask` |

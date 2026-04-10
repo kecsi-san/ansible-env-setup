@@ -105,14 +105,6 @@ Use `roles/role_template/` as a starting point when creating a new role.
 
 ---
 
-## 🔧 Implemented — has tasks but not wired into any playbook yet
-
-| Role | Purpose | Notes |
-|------|---------|-------|
-| `debian_dist_upgrade_12to13` | Full Debian 12→13 migration with disk space check and reboot | Needs its own playbook (e.g. `dist-upgrade.yml`) |
-
----
-
 ## 🚧 Incomplete — needs work before use
 
 | Role | Purpose | Notes |

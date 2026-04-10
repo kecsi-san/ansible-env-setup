@@ -125,7 +125,6 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | `configure_ssh` | Hardens `sshd_config` |
 | `configure_sudo` | Configures passwordless sudo for `admin_user` |
 | `debian_upgrade` | `apt update && upgrade && autoremove` |
-| `debian_dist_upgrade_12to13` | Full Debian 12→13 in-place upgrade |
 | `disable_hibernation` | Disables suspend/hibernate via systemd |
 | `install_linuxbrew` | Installs Homebrew (via `markosamuli.linuxbrew` galaxy role, not vendored) |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew |
