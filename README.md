@@ -111,6 +111,7 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | `post-kubespray.yml` | `kube` group | Post-cluster setup (Longhorn storage) — **bare-metal cluster** |
 | `k3s.yml` | localhost | Install single-node k3s cluster — **local dev** (Linux native / macOS via k3d) |
 | `reset-k3s.yml` | localhost | Uninstall k3s local dev cluster |
+| `personalise.yml` | localhost | Taste-driven setup — fonts, shell prompt, wallpapers, profile image |
 
 ## Roles
 
@@ -143,7 +144,7 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 
 ### Placeholder (not yet implemented)
 
-`setup_convinience`, `setup_email-server`, `setup_email-tools`,
+`setup_email-server`, `setup_email-tools`,
 `setup_mlops-tools`, `setup_aiops-tools`, `setup_mle-tools`
 
 ## Inventory Structure

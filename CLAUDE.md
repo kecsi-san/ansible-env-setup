@@ -55,6 +55,7 @@ ansible-playbook --syntax-check playbooks/local.yml
 **Playbooks** (`playbooks/`) orchestrate roles for specific scenarios:
 - `local.yml` — localhost only; used for testing and local workstation setup
 - `k8s-nodes.yml` — mirrors local.yml but targets `kube` group (remote hosts)
+- `personalise.yml` — localhost only; taste-driven setup (fonts, shell prompt, wallpapers, profile image)
 - `prerequisite.yml` — must run before `k8s-nodes.yml`; sets up SSH keys and passwordless sudo
 - `kubespray.yml` / `reset-kubespray.yml` — delegate entirely to the Kubespray collection
 - `pre-kubespray.yml` — runs after `prerequisite.yml` and before `kubespray.yml`; prepares nodes (etckeeper)
@@ -99,7 +100,7 @@ ansible-playbook --syntax-check playbooks/local.yml
 
 #### Placeholder Roles (empty `tasks/main.yml`)
 
-`setup_cloud-aws`, `setup_cloud-azure`, `setup_cloud-gcp`, `setup_convinience`, `setup_email-server`, `setup_email-tools`, `setup_iac-terraform`, `setup_iac-extra`, `setup_security-tools`, `setup_vscode`, `setup_apt_repos`, `setup_kubernetes`
+`setup_email-server`, `setup_email-tools`, `setup_mlops-tools`, `setup_aiops-tools`, `setup_mle-tools`
 
 ### Inventory Structure
 

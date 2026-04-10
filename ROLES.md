@@ -117,7 +117,6 @@ Use `roles/role_template/` as a starting point when creating a new role.
 
 | Role | Intended Purpose |
 |------|-----------------|
-| `setup_convinience` | General convenience/quality-of-life tools |
 | `setup_email-server` | Email server setup |
 | `setup_email-tools` | Email client tools |
 | `setup_mlops-tools` | MLOps tooling (MLflow, DVC, ZenML, Prefect, etc.) |
