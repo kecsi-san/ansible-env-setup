@@ -2,7 +2,7 @@
 iac_terraform_enabled: true
 
 iac_brew_packages:
-  - terraform
+  - hashicorp/tap/terraform
   - terraform-docs
   - tflint
   - trivy

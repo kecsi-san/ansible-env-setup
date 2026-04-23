@@ -9,6 +9,8 @@
 **/vagrant_ansible_inventory
 # Molecule test bytecode cache
 roles/**/molecule/**/__pycache__/
+# backup file
+inventory/group_vars/local.yml.bak
 
 # Galaxy-installed roles and collections — not vendored, install with:
 #   ansible-galaxy install -r requirements.yml

@@ -1,4 +1,10 @@
 ---
+- name: Tap HashiCorp Homebrew repository
+  community.general.homebrew_tap:
+    name: hashicorp/tap
+    state: present
+  become: false
+
 - name: Install IaC tools via Homebrew
   community.general.homebrew:
     name: "{{ item }}"

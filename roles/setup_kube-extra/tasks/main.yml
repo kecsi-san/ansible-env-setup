@@ -1,4 +1,13 @@
 ---
+- name: Load OS specific variables
+  ansible.builtin.include_vars: "os/{{ ansible_system }}.yml"
+
+- name: Tap fluxcd Homebrew repository
+  community.general.homebrew_tap:
+    name: fluxcd/tap
+    state: present
+  become: false
+
 - name: Install kubectl via Homebrew
   community.general.homebrew:
     name: kubectl

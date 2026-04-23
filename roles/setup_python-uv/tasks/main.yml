@@ -1,4 +1,7 @@
 ---
+- name: Load OS specific variables
+  ansible.builtin.include_vars: "os/{{ ansible_system }}.yml"
+
 - name: Install uv CLI tools
   ansible.builtin.command:
     cmd: "{{ uv_bin }} tool install --python {{ python_version }} {{ item.name }}{% for e in item.extras | default([]) %} --with {{ e }}{% endfor %}"

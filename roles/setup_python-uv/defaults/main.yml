@@ -1,7 +1,5 @@
 ---
 python_version: 3.12
-# Path to the uv binary (installed via Homebrew on Linux)
-uv_bin: /home/linuxbrew/.linuxbrew/bin/uv
 
 # Shared virtualenv for library packages (Tier 3 pip packages)
 uv_venv_path: "{{ ansible_env.HOME }}/.venv/devops"

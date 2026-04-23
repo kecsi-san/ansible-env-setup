@@ -1,0 +1,5 @@
+---
+kubectl_bin: /opt/homebrew/bin/kubectl
+helm_bin: /opt/homebrew/bin/helm
+argocd_bin: /opt/homebrew/bin/argocd
+flux_bin: /opt/homebrew/bin/flux

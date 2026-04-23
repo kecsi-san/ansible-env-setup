@@ -1,5 +1,5 @@
 ---
-- hosts: kube
+- hosts: local
   name: Configure prerequisite settings
   become: true
   remote_user: "{{ ansible_ssh_user }}"
