@@ -4,13 +4,6 @@
   connection: local
   become: false
   tasks:
-    - name: Configure passwordless sudo
-      ansible.builtin.import_role:
-        name: configure_sudo
-      become: true
-      tags:
-        - sudo
-
     - name: Install linuxbrew
       ansible.builtin.import_role:
         name: install_linuxbrew
@@ -27,7 +20,6 @@
         apt_repo_docker: true
         apt_repo_charm: false
         apt_repo_mozilla: false
-        apt_repo_duosecurity: false
         docker_packages:
           - docker-ce
           - docker-ce-cli
@@ -70,18 +62,6 @@
         network_tools_enabled: true
       tags:
         - network
-
-    - name: Setup security tools
-      ansible.builtin.import_role:
-        name: setup_security-tools
-      when: security_tools_enabled
-      vars:
-        security_tools_enabled: true
-        security_apt_packages:
-          - fail2ban
-          - rkhunter
-      tags:
-        - security
 
     - name: Setup Python uv packages
       ansible.builtin.import_role:

@@ -51,8 +51,11 @@ Edit `inventory/hosts` with your host IPs and `secrets.yml` with your domain nam
 > set up at that point.
 
 ```bash
-# Local workstation — core system (sudo, brew, apt repos, minimal, network, security, python-uv)
+# Local workstation — core system (brew, apt repos, minimal, network, python-uv)
 ansible-playbook playbooks/local.yml
+
+# Local workstation — security (sudo, duosecurity repo, fail2ban, rkhunter, lynis, trivy)
+ansible-playbook playbooks/local-security.yml
 
 # Local workstation — developer tooling (vscode, go, nodejs, rust)
 ansible-playbook playbooks/local-dev.yml
@@ -110,7 +113,8 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 
 | Playbook | Target | Purpose |
 |----------|--------|---------|
-| `local.yml` | localhost | Core system setup (sudo, brew, apt repos, minimal, network, security, python-uv) |
+| `local.yml` | localhost | Core system setup (brew, apt repos, minimal, network, python-uv) |
+| `local-security.yml` | localhost | Security hardening (sudo, duosecurity repo, fail2ban, rkhunter, lynis, trivy) |
 | `local-dev.yml` | localhost | Developer tooling (vscode, go, nodejs, rust) — optional, run after local.yml |
 | `local-cloud.yml` | localhost | Cloud and DevOps tooling (terraform, iac-extra, aws, azure, gcp, kube) — optional |
 | `upgrade-local.yml` | localhost | Upgrade local apt, brew, and uv packages |

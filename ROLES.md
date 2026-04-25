@@ -75,7 +75,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `configure_git` | Deploys `~/.gitconfig` | k8s-nodes.yml |
 | `configure_oh-my-posh` | Installs Pluto OMP theme and shell init | k8s-nodes.yml |
 | `configure_ssh` | Deploys SSH authorized key | k8s-nodes.yml, prerequisite.yml |
-| `configure_sudo` | Configures passwordless sudo for `admin_user` | k8s-nodes.yml, local.yml, prerequisite.yml |
+| `configure_sudo` | Configures passwordless sudo for `admin_user` | k8s-nodes.yml, local-security.yml, prerequisite.yml |
 | `debian_upgrade` | `apt update && upgrade && autoremove` | k8s-nodes.yml, upgrade.yml, upgrade-local.yml |
 | `disable_hibernation` | Disables suspend/hibernate via systemd | k8s-nodes.yml |
 | `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` galaxy role (Linux only) | local.yml |
@@ -92,7 +92,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-kubespray.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | k8s-nodes.yml, local.yml |
 | `setup_network-tools` | Installs network diagnostic tools (APT on Linux, Homebrew on macOS) | k8s-nodes.yml, local.yml |
-| `setup_security-tools` | fail2ban + rkhunter (APT), lynis (Cisofy repo), trivy (Homebrew) | k8s-nodes.yml, local.yml |
+| `setup_security-tools` | fail2ban + rkhunter (APT), lynis (Cisofy repo), trivy (Homebrew) | k8s-nodes.yml, local-security.yml |
 | `setup_python-uv` | Installs uv CLI tools and Python library packages | local.yml |
 | `setup_k3s` | Single-node k3s local dev cluster (Linux native / macOS via k3d) | k3s.yml |
 | `setup_go-dev-tools` | go, gopls, golangci-lint via Homebrew; optional: delve, goreleaser, ko, air | local-dev.yml |

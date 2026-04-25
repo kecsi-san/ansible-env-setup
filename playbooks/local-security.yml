@@ -1,0 +1,34 @@
+---
+- name: Configure local workstation — security
+  hosts: localhost
+  connection: local
+  become: false
+  tasks:
+    - name: Configure passwordless sudo
+      ansible.builtin.import_role:
+        name: configure_sudo
+      become: true
+      tags:
+        - sudo
+
+    - name: Setup apt repositories — security
+      ansible.builtin.import_role:
+        name: setup_apt_repos
+      become: true
+      when: ansible_system == 'Linux'
+      vars:
+        apt_repo_duosecurity: false
+      tags:
+        - apt-repos
+
+    - name: Setup security tools
+      ansible.builtin.import_role:
+        name: setup_security-tools
+      when: security_tools_enabled
+      vars:
+        security_tools_enabled: true
+        security_apt_packages:
+          - fail2ban
+          - rkhunter
+      tags:
+        - security

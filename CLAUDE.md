@@ -13,8 +13,11 @@ Ansible automation for setting up and maintaining developer and DevOps environme
 pip install -r requirements.txt
 ansible-galaxy install -r requirements.yml
 
-# Local workstation — core system (sudo, brew, apt repos, minimal, network, security, python-uv)
+# Local workstation — core system (brew, apt repos, minimal, network, python-uv)
 ansible-playbook playbooks/local.yml
+
+# Local workstation — security (sudo, duosecurity repo, fail2ban, rkhunter, lynis, trivy)
+ansible-playbook playbooks/local-security.yml
 
 # Local workstation — dev tooling (vscode, go, nodejs, rust)
 ansible-playbook playbooks/local-dev.yml
@@ -64,7 +67,8 @@ ansible-playbook --syntax-check playbooks/local.yml
 ### Playbooks vs Roles
 
 **Playbooks** (`playbooks/`) orchestrate roles for specific scenarios:
-- `local.yml` — localhost only; core system setup (sudo, linuxbrew, apt repos, minimal packages, network, security, python-uv)
+- `local.yml` — localhost only; core system setup (linuxbrew, apt repos, minimal packages, network, python-uv)
+- `local-security.yml` — localhost only; security hardening (sudo, duosecurity repo, fail2ban, rkhunter, lynis, trivy)
 - `local-dev.yml` — localhost only; developer tooling (vscode, go, nodejs, rust) — optional, run after local.yml
 - `local-cloud.yml` — localhost only; Cloud and DevOps tooling (terraform, iac-extra, aws, azure, gcp, kube) — optional, run after local.yml
 - `upgrade-local.yml` — localhost only; upgrades apt, brew, and uv packages
@@ -169,7 +173,8 @@ roles/<role-name>/
 ### Tagging
 
 Tags enable selective role execution without running the full playbook:
-- `local.yml` tags: `sudo`, `brew`, `apt-repos`, `docker`, `minimal`, `network`, `security`, `python`, `uv`
+- `local.yml` tags: `brew`, `apt-repos`, `docker`, `minimal`, `network`, `python`, `uv`
+- `local-security.yml` tags: `sudo`, `apt-repos`, `security`
 - `local-dev.yml` tags: `vscode`, `go`, `dev`, `nodejs`, `rust`
 - `local-cloud.yml` tags: `iac`, `terraform`, `iac-extra`, `cloud`, `aws`, `azure`, `gcp`, `kube`, `kubernetes`
 - `upgrade-local.yml` tags: `upgrade`, `apt`, `brew`, `uv`
