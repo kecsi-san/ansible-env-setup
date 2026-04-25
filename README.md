@@ -71,13 +71,13 @@ ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 ansible-playbook playbooks/k8s-nodes.yml
 
 # Pre-Kubernetes node preparation
-ansible-playbook playbooks/pre-kubespray.yml
+ansible-playbook playbooks/pre-k8s.yml
 
 # Install Kubernetes cluster (via Kubespray)
-ansible-playbook -b playbooks/kubespray.yml
+ansible-playbook -b playbooks/k8s.yml
 
 # Post-Kubernetes setup (Longhorn distributed storage)
-ansible-playbook playbooks/post-kubespray.yml
+ansible-playbook playbooks/post-k8s.yml
 
 # OS upgrades across all hosts
 ansible-playbook playbooks/upgrade.yml
@@ -105,7 +105,7 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | Category | Pattern | Examples |
 |----------|---------|---------|
 | Environment setup | `<target>.yml` | `local.yml`, `k8s-nodes.yml` |
-| Kubernetes cluster ops | `[<phase>-]<tool>.yml` | `kubespray.yml`, `pre-kubespray.yml`, `post-kubespray.yml`, `reset-kubespray.yml`, `k3s.yml`, `reset-k3s.yml` |
+| Kubernetes cluster ops | `[<phase>-]<tool>.yml` | `k8s.yml`, `pre-k8s.yml`, `post-k8s.yml`, `reset-k8s.yml`, `k3s.yml`, `reset-k3s.yml` |
 | Maintenance | `<operation>.yml` | `upgrade.yml`, `prerequisite.yml` |
 | One-off operations | `<specific-action>.yml` | `dist-upgrade.yml` |
 
@@ -121,10 +121,10 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | `k8s-nodes.yml` | `kube` group | Full setup across remote hosts |
 | `prerequisite.yml` | `kube` group | SSH hardening + passwordless sudo (run before k8s-nodes.yml) |
 | `upgrade.yml` | `kube` group | OS package upgrades |
-| `pre-kubespray.yml` | `kube` group | Node prep before Kubespray (etckeeper) — **bare-metal cluster** |
-| `kubespray.yml` | `kube` group | Install Kubernetes cluster via Kubespray — **bare-metal cluster** |
-| `reset-kubespray.yml` | `kube` group | Tear down Kubespray cluster — **bare-metal cluster** |
-| `post-kubespray.yml` | `kube` group | Post-cluster setup (Longhorn storage) — **bare-metal cluster** |
+| `pre-k8s.yml` | `kube` group | Node prep before Kubespray (etckeeper) — **bare-metal cluster** |
+| `k8s.yml` | `kube` group | Install Kubernetes cluster via Kubespray — **bare-metal cluster** |
+| `reset-k8s.yml` | `kube` group | Tear down Kubespray cluster — **bare-metal cluster** |
+| `post-k8s.yml` | `kube` group | Post-cluster setup (Longhorn storage) — **bare-metal cluster** |
 | `k3s.yml` | localhost | Install single-node k3s cluster — **local dev** (Linux native / macOS via k3d) |
 | `reset-k3s.yml` | localhost | Uninstall k3s local dev cluster |
 | `personalise.yml` | localhost | Taste-driven setup — fonts, shell prompt, wallpapers, profile image |
@@ -194,7 +194,7 @@ Two Kubernetes strategies are supported — each targets a different environment
 | **Use case** | Production-grade HA cluster | Local development cluster |
 | **Nodes** | Multi-node (3 control plane + workers) | Single-node |
 | **macOS support** | No | Yes (via k3d) |
-| **Playbooks** | `pre-kubespray.yml` → `kubespray.yml` → `post-kubespray.yml` | `k3s.yml` |
+| **Playbooks** | `pre-k8s.yml` → `k8s.yml` → `post-k8s.yml` | `k3s.yml` |
 
 ### Kubespray (bare-metal cluster)
 
@@ -213,13 +213,13 @@ Run playbooks in this sequence for a full cluster deployment:
 ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 
 # 2. Node preparation (etckeeper, future pre-cluster tooling)
-ansible-playbook playbooks/pre-kubespray.yml
+ansible-playbook playbooks/pre-k8s.yml
 
 # 3. Install Kubernetes cluster via Kubespray
-ansible-playbook -b playbooks/kubespray.yml
+ansible-playbook -b playbooks/k8s.yml
 
 # 4. Post-cluster setup (Longhorn storage, kubeconfig)
-ansible-playbook playbooks/post-kubespray.yml
+ansible-playbook playbooks/post-k8s.yml
 ```
 
 ### k3s (local dev cluster)

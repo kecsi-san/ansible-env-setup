@@ -35,16 +35,16 @@ ansible-playbook playbooks/k8s-nodes.yml
 ansible-playbook --ask-become-pass playbooks/prerequisite.yml
 
 # Pre-Kubernetes node preparation (etckeeper etc.)
-ansible-playbook playbooks/pre-kubespray.yml
+ansible-playbook playbooks/pre-k8s.yml
 
 # Install Kubernetes cluster
-ansible-playbook -b playbooks/kubespray.yml
+ansible-playbook -b playbooks/k8s.yml
 
 # Reset/tear down Kubernetes cluster
-ansible-playbook playbooks/reset-kubespray.yml
+ansible-playbook playbooks/reset-k8s.yml
 
 # Post-Kubernetes setup (Longhorn storage etc.)
-ansible-playbook playbooks/post-kubespray.yml
+ansible-playbook playbooks/post-k8s.yml
 
 # OS upgrades on all kube group hosts
 ansible-playbook playbooks/upgrade.yml
@@ -75,16 +75,16 @@ ansible-playbook --syntax-check playbooks/local.yml
 - `k8s-nodes.yml` — mirrors local.yml but targets `kube` group (remote hosts)
 - `personalise.yml` — localhost only; taste-driven setup (fonts, shell prompt, wallpapers, profile image)
 - `prerequisite.yml` — must run before `k8s-nodes.yml`; sets up SSH keys and passwordless sudo
-- `kubespray.yml` / `reset-kubespray.yml` — delegate entirely to the Kubespray collection
-- `pre-kubespray.yml` — runs after `prerequisite.yml` and before `kubespray.yml`; prepares nodes (etckeeper)
-- `post-kubespray.yml` — runs after Kubernetes cluster is up; installs cluster-level tools (Longhorn, kube-extra)
+- `k8s.yml` / `reset-k8s.yml` — delegate entirely to the Kubespray collection
+- `pre-k8s.yml` — runs after `prerequisite.yml` and before `k8s.yml`; prepares nodes (etckeeper)
+- `post-k8s.yml` — runs after Kubernetes cluster is up; installs cluster-level tools (Longhorn, kube-extra)
 - `upgrade.yml` — OS package upgrades across all kube hosts
 
 **Playbook naming convention:**
 - Lowercase, hyphens only (no underscores), `.yml` extension
 - Categories and patterns:
   - Environment setup → `<target>.yml` (e.g. `local.yml`, `k8s-nodes.yml`)
-  - Kubernetes cluster ops → `[<phase>-]<tool>.yml` (e.g. `kubespray.yml`, `pre-kubespray.yml`, `post-kubespray.yml`, `reset-kubespray.yml`)
+  - Kubernetes cluster ops → `[<phase>-]<tool>.yml` (e.g. `k8s.yml`, `pre-k8s.yml`, `post-k8s.yml`, `reset-k8s.yml`)
   - Maintenance → `<operation>.yml` (e.g. `upgrade.yml`, `prerequisite.yml`)
   - One-off operations → `<specific-action>.yml` (e.g. `dist-upgrade.yml`)
 
@@ -190,7 +190,7 @@ Two strategies, two different targets:
 - Uses `kubernetes-sigs/kubespray` collection (release-2.29 branch, installed via `requirements.yml`)
 - HA control plane with kube-vip at `api.k8s.<domain_name>:6443`, Calico CNI, 3-node etcd
 - Kubespray group vars live in `inventory/group_vars/` alongside custom role vars — same inventory serves both
-- Post-cluster setup (`post-kubespray.yml`) installs Longhorn distributed block storage via `setup_longhorn`
+- Post-cluster setup (`post-k8s.yml`) installs Longhorn distributed block storage via `setup_longhorn`
 
 **k3s — single-node local dev cluster (localhost)**
 - Linux (WSL2): native k3s via official installer script (`get.k3s.io`)

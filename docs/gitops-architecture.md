@@ -22,7 +22,7 @@ Both clusters follow the same component model to keep configuration and skills t
 ┌─────────────────────────────────────────────────────────────┐
 │  Layer 1 — Infrastructure (this repo: ansible-env-setup)    │
 │                                                             │
-│  ansible-playbook playbooks/post-kubespray.yml              │
+│  ansible-playbook playbooks/post-k8s.yml              │
 │    → Traefik          (Helm, both clusters)                 │
 │    → Sealed Secrets   (Helm, both clusters)                 │
 │    → Headlamp         (Helm, homelab)                       │
@@ -59,14 +59,14 @@ ArgoCD owns everything running on top (continuous reconciliation).
 
 | Component | Version | Installed by | Managed by |
 |-----------|---------|-------------|------------|
-| Kubernetes | v1.33.7 | Kubespray (`kubespray.yml`) | Kubespray |
+| Kubernetes | v1.33.7 | Kubespray (`k8s.yml`) | Kubespray |
 | kube-vip | v0.8.9 | Kubespray | Kubespray |
 | Calico CNI | — | Kubespray | Kubespray |
 | ArgoCD | v2.14.5 | Kubespray addon (`addons.yml`) | ArgoCD (self-manages) |
 | cert-manager | v1.15.3 | Kubespray addon (`addons.yml`) | ArgoCD |
-| Traefik | latest stable | Ansible `post-kubespray.yml` | ArgoCD |
-| Sealed Secrets | latest stable | Ansible `post-kubespray.yml` | ArgoCD |
-| Headlamp | 0.40.0 | Ansible `post-kubespray.yml` | ArgoCD |
+| Traefik | latest stable | Ansible `post-k8s.yml` | ArgoCD |
+| Sealed Secrets | latest stable | Ansible `post-k8s.yml` | ArgoCD |
+| Headlamp | 0.40.0 | Ansible `post-k8s.yml` | ArgoCD |
 
 ### Local k3s (k3s.yourdomain.com)
 
@@ -304,10 +304,10 @@ homelab-gitops/
 
 | Role | Playbook | Purpose |
 |------|---------|---------|
-| `setup_traefik` | `post-kubespray.yml`, `post-k3s.yml` | Install Traefik via Helm |
-| `setup_sealed-secrets` | `post-kubespray.yml`, `post-k3s.yml` | Install Sealed Secrets controller via Helm |
-| `setup_headlamp` | `post-kubespray.yml` | Install Headlamp via Helm (captures manual install) |
-| `setup_argocd-apps` | `post-kubespray.yml`, `post-k3s.yml` | Apply app-of-apps Application manifest |
+| `setup_traefik` | `post-k8s.yml`, `post-k3s.yml` | Install Traefik via Helm |
+| `setup_sealed-secrets` | `post-k8s.yml`, `post-k3s.yml` | Install Sealed Secrets controller via Helm |
+| `setup_headlamp` | `post-k8s.yml` | Install Headlamp via Helm (captures manual install) |
+| `setup_argocd-apps` | `post-k8s.yml`, `post-k3s.yml` | Apply app-of-apps Application manifest |
 
 ---
 
