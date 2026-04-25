@@ -76,32 +76,32 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `configure_oh-my-posh` | Installs Pluto OMP theme and shell init | k8s-nodes.yml |
 | `configure_ssh` | Deploys SSH authorized key | k8s-nodes.yml, prerequisite.yml |
 | `configure_sudo` | Configures passwordless sudo for `admin_user` | k8s-nodes.yml, local.yml, prerequisite.yml |
-| `debian_upgrade` | `apt update && upgrade && autoremove` | k8s-nodes.yml, upgrade.yml |
+| `debian_upgrade` | `apt update && upgrade && autoremove` | k8s-nodes.yml, upgrade.yml, upgrade-local.yml |
 | `disable_hibernation` | Disables suspend/hibernate via systemd | k8s-nodes.yml |
-| `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` galaxy role | local.yml |
+| `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` galaxy role (Linux only) | local.yml |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew | k8s-nodes.yml |
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | k8s-nodes.yml |
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-kubespray.yml |
 | `setup_apt_repos` | Adds Docker CE apt repo; installs docker-ce + compose plugin; adds user to docker group | local.yml |
-| `setup_iac-extra` | Installs opentofu, terragrunt, terrascan, tfupdate via Homebrew | local.yml |
-| `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy via Homebrew | local.yml |
-| `setup_cloud-aws` | awscli, aws-sam-cli, session-manager-plugin; optional: okta-aws-cli, eksctl, aws-vault | local.yml |
-| `setup_cloud-azure` | azure-cli; optional: azd, bicep, azcopy, kubelogin | local.yml |
-| `setup_cloud-gcp` | google-cloud-sdk (gcloud/gsutil/bq); optional: gke-gcloud-auth-plugin, cloud-sql-proxy | local.yml |
-| `setup_kube-extra` | Installs kubectl, helm, argocd, flux via Homebrew; system-wide bash completions; `k=kubectl` alias | local.yml, post-kubespray.yml |
+| `setup_iac-extra` | Installs opentofu, terragrunt, terrascan, tfupdate via Homebrew | local-cloud.yml |
+| `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy via Homebrew | local-cloud.yml |
+| `setup_cloud-aws` | awscli, aws-sam-cli, session-manager-plugin; optional: okta-aws-cli, eksctl, aws-vault | local-cloud.yml |
+| `setup_cloud-azure` | azure-cli; optional: azd, bicep, azcopy, kubelogin | local-cloud.yml |
+| `setup_cloud-gcp` | google-cloud-sdk (gcloud/gsutil/bq); optional: gke-gcloud-auth-plugin, cloud-sql-proxy | local-cloud.yml |
+| `setup_kube-extra` | Installs kubectl, helm, argocd, flux via Homebrew; system-wide bash completions; `k=kubectl` alias | local-cloud.yml, post-kubespray.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-kubespray.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | k8s-nodes.yml, local.yml |
-| `setup_network-tools` | Installs network diagnostic tools | k8s-nodes.yml, local.yml |
+| `setup_network-tools` | Installs network diagnostic tools (APT on Linux, Homebrew on macOS) | k8s-nodes.yml, local.yml |
 | `setup_security-tools` | fail2ban + rkhunter (APT), lynis (Cisofy repo), trivy (Homebrew) | k8s-nodes.yml, local.yml |
 | `setup_python-uv` | Installs uv CLI tools and Python library packages | local.yml |
 | `setup_k3s` | Single-node k3s local dev cluster (Linux native / macOS via k3d) | k3s.yml |
-| `setup_go-dev-tools` | go, gopls, golangci-lint via Homebrew; optional: delve, goreleaser, ko, air | local.yml |
-| `setup_nodejs-dev-tools` | node, pnpm via Homebrew; optional brew + npm global packages | local.yml |
-| `setup_rust-dev-tools` | rustup + stable toolchain (rustc, cargo, rustfmt, clippy); optional cargo tools | local.yml |
-| `upgrade_brew` | `brew update && upgrade && cleanup` | upgrade.yml |
-| `upgrade_python-uv` | `uv tool upgrade --all` + `uv pip install --upgrade` in devops venv | upgrade.yml |
-| `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME XML descriptor | k8s-nodes.yml |
-| `upload_profile_image` | Sets GNOME/GDM profile picture | k8s-nodes.yml |
+| `setup_go-dev-tools` | go, gopls, golangci-lint via Homebrew; optional: delve, goreleaser, ko, air | local-dev.yml |
+| `setup_nodejs-dev-tools` | node, pnpm via Homebrew; optional brew + npm global packages | local-dev.yml |
+| `setup_rust-dev-tools` | rustup + stable toolchain (rustc, cargo, rustfmt, clippy); optional cargo tools | local-dev.yml |
+| `upgrade_brew` | `brew update && upgrade && cleanup` — cross-platform (Linux/macOS brew paths via vars/os/) | upgrade.yml, upgrade-local.yml |
+| `upgrade_python-uv` | `uv tool upgrade --all` + `uv pip install --upgrade` in devops venv | upgrade.yml, upgrade-local.yml |
+| `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME XML descriptor (Linux only) | k8s-nodes.yml |
+| `upload_profile_image` | Sets GNOME/GDM profile picture; source path set via `profile_image_src` variable (Linux only) | k8s-nodes.yml |
 
 ---
 
@@ -109,7 +109,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 
 | Role | Purpose | Notes |
 |------|---------|-------|
-| `setup_vscode` | Installs VS Code and extensions | Tasks written for Linux but VS Code runs on Windows in WSL2 setup — needs WinRM approach or rethink |
+| `setup_vscode` | Installs VS Code (apt on Linux, Homebrew Cask on macOS) and configures extensions | On WSL2 VS Code runs on Windows, not Linux — extension install step may not work as expected. Enabled is `false` by default in `local-dev.yml` until this is resolved. | 
 
 ---
 

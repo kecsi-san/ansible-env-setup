@@ -13,8 +13,17 @@ Ansible automation for setting up and maintaining developer and DevOps environme
 pip install -r requirements.txt
 ansible-galaxy install -r requirements.yml
 
-# Run local workstation setup (uses localhost)
+# Local workstation — core system (sudo, brew, apt repos, minimal, network, security, python-uv)
 ansible-playbook playbooks/local.yml
+
+# Local workstation — dev tooling (vscode, go, nodejs, rust)
+ansible-playbook playbooks/local-dev.yml
+
+# Local workstation — Cloud and DevOps tooling (terraform, iac-extra, aws, azure, gcp, kube)
+ansible-playbook playbooks/local-cloud.yml
+
+# Upgrade local workstation packages (apt, brew, uv)
+ansible-playbook playbooks/upgrade-local.yml
 
 # Run setup across kube group hosts
 ansible-playbook playbooks/k8s-nodes.yml
@@ -40,6 +49,8 @@ ansible-playbook playbooks/upgrade.yml
 # Run only specific roles using tags
 ansible-playbook --ask-become-pass -t ssh,sudo playbooks/prerequisite.yml
 ansible-playbook -t minimal,brew playbooks/local.yml
+ansible-playbook -t nodejs playbooks/local-dev.yml
+ansible-playbook -t terraform,aws playbooks/local-cloud.yml
 
 # Dry run (check mode)
 ansible-playbook --check playbooks/local.yml
@@ -53,7 +64,10 @@ ansible-playbook --syntax-check playbooks/local.yml
 ### Playbooks vs Roles
 
 **Playbooks** (`playbooks/`) orchestrate roles for specific scenarios:
-- `local.yml` — localhost only; used for testing and local workstation setup
+- `local.yml` — localhost only; core system setup (sudo, linuxbrew, apt repos, minimal packages, network, security, python-uv)
+- `local-dev.yml` — localhost only; developer tooling (vscode, go, nodejs, rust) — optional, run after local.yml
+- `local-cloud.yml` — localhost only; Cloud and DevOps tooling (terraform, iac-extra, aws, azure, gcp, kube) — optional, run after local.yml
+- `upgrade-local.yml` — localhost only; upgrades apt, brew, and uv packages
 - `k8s-nodes.yml` — mirrors local.yml but targets `kube` group (remote hosts)
 - `personalise.yml` — localhost only; taste-driven setup (fonts, shell prompt, wallpapers, profile image)
 - `prerequisite.yml` — must run before `k8s-nodes.yml`; sets up SSH keys and passwordless sudo
@@ -92,11 +106,17 @@ ansible-playbook --syntax-check playbooks/local.yml
 | `setup_legal_banner` | Copies `banner.txt` to `/etc/issue*`; clears MOTD; reloads sshd |
 | `setup_longhorn` | Installs iSCSI deps, longhornctl, and Longhorn via Helm |
 | `setup_minimal` | Installs base + compression APT packages; optional brew base packages |
-| `setup_network-tools` | Installs network diagnostic APT packages |
+| `setup_network-tools` | Installs network diagnostic tools (APT on Linux, Homebrew on macOS) |
 | `setup_python-uv` | Installs uv CLI tools (checkov, ansible, black, etc.) and Python library packages into `~/.venv/devops` |
 | `setup_kube-extra` | Copies kubeconfig from cluster; adjusts context via yq; sets `KUBECONFIG` |
+| `setup_go-dev-tools` | go, gopls, golangci-lint via Homebrew; optional: delve, goreleaser, ko, air |
+| `setup_nodejs-dev-tools` | node, pnpm via Homebrew; optional brew + npm global packages |
+| `setup_rust-dev-tools` | rustup + stable toolchain (rustc, cargo, rustfmt, clippy); optional cargo tools |
+| `setup_vscode` | VS Code via apt (Linux) or Homebrew Cask (macOS); installs configured extensions |
+| `upgrade_brew` | `brew update && upgrade && cleanup` — cross-platform (Linux/macOS brew paths via vars/os/) |
+| `upgrade_python-uv` | `uv tool upgrade --all` + `uv pip install --upgrade` in devops venv |
 | `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME background picker XML |
-| `upload_profile_image` | Copies `~/.face` and AccountsService profile image (GNOME/GDM) |
+| `upload_profile_image` | Sets GNOME/GDM profile picture; image path set via `profile_image_src` variable (not stored in repo) |
 
 #### Placeholder Roles (empty `tasks/main.yml`)
 
@@ -132,21 +152,27 @@ Standard role layout:
 roles/<role-name>/
 ├── tasks/main.yml
 ├── vars/main.yml          # Role-specific variables
-├── vars/os/Debian.yml     # OS-specific overrides
+├── vars/os/Debian.yml     # OS-specific overrides (Linux distro)
+├── vars/os/Linux.yml      # Linux-specific variables
+├── vars/os/Darwin.yml     # macOS-specific variables
 ├── files/                 # Static files
 ├── templates/             # Jinja2 templates
 └── defaults/main.yml      # Overridable defaults
 ```
 
-- Target OS: Debian/Ubuntu only; OS-specific vars go in `vars/os/Debian.yml`
+- Roles support both Linux (Debian/Ubuntu) and macOS (Darwin); use `when: ansible_system == 'Linux'` / `'Darwin'` guards where needed
+- OS-specific variables live in `vars/os/{{ ansible_system }}.yml` (e.g. `Linux.yml`, `Darwin.yml`); distro-specific in `vars/os/{{ ansible_distribution }}.yml` (e.g. `Debian.yml`)
 - Use `become: true` for system-level tasks; omit or use `become: false` for user-level tasks
 - SSH user is defined via `admin_user` / `ansible_ssh_user` in `secrets.yml`; uses Ed25519 key (`~/.ssh/id_ed25519`)
-- Prefer Linuxbrew for tools that update frequently; use APT for system packages
+- Prefer Linuxbrew for tools that update frequently; use APT (Linux) or Homebrew Cask (macOS) for system packages
 
 ### Tagging
 
 Tags enable selective role execution without running the full playbook:
-- `local.yml` tags: `sudo`, `brew`, `minimal`, `network`
+- `local.yml` tags: `sudo`, `brew`, `apt-repos`, `docker`, `minimal`, `network`, `security`, `python`, `uv`
+- `local-dev.yml` tags: `vscode`, `go`, `dev`, `nodejs`, `rust`
+- `local-cloud.yml` tags: `iac`, `terraform`, `iac-extra`, `cloud`, `aws`, `azure`, `gcp`, `kube`, `kubernetes`
+- `upgrade-local.yml` tags: `upgrade`, `apt`, `brew`, `uv`
 - `k8s-nodes.yml` tags: `update`, `ssh`, `hosts`, `banner`, `fonts`, `omp`, `fzf`, `gitconfig`, `hibernation`
 
 Always tag new roles consistently so users can run them individually.

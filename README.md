@@ -3,7 +3,7 @@
 Ansible automation for setting up and maintaining developer and DevOps environments. Uses a modular **LEGO approach**: each role is self-contained and independently runnable via tags.
 
 Supports two scenarios:
-- **Local workstation** setup (localhost) — primarily tested on **Debian 13 under WSL2** on Windows
+- **Local workstation** setup (localhost) — tested on **Debian 13 under WSL2** (Windows) and **macOS**
 - **Distributed Kubernetes cluster** on bare-metal hosts (via Kubespray) — tested on **Debian 13 nodes**
 
 ## Tool Management Philosophy
@@ -51,8 +51,17 @@ Edit `inventory/hosts` with your host IPs and `secrets.yml` with your domain nam
 > set up at that point.
 
 ```bash
-# Local workstation setup
+# Local workstation — core system (sudo, brew, apt repos, minimal, network, security, python-uv)
 ansible-playbook playbooks/local.yml
+
+# Local workstation — developer tooling (vscode, go, nodejs, rust)
+ansible-playbook playbooks/local-dev.yml
+
+# Local workstation — Cloud and DevOps tooling (terraform, aws, azure, gcp, kube)
+ansible-playbook playbooks/local-cloud.yml
+
+# Upgrade local workstation packages (apt, brew, uv)
+ansible-playbook playbooks/upgrade-local.yml
 
 # Remote hosts: run prerequisites first (requires password), then full setup
 ansible-playbook --ask-become-pass playbooks/prerequisite.yml
@@ -101,7 +110,10 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 
 | Playbook | Target | Purpose |
 |----------|--------|---------|
-| `local.yml` | localhost | Local workstation setup |
+| `local.yml` | localhost | Core system setup (sudo, brew, apt repos, minimal, network, security, python-uv) |
+| `local-dev.yml` | localhost | Developer tooling (vscode, go, nodejs, rust) — optional, run after local.yml |
+| `local-cloud.yml` | localhost | Cloud and DevOps tooling (terraform, iac-extra, aws, azure, gcp, kube) — optional |
+| `upgrade-local.yml` | localhost | Upgrade local apt, brew, and uv packages |
 | `k8s-nodes.yml` | `kube` group | Full setup across remote hosts |
 | `prerequisite.yml` | `kube` group | SSH hardening + passwordless sudo (run before k8s-nodes.yml) |
 | `upgrade.yml` | `kube` group | OS package upgrades |
@@ -134,13 +146,16 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages |
-| `setup_network-tools` | Installs network diagnostic tools |
+| `setup_network-tools` | Installs network diagnostic tools (APT on Linux, Homebrew on macOS) |
 | `setup_k3s` | Single-node local dev cluster — Linux native k3s / macOS via k3d |
 | `setup_go-dev-tools` | go, gopls, golangci-lint; optional: delve, goreleaser, ko, air |
 | `setup_nodejs-dev-tools` | node, pnpm; optional brew tools + npm global packages |
 | `setup_rust-dev-tools` | rustup + stable toolchain (rustc, cargo, rustfmt, clippy); optional cargo tools |
+| `setup_vscode` | VS Code via apt (Linux) or Homebrew Cask (macOS); installs configured extensions |
+| `upgrade_brew` | `brew update && upgrade && cleanup` — cross-platform (Linux/macOS) |
+| `upgrade_python-uv` | `uv tool upgrade --all` + `uv pip install --upgrade` in devops venv |
 | `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME background picker XML |
-| `upload_profile_image` | Sets GNOME/GDM profile picture |
+| `upload_profile_image` | Sets GNOME/GDM profile picture; source path set via `profile_image_src` variable |
 
 ### Placeholder (not yet implemented)
 
