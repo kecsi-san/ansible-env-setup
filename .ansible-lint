@@ -8,8 +8,8 @@ exclude_paths:
   - .venv/
   - collections/
   - roles/markosamuli.linuxbrew/    # vendored third-party galaxy role
-  - playbooks/kubespray.yml         # delegates entirely to kubespray collection (not installed in lint env)
-  - playbooks/reset-kubespray.yml   # delegates entirely to kubespray collection (not installed in lint env)
+  - playbooks/k8s.yml               # delegates entirely to kubespray collection (not installed in lint env)
+  - playbooks/reset-k8s.yml         # delegates entirely to kubespray collection (not installed in lint env)
 
 # Roles installed via ansible-galaxy (not vendored) — prevent "role not found" errors
 mock_roles:
