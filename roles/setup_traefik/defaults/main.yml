@@ -1,0 +1,38 @@
+---
+traefik_enabled: true
+
+traefik_namespace: "traefik"
+traefik_helm_release_name: "traefik"
+traefik_helm_repo_name: "traefik"
+traefik_helm_repo_url: "https://traefik.github.io/charts"
+traefik_chart_version: "34.4.1"  # pin for reproducibility; update when upgrading Traefik
+
+# Path to kubeconfig file — set per playbook to target the right cluster.
+# Empty string falls back to KUBECONFIG env var / ~/.kube/config.
+traefik_kubeconfig: ""
+
+# Service type — ClusterIP during bootstrap.
+# The LoadBalancer annotation (kube-vip.io/loadbalancerIPs) is applied
+# via ArgoCD GitOps after the initial install.
+traefik_service_type: "ClusterIP"
+
+# Helm values passed to the Traefik chart.
+# Override individual keys in the playbook vars block as needed.
+traefik_helm_values:
+  service:
+    type: "ClusterIP"
+  providers:
+    kubernetesIngress:
+      enabled: true
+    kubernetesCRD:
+      enabled: true
+  api:
+    dashboard: true
+    insecure: false
+  logs:
+    general:
+      level: INFO
+  # Dashboard IngressRoute disabled — exposed via IngressRoute in the GitOps repo
+  ingressRoute:
+    dashboard:
+      enabled: false

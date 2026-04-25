@@ -1,0 +1,13 @@
+---
+- name: Post-cluster setup — local dev (k3s)
+  hosts: localhost
+  connection: local
+  become: false
+  tasks:
+    - name: Install Traefik ingress controller
+      ansible.builtin.import_role:
+        name: setup_traefik
+      vars:
+        traefik_kubeconfig: "~/.kube/k3s.yaml"
+      tags:
+        - traefik

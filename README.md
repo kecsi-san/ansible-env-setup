@@ -126,6 +126,7 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | `reset-k8s.yml` | `kube` group | Tear down Kubespray cluster — **bare-metal cluster** |
 | `post-k8s.yml` | `kube` group | Post-cluster setup (Longhorn storage) — **bare-metal cluster** |
 | `k3s.yml` | localhost | Install single-node k3s cluster — **local dev** (Linux native / macOS via k3d) |
+| `post-k3s.yml` | localhost | Post-k3s setup (Traefik, Sealed Secrets, ArgoCD) |
 | `reset-k3s.yml` | localhost | Uninstall k3s local dev cluster |
 | `personalise.yml` | localhost | Taste-driven setup — fonts, shell prompt, wallpapers, profile image |
 
@@ -194,7 +195,7 @@ Two Kubernetes strategies are supported — each targets a different environment
 | **Use case** | Production-grade HA cluster | Local development cluster |
 | **Nodes** | Multi-node (3 control plane + workers) | Single-node |
 | **macOS support** | No | Yes (via k3d) |
-| **Playbooks** | `pre-k8s.yml` → `k8s.yml` → `post-k8s.yml` | `k3s.yml` |
+| **Playbooks** | `pre-k8s.yml` → `k8s.yml` → `post-k8s.yml` | `k3s.yml` → `post-k3s.yml` |
 
 ### Kubespray (bare-metal cluster)
 

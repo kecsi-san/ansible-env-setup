@@ -1,5 +1,5 @@
 ---
-- name: Post-Kubespray cluster setup
+- name: Post-cluster setup — homelab (k8s)
   hosts: kube
   become: false
   remote_user: "{{ ansible_ssh_user }}"
@@ -18,3 +18,11 @@
       tags:
         - kubeconfig
         - kubernetes
+
+    - name: Install Traefik ingress controller
+      ansible.builtin.import_role:
+        name: setup_traefik
+      vars:
+        traefik_kubeconfig: "~/.kube/k8s-kinet-local.yaml"
+      tags:
+        - traefik

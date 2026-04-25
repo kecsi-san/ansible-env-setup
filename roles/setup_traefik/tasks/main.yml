@@ -1,0 +1,27 @@
+---
+- name: Add Traefik Helm repository
+  kubernetes.core.helm_repository:
+    name: "{{ traefik_helm_repo_name }}"
+    repo_url: "{{ traefik_helm_repo_url }}"
+  delegate_to: localhost
+  become: false
+  run_once: true
+  when: traefik_enabled
+  tags: traefik
+
+- name: Install Traefik via Helm
+  kubernetes.core.helm:
+    name: "{{ traefik_helm_release_name }}"
+    chart_ref: "{{ traefik_helm_repo_name }}/traefik"
+    chart_version: "{{ traefik_chart_version }}"
+    release_namespace: "{{ traefik_namespace }}"
+    create_namespace: true
+    kubeconfig: "{{ traefik_kubeconfig | default(omit) }}"
+    values: "{{ traefik_helm_values }}"
+    state: present
+    wait: true
+  delegate_to: localhost
+  become: false
+  run_once: true
+  when: traefik_enabled
+  tags: traefik

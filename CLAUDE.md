@@ -43,8 +43,11 @@ ansible-playbook -b playbooks/k8s.yml
 # Reset/tear down Kubernetes cluster
 ansible-playbook playbooks/reset-k8s.yml
 
-# Post-Kubernetes setup (Longhorn storage etc.)
+# Post-Kubernetes setup (Longhorn storage, Traefik, etc.)
 ansible-playbook playbooks/post-k8s.yml
+
+# Post-k3s setup (Traefik, Sealed Secrets, ArgoCD)
+ansible-playbook playbooks/post-k3s.yml
 
 # OS upgrades on all kube group hosts
 ansible-playbook playbooks/upgrade.yml
@@ -77,14 +80,15 @@ ansible-playbook --syntax-check playbooks/local.yml
 - `prerequisite.yml` — must run before `k8s-nodes.yml`; sets up SSH keys and passwordless sudo
 - `k8s.yml` / `reset-k8s.yml` — delegate entirely to the Kubespray collection
 - `pre-k8s.yml` — runs after `prerequisite.yml` and before `k8s.yml`; prepares nodes (etckeeper)
-- `post-k8s.yml` — runs after Kubernetes cluster is up; installs cluster-level tools (Longhorn, kube-extra)
+- `post-k8s.yml` — runs after Kubernetes cluster is up; installs cluster-level tools (Longhorn, kube-extra, Traefik)
+- `post-k3s.yml` — runs after k3s install; installs cluster-level tools (Traefik, Sealed Secrets, ArgoCD)
 - `upgrade.yml` — OS package upgrades across all kube hosts
 
 **Playbook naming convention:**
 - Lowercase, hyphens only (no underscores), `.yml` extension
 - Categories and patterns:
   - Environment setup → `<target>.yml` (e.g. `local.yml`, `k8s-nodes.yml`)
-  - Kubernetes cluster ops → `[<phase>-]<tool>.yml` (e.g. `k8s.yml`, `pre-k8s.yml`, `post-k8s.yml`, `reset-k8s.yml`)
+  - Kubernetes cluster ops → `[<phase>-]<tool>.yml` (e.g. `k8s.yml`, `pre-k8s.yml`, `post-k8s.yml`, `reset-k8s.yml`, `post-k3s.yml`)
   - Maintenance → `<operation>.yml` (e.g. `upgrade.yml`, `prerequisite.yml`)
   - One-off operations → `<specific-action>.yml` (e.g. `dist-upgrade.yml`)
 
@@ -113,6 +117,7 @@ ansible-playbook --syntax-check playbooks/local.yml
 | `setup_network-tools` | Installs network diagnostic tools (APT on Linux, Homebrew on macOS) |
 | `setup_python-uv` | Installs uv CLI tools (checkov, ansible, black, etc.) and Python library packages into `~/.venv/devops` |
 | `setup_kube-extra` | Copies kubeconfig from cluster; adjusts context via yq; sets `KUBECONFIG` |
+| `setup_traefik` | Installs Traefik ingress controller via Helm; `delegate_to: localhost`; kubeconfig per cluster |
 | `setup_go-dev-tools` | go, gopls, golangci-lint via Homebrew; optional: delve, goreleaser, ko, air |
 | `setup_nodejs-dev-tools` | node, pnpm via Homebrew; optional brew + npm global packages |
 | `setup_rust-dev-tools` | rustup + stable toolchain (rustc, cargo, rustfmt, clippy); optional cargo tools |
