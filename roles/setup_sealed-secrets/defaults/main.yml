@@ -1,0 +1,12 @@
+---
+sealed_secrets_enabled: true
+
+sealed_secrets_namespace: "sealed-secrets"
+sealed_secrets_helm_release_name: "sealed-secrets"
+sealed_secrets_helm_repo_name: "sealed-secrets"
+sealed_secrets_helm_repo_url: "https://bitnami-labs.github.io/sealed-secrets"
+sealed_secrets_chart_version: "2.16.1"  # pin for reproducibility; app version 0.27.1
+
+# Path to kubeconfig file — set per playbook to target the right cluster.
+# Empty string falls back to KUBECONFIG env var / ~/.kube/config.
+sealed_secrets_kubeconfig: ""

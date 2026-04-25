@@ -90,6 +90,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_cloud-gcp` | google-cloud-sdk (gcloud/gsutil/bq); optional: gke-gcloud-auth-plugin, cloud-sql-proxy | local-cloud.yml |
 | `setup_kube-extra` | Installs kubectl, helm, argocd, flux via Homebrew; system-wide bash completions; `k=kubectl` alias | local-cloud.yml, post-k8s.yml |
 | `setup_traefik` | Installs Traefik ingress controller via Helm (delegate_to: localhost); kubeconfig per cluster | post-k8s.yml, post-k3s.yml |
+| `setup_sealed-secrets` | Installs Sealed Secrets controller via Helm; cluster-specific key pair for git-safe encrypted secrets | post-k8s.yml, post-k3s.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages | k8s-nodes.yml, local.yml |
 | `setup_network-tools` | Installs network diagnostic tools (APT on Linux, Homebrew on macOS) | k8s-nodes.yml, local.yml |

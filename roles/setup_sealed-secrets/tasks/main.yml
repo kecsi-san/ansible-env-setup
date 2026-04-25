@@ -1,0 +1,26 @@
+---
+- name: Add Sealed Secrets Helm repository
+  kubernetes.core.helm_repository:
+    name: "{{ sealed_secrets_helm_repo_name }}"
+    repo_url: "{{ sealed_secrets_helm_repo_url }}"
+  delegate_to: localhost
+  become: false
+  run_once: true
+  when: sealed_secrets_enabled
+  tags: sealed-secrets
+
+- name: Install Sealed Secrets via Helm
+  kubernetes.core.helm:
+    name: "{{ sealed_secrets_helm_release_name }}"
+    chart_ref: "{{ sealed_secrets_helm_repo_name }}/sealed-secrets"
+    chart_version: "{{ sealed_secrets_chart_version }}"
+    release_namespace: "{{ sealed_secrets_namespace }}"
+    create_namespace: true
+    kubeconfig: "{{ sealed_secrets_kubeconfig | default(omit) }}"
+    state: present
+    wait: true
+  delegate_to: localhost
+  become: false
+  run_once: true
+  when: sealed_secrets_enabled
+  tags: sealed-secrets

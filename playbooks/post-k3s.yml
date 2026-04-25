@@ -11,3 +11,11 @@
         traefik_kubeconfig: "~/.kube/k3s.yaml"
       tags:
         - traefik
+
+    - name: Install Sealed Secrets controller
+      ansible.builtin.import_role:
+        name: setup_sealed-secrets
+      vars:
+        sealed_secrets_kubeconfig: "~/.kube/k3s.yaml"
+      tags:
+        - sealed-secrets

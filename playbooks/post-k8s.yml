@@ -26,3 +26,11 @@
         traefik_kubeconfig: "~/.kube/k8s-kinet-local.yaml"
       tags:
         - traefik
+
+    - name: Install Sealed Secrets controller
+      ansible.builtin.import_role:
+        name: setup_sealed-secrets
+      vars:
+        sealed_secrets_kubeconfig: "~/.kube/k8s-kinet-local.yaml"
+      tags:
+        - sealed-secrets
