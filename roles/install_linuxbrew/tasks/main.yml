@@ -2,6 +2,7 @@
 - name: Install linuxbrew
   ansible.builtin.include_role:
     name: markosamuli.linuxbrew
+  when: ansible_system == 'Linux'
   tags:
     - brew
     - always

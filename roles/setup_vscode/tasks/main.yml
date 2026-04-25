@@ -1,16 +1,21 @@
 ---
+- name: Load OS-specific variables
+  ansible.builtin.include_vars: "os/{{ ansible_system }}.yml"
+
 - name: Download Microsoft GPG key
   ansible.builtin.get_url:
     url: https://packages.microsoft.com/keys/microsoft.asc
     dest: /tmp/microsoft.asc
     mode: '0644'
   become: false
+  when: ansible_system == 'Linux'
 
 - name: Import Microsoft GPG key
   ansible.builtin.shell:
     cmd: gpg --dearmor < /tmp/microsoft.asc > /etc/apt/keyrings/packages.microsoft.gpg
     creates: /etc/apt/keyrings/packages.microsoft.gpg
   become: true
+  when: ansible_system == 'Linux'
 
 - name: Add VS Code apt repository
   ansible.builtin.copy:
@@ -18,13 +23,22 @@
     dest: /etc/apt/sources.list.d/vscode.list
     mode: '0644'
   become: true
+  when: ansible_system == 'Linux'
 
-- name: Install VS Code
+- name: Install VS Code via apt
   ansible.builtin.package:
     name: code
     state: present
     update_cache: true
   become: true
+  when: ansible_system == 'Linux'
+
+- name: Install VS Code via Homebrew Cask
+  community.general.homebrew_cask:
+    name: visual-studio-code
+    state: present
+  become: false
+  when: ansible_system == 'Darwin'
 
 - name: Install VS Code extensions
   ansible.builtin.command:
@@ -35,7 +49,7 @@
 
 - name: Ensure VS Code user config directory exists
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.config/Code/User"
+    path: "{{ vscode_config_dir }}"
     state: directory
     mode: '0755'
   become: false
@@ -43,6 +57,6 @@
 - name: Deploy VS Code settings
   ansible.builtin.copy:
     src: settings.json
-    dest: "{{ ansible_env.HOME }}/.config/Code/User/settings.json"
+    dest: "{{ vscode_config_dir }}/settings.json"
     mode: '0644'
   become: false

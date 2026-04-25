@@ -2,6 +2,7 @@
 - name: Load OS-specific variables
   ansible.builtin.include_vars: "os/{{ ansible_os_family }}.yml"
   tags: longhorn
+  when: ansible_system == 'Linux'
 
 - name: Install required packages for Longhorn
   ansible.builtin.package:
@@ -9,7 +10,7 @@
     state: present
     update_cache: true
   become: true
-  when: install_requirements
+  when: install_requirements and ansible_system == 'Linux'
   tags: longhorn
 
 - name: Enable and start open-iscsi service
@@ -18,7 +19,7 @@
     state: started
     enabled: true
   become: true
-  when: install_requirements
+  when: install_requirements and ansible_system == 'Linux'
   tags: longhorn
 
 - name: Check if longhornctl is already installed

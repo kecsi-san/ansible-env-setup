@@ -4,6 +4,7 @@
     name: etckeeper
     state: latest
   become: true
+  when: ansible_system == 'Linux'
 
 - name: Set git config for etckeeper (actually for user root).
   ansible.builtin.blockinfile:
@@ -15,29 +16,32 @@
     create: true
     mode: '0644'
   become: true
+  when: ansible_system == 'Linux'
 
 - name: Run only once checker logic
   ansible.builtin.stat:
     path: /etc/.etckeeper.initmarker
   register: initmarker
+  when: ansible_system == 'Linux'
 
 - name: Print etckeeper init check result
   ansible.builtin.debug:
     msg: "Did we run etckeeper already: {{ initmarker.stat.exists }}"
+  when: ansible_system == 'Linux' and initmarker is not skipped
 
 - name: Initialize etckeeper
   ansible.builtin.command: /usr/bin/etckeeper init
   args:
     chdir: /etc
   become: true
-  when: not initmarker.stat.exists
+  when: ansible_system == 'Linux' and not initmarker.stat.exists
 
 - name: Create etckeeper initial commit
   ansible.builtin.command: /usr/bin/git commit -a -m "Initial commit" # noqa: command-instead-of-module
   args:
     chdir: /etc
   become: true
-  when: not initmarker.stat.exists
+  when: ansible_system == 'Linux' and not initmarker.stat.exists
   changed_when: true
 
 - name: Create init marker for etckeeper
@@ -46,4 +50,4 @@
     state: touch
     mode: u=rw,g=r,o=r
   become: true
-  when: not initmarker.stat.exists
+  when: ansible_system == 'Linux' and not initmarker.stat.exists

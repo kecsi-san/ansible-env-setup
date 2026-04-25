@@ -5,7 +5,8 @@
     dest: "{{ home }}/{{ profile_image_file }}"
     mode: '0644'
   become: false
-  when: upload_profile_image
+  when: upload_profile_image and ansible_system == 'Linux'
+
 - name: AccountsService user image (copy of ~/.face)
   ansible.builtin.copy:
     src: files/{{ profile_image_file }}
@@ -14,7 +15,8 @@
     group: root
     mode: '0644'
   become: true
-  when: upload_profile_image
+  when: upload_profile_image and ansible_system == 'Linux'
+
 - name: Touch AccountsService user info file
   ansible.builtin.file:
     path: /var/lib/AccountsService/users/{{ gdm_user }}
@@ -23,7 +25,8 @@
     modification_time: preserve
     access_time: preserve
   become: true
-  when: upload_profile_image
+  when: upload_profile_image and ansible_system == 'Linux'
+
 - name: AccountsService user info contents
   ansible.builtin.lineinfile:
     path: /var/lib/AccountsService/users/{{ gdm_user }}
@@ -35,4 +38,4 @@
     - 'XSession={{ gdm_user }}'
     - 'Icon=/var/lib/AccountsService/icons/{{ gdm_user }}'
   become: true
-  when: upload_profile_image
+  when: upload_profile_image and ansible_system == 'Linux'

@@ -7,6 +7,7 @@
     group: root
     mode: '0755'
   become: true
+  when: ansible_system == 'Linux'
 
 - name: Upload wallpaper images to /usr/share/backgrounds
   ansible.builtin.copy:
@@ -18,6 +19,7 @@
   become: true
   with_fileglob:
     - "files/*.jpg"
+  when: ansible_system == 'Linux'
 
 - name: Ensure /usr/share/gnome-background-properties directory exists
   ansible.builtin.file:
@@ -27,6 +29,7 @@
     group: root
     mode: '0755'
   become: true
+  when: ansible_system == 'Linux'
 
 - name: Generate GNOME background properties XML descriptor
   ansible.builtin.template:
@@ -36,3 +39,4 @@
     group: root
     mode: '0644'
   become: true
+  when: ansible_system == 'Linux'

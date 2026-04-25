@@ -5,7 +5,7 @@
     regexp: '.*{{ item }}$'
     line: "{{ hostvars[item].ansible_host }} {{ item }}.{{ domain_name }} {{ item }}.localdomain {{ item }}"
     state: present
-  when: hostvars[item].ansible_host is defined
+  when: hostvars[item].ansible_host is defined and ansible_system == 'Linux'
   with_items: "{{ groups.kube + ['api.k8s'] }}"
   become: true
   tags:

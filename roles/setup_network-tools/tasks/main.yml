@@ -9,5 +9,14 @@
     state: present
     update_cache: true
   tags: network, always
-  when: network_packages is defined
+  when: network_packages is defined and ansible_system == 'Linux'
   become: true
+
+- name: Install network tools via Homebrew
+  community.general.homebrew:
+    name: "{{ network_brew_packages }}"
+    state: present
+    update_homebrew: true
+  tags: network, always
+  when: network_brew_packages is defined and ansible_system == 'Darwin'
+  become: false

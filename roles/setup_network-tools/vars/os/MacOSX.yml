@@ -1,0 +1,9 @@
+---
+# Built-in on macOS: ping, traceroute, tcpdump, rsync, whois, netstat
+# Install via Homebrew only what's missing
+network_brew_packages:
+  - iftop
+  - iperf3
+  - mtr
+  - nmap
+  - socat
