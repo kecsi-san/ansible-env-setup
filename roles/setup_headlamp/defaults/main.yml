@@ -1,0 +1,19 @@
+---
+headlamp_enabled: true
+
+headlamp_namespace: "kube-system"
+headlamp_helm_release_name: "my-headlamp"
+headlamp_helm_repo_name: "headlamp"
+headlamp_helm_repo_url: "https://kubernetes-sigs.github.io/headlamp/"
+headlamp_chart_version: "0.40.0"  # pin for reproducibility; matches current manual install
+
+# Path to kubeconfig file — set per playbook to target the right cluster.
+# Empty string falls back to KUBECONFIG env var / ~/.kube/config.
+headlamp_kubeconfig: ""
+
+# Service type — ClusterIP so Traefik routes to it via IngressRoute.
+# The previous manual install used LoadBalancer (.102 via kube-vip); running
+# this role upgrades the existing release and releases that IP back to the pool.
+headlamp_helm_values:
+  service:
+    type: "ClusterIP"

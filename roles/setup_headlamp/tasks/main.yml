@@ -1,0 +1,27 @@
+---
+- name: Add Headlamp Helm repository
+  kubernetes.core.helm_repository:
+    name: "{{ headlamp_helm_repo_name }}"
+    repo_url: "{{ headlamp_helm_repo_url }}"
+  delegate_to: localhost
+  become: false
+  run_once: true
+  when: headlamp_enabled
+  tags: headlamp
+
+- name: Install Headlamp via Helm
+  kubernetes.core.helm:
+    name: "{{ headlamp_helm_release_name }}"
+    chart_ref: "{{ headlamp_helm_repo_name }}/headlamp"
+    chart_version: "{{ headlamp_chart_version }}"
+    release_namespace: "{{ headlamp_namespace }}"
+    create_namespace: false
+    kubeconfig: "{{ headlamp_kubeconfig | default(omit) }}"
+    values: "{{ headlamp_helm_values }}"
+    state: present
+    wait: true
+  delegate_to: localhost
+  become: false
+  run_once: true
+  when: headlamp_enabled
+  tags: headlamp
