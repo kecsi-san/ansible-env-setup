@@ -8,15 +8,15 @@
     name: "{{ network_packages }}"
     state: present
     update_cache: true
-  tags: network, always
-  when: network_packages is defined and ansible_system == 'Linux'
   become: true
+  when: network_tools_enabled and network_packages is defined and ansible_system == 'Linux'
+  tags: network
 
 - name: Install network tools via Homebrew
   community.general.homebrew:
     name: "{{ network_brew_packages }}"
     state: present
     update_homebrew: true
-  tags: network, always
-  when: network_brew_packages is defined and ansible_system == 'Darwin'
   become: false
+  when: network_tools_enabled and network_brew_packages is defined and ansible_system == 'Darwin'
+  tags: network

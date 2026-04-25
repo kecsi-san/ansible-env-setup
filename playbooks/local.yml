@@ -73,13 +73,18 @@
       ansible.builtin.import_role:
         name: setup_network-tools
       become: true
+      when: network_tools_enabled
+      vars:
+        network_tools_enabled: true
       tags:
         - network
 
     - name: Setup security tools
       ansible.builtin.import_role:
         name: setup_security-tools
+      when: security_tools_enabled
       vars:
+        security_tools_enabled: true
         security_apt_packages:
           - fail2ban
           - rkhunter

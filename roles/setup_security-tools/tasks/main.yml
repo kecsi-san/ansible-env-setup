@@ -5,7 +5,7 @@
     name: "{{ security_apt_packages }}"
     state: present
   become: true
-  when: ansible_system == 'Linux'
+  when: security_tools_enabled and ansible_system == 'Linux'
 
 # Lynis — via Cisofy official apt repo (Linux only)
 - name: Download Cisofy GPG key
@@ -14,14 +14,14 @@
     dest: /tmp/cisofy-software-public.key
     mode: '0644'
   become: false
-  when: ansible_system == 'Linux'
+  when: security_tools_enabled and ansible_system == 'Linux'
 
 - name: Import Cisofy GPG key
   ansible.builtin.shell:
     cmd: gpg --dearmor < /tmp/cisofy-software-public.key > /etc/apt/keyrings/cisofy-software.gpg
     creates: /etc/apt/keyrings/cisofy-software.gpg
   become: true
-  when: ansible_system == 'Linux'
+  when: security_tools_enabled and ansible_system == 'Linux'
 
 - name: Add Cisofy apt repository
   ansible.builtin.apt_repository:
@@ -29,7 +29,7 @@
     filename: cisofy-lynis
     state: present
   become: true
-  when: ansible_system == 'Linux'
+  when: security_tools_enabled and ansible_system == 'Linux'
 
 - name: Install lynis from Cisofy repo
   ansible.builtin.package:
@@ -37,7 +37,7 @@
     state: present
     update_cache: true
   become: true
-  when: ansible_system == 'Linux'
+  when: security_tools_enabled and ansible_system == 'Linux'
 
 # Trivy — via Homebrew (cross-platform)
 - name: Install trivy via Homebrew
@@ -45,3 +45,4 @@
     name: trivy
     state: present
   become: false
+  when: security_tools_enabled
