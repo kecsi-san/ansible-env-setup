@@ -4,6 +4,18 @@
   connection: local
   become: false
   tasks:
+    - name: Setup apt repositories — cloud
+      ansible.builtin.import_role:
+        name: setup_apt_repos
+      become: true
+      when: ansible_system == 'Linux'
+      vars:
+        apt_repo_grafana: false
+        apt_repo_telegraf: false
+        apt_repo_gitea: false
+      tags:
+        - apt-repos
+
     - name: Setup IaC Terraform tooling
       ansible.builtin.import_role:
         name: setup_iac-terraform

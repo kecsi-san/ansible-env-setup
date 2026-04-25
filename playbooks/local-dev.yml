@@ -4,6 +4,20 @@
   connection: local
   become: false
   tasks:
+    - name: Setup apt repositories — dev
+      ansible.builtin.import_role:
+        name: setup_apt_repos
+      become: true
+      when: ansible_system == 'Linux'
+      vars:
+        apt_repo_mise: false
+        apt_repo_sury_php: false
+        apt_repo_twilio: false
+        apt_repo_yarn: false
+        apt_repo_microsoft: false
+      tags:
+        - apt-repos
+
     - name: Setup VS Code
       ansible.builtin.import_role:
         name: setup_vscode

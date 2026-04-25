@@ -3,7 +3,7 @@
 docker_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else 'arm64' if ansible_architecture == 'aarch64' else 'armhf' }}"
 
 # Repo enable/disable flags — set to true in group_vars to activate
-apt_repo_docker: true
+apt_repo_docker: false
 apt_repo_grafana: false
 apt_repo_telegraf: false
 apt_repo_charm: false
