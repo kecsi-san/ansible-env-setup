@@ -1,0 +1,29 @@
+---
+- name: Upgrade local workstation packages
+  hosts: local
+  connection: local
+  become: false
+  tasks:
+    - name: Upgrade Debian packages
+      ansible.builtin.import_role:
+        name: debian_upgrade
+      become: true
+      tags:
+        - upgrade
+        - apt
+
+    - name: Upgrade Homebrew packages
+      ansible.builtin.import_role:
+        name: upgrade_brew
+      become: false
+      tags:
+        - upgrade
+        - brew
+
+    - name: Upgrade uv tools and pip packages
+      ansible.builtin.import_role:
+        name: upgrade_python-uv
+      become: false
+      tags:
+        - upgrade
+        - uv
