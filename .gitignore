@@ -118,6 +118,16 @@ ENV/
 .DS_Store
 
 # =============================================================================
+# Personal / binary files — provide your own, never commit
+# =============================================================================
+
+# Profile image — set profile_image_src in secrets.yml to point to your image
+roles/upload_profile_image/files/
+
+# Background wallpapers — place your own JPG/PNG files here locally
+roles/upload_fav_bgimages/files/
+
+# =============================================================================
 # Secrets and sensitive inventory
 # =============================================================================
 

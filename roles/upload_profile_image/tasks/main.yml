@@ -1,7 +1,7 @@
 ---
 - name: Gnome/X user profile image (~/.face)
   ansible.builtin.copy:
-    src: files/{{ profile_image_file }}
+    src: "{{ profile_image_src }}"
     dest: "{{ home }}/{{ profile_image_file }}"
     mode: '0644'
   become: false
@@ -9,7 +9,7 @@
 
 - name: AccountsService user image (copy of ~/.face)
   ansible.builtin.copy:
-    src: files/{{ profile_image_file }}
+    src: "{{ profile_image_src }}"
     dest: /var/lib/AccountsService/icons/{{ gdm_user }}
     owner: root
     group: root

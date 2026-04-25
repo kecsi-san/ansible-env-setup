@@ -2,6 +2,9 @@
 profile_image_enabled: true
 upload_profile_image: true
 profile_image_file: ".face"
+# Source image on the Ansible controller — override in secrets.yml or group_vars
+# to point to your actual profile image. Not committed to the repo.
+profile_image_src: "{{ ansible_env.HOME }}/.face"
 # Path to user home directory
 home: "{{ ansible_env.HOME }}"
 gdm_user: "{{ ansible_env.USER }}"
