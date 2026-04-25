@@ -1,0 +1,96 @@
+---
+- name: Configure local workstation — Cloud and DevOps tooling
+  hosts: localhost
+  connection: local
+  become: false
+  tasks:
+    - name: Setup IaC Terraform tooling
+      ansible.builtin.import_role:
+        name: setup_iac-terraform
+      when: iac_terraform_enabled
+      vars:
+        iac_terraform_enabled: true
+        iac_brew_packages:
+          - terraform
+          - terraform-docs
+          - tflint
+          - trivy
+      tags:
+        - iac
+        - terraform
+
+    - name: Setup extra IaC tooling
+      ansible.builtin.import_role:
+        name: setup_iac-extra
+      when: iac_extra_enabled
+      vars:
+        iac_extra_enabled: true
+        iac_extra_brew_packages:
+          - opentofu
+          - terragrunt
+          - terrascan
+          - tfupdate
+      tags:
+        - iac
+        - iac-extra
+
+    - name: Setup AWS cloud tooling
+      ansible.builtin.import_role:
+        name: setup_cloud-aws
+      when: aws_enabled
+      vars:
+        aws_enabled: true
+        aws_brew_packages:
+          - awscli
+          - aws-sam-cli
+        aws_optional_brew_packages:
+          okta-aws-cli: false
+          eksctl: false
+          aws-vault: false
+        aws_python_packages_enabled: true
+        aws_python_packages:
+          - aws-lambda-powertools
+          - aws-xray-sdk
+          - parliament
+      tags:
+        - cloud
+        - aws
+
+    - name: Setup Azure cloud tooling
+      ansible.builtin.import_role:
+        name: setup_cloud-azure
+      when: azure_enabled
+      vars:
+        azure_enabled: false
+        azure_brew_packages:
+          - azure-cli
+        azure_optional_brew_packages:
+          azure-dev: false
+          bicep: false
+          azcopy: false
+          kubelogin: false
+      tags:
+        - cloud
+        - azure
+
+    - name: Setup GCP cloud tooling
+      ansible.builtin.import_role:
+        name: setup_cloud-gcp
+      when: gcp_enabled
+      vars:
+        gcp_enabled: false
+        gcp_brew_packages:
+          - google-cloud-sdk
+        gcp_optional_brew_packages:
+          gke-gcloud-auth-plugin: false
+          cloud-sql-proxy: false
+      tags:
+        - cloud
+        - gcp
+
+    - name: Setup kube extra tooling
+      ansible.builtin.import_role:
+        name: setup_kube-extra
+      tags:
+        - kube
+        - kubernetes
