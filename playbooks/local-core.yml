@@ -70,6 +70,98 @@
       tags:
         - docker
 
+    - name: Get Homebrew prefix (macOS)
+      ansible.builtin.command: brew --prefix
+      register: brew_prefix_result
+      changed_when: false
+      become: false
+      when: ansible_system == 'Darwin'
+      tags:
+        - docker
+
+    - name: Install bash-completion@2 via Homebrew (macOS)
+      community.general.homebrew:
+        name: bash-completion@2
+        state: present
+      become: false
+      when: ansible_system == 'Darwin'
+      tags:
+        - docker
+
+    - name: Enable bash-completion@2 in ~/.bash_profile (macOS)
+      ansible.builtin.blockinfile:
+        dest: "{{ ansible_env.HOME }}/.bash_profile"
+        create: true
+        mode: '0644'
+        marker: "# {mark} ANSIBLE MANAGED BLOCK: bash-completion"
+        block: |
+          [[ -r "{{ brew_prefix_result.stdout }}/etc/profile.d/bash_completion.sh" ]] && \
+            . "{{ brew_prefix_result.stdout }}/etc/profile.d/bash_completion.sh"
+      become: false
+      when: ansible_system == 'Darwin'
+      tags:
+        - docker
+
+    - name: Generate docker bash completion (macOS)
+      ansible.builtin.command:
+        cmd: "{{ brew_prefix_result.stdout }}/bin/docker completion bash"
+      register: docker_completion
+      changed_when: false
+      become: false
+      when: ansible_system == 'Darwin'
+      tags:
+        - docker
+
+    - name: Install docker bash completion (macOS)
+      ansible.builtin.copy:
+        content: "{{ docker_completion.stdout }}"
+        dest: "{{ brew_prefix_result.stdout }}/share/bash-completion/completions/docker"
+        mode: '0644'
+      become: false
+      when: ansible_system == 'Darwin'
+      tags:
+        - docker
+
+    - name: Generate colima bash completion (macOS)
+      ansible.builtin.command:
+        cmd: "{{ brew_prefix_result.stdout }}/bin/colima completion bash"
+      register: colima_completion
+      changed_when: false
+      become: false
+      when: ansible_system == 'Darwin'
+      tags:
+        - docker
+
+    - name: Install colima bash completion (macOS)
+      ansible.builtin.copy:
+        content: "{{ colima_completion.stdout }}"
+        dest: "{{ brew_prefix_result.stdout }}/share/bash-completion/completions/colima"
+        mode: '0644'
+      become: false
+      when: ansible_system == 'Darwin'
+      tags:
+        - docker
+
+    - name: Generate docker-compose bash completion (macOS)
+      ansible.builtin.command:
+        cmd: "{{ brew_prefix_result.stdout }}/bin/docker-compose completion bash"
+      register: docker_compose_completion
+      changed_when: false
+      become: false
+      when: ansible_system == 'Darwin'
+      tags:
+        - docker
+
+    - name: Install docker-compose bash completion (macOS)
+      ansible.builtin.copy:
+        content: "{{ docker_compose_completion.stdout }}"
+        dest: "{{ brew_prefix_result.stdout }}/share/bash-completion/completions/docker-compose"
+        mode: '0644'
+      become: false
+      when: ansible_system == 'Darwin'
+      tags:
+        - docker
+
     - name: Setup minimal packages
       ansible.builtin.import_role:
         name: setup_minimal
