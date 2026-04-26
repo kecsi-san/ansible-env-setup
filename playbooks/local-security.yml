@@ -32,3 +32,15 @@
           - rkhunter
       tags:
         - security
+
+    - name: Install checkov IaC security scanner
+      ansible.builtin.import_role:
+        name: setup_python-uv
+      vars:
+        uv_tools:
+          - name: checkov
+        uv_pip_packages: []
+        uv_venv_autoactivate: false
+      tags:
+        - security
+        - checkov

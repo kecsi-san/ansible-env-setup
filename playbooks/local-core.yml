@@ -72,7 +72,6 @@
           - name: ansible
           - name: ansible-lint
           - name: black
-          - name: checkov
           - name: commitizen
           - name: flake8
           - name: git-changelog
