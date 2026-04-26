@@ -46,6 +46,30 @@
       tags:
         - apps
 
+    - name: Install Colima and Docker CLI tools (macOS)
+      community.general.homebrew:
+        name:
+          - colima
+          - docker
+          - docker-compose
+          - docker-buildx
+        state: present
+      become: false
+      when: ansible_system == 'Darwin'
+      tags:
+        - docker
+
+    - name: Enable Colima autostart on login (macOS)
+      community.general.homebrew_services:
+        name: colima
+        state: present
+      become: false
+      when:
+        - ansible_system == 'Darwin'
+        - colima_autostart | default(true)
+      tags:
+        - docker
+
     - name: Setup minimal packages
       ansible.builtin.import_role:
         name: setup_minimal
