@@ -20,11 +20,19 @@
     state: present
   become: false
 
-- name: Install helm-diff plugin
-  kubernetes.core.helm_plugin:
-    plugin_path: "https://github.com/databus23/helm-diff"
-    state: present
+- name: Check installed helm plugins
+  ansible.builtin.command:
+    cmd: "{{ helm_bin }} plugin list"
+  register: helm_plugin_list
+  changed_when: false
   become: false
+
+- name: Install helm-diff plugin
+  ansible.builtin.command:
+    cmd: "{{ helm_bin }} plugin install https://github.com/databus23/helm-diff --verify=false"
+  become: false
+  changed_when: true
+  when: "'diff' not in helm_plugin_list.stdout"
 
 - name: Install argocd CLI via Homebrew
   community.general.homebrew:
