@@ -14,7 +14,7 @@ pip install -r requirements.txt
 ansible-galaxy install -r requirements.yml
 
 # Local workstation — core system (brew, apt repos, minimal, network, python-uv)
-ansible-playbook playbooks/local.yml
+ansible-playbook playbooks/local-core.yml
 
 # Local workstation — security (sudo, duosecurity repo, fail2ban, rkhunter, lynis, trivy)
 ansible-playbook playbooks/local-security.yml
@@ -22,8 +22,11 @@ ansible-playbook playbooks/local-security.yml
 # Local workstation — dev tooling (vscode, go, nodejs, rust)
 ansible-playbook playbooks/local-dev.yml
 
-# Local workstation — Cloud and DevOps tooling (terraform, iac-extra, aws, azure, gcp, kube)
+# Local workstation — Cloud and DevOps tooling (terraform, iac-extra, aws, azure, gcp)
 ansible-playbook playbooks/local-cloud.yml
+
+# Local workstation — Kubernetes tooling (kubectl, helm, argocd, flux, kubeseal)
+ansible-playbook playbooks/local-kube.yml
 
 # Upgrade local workstation packages (apt, brew, uv)
 ansible-playbook playbooks/upgrade-local.yml
@@ -54,15 +57,16 @@ ansible-playbook playbooks/upgrade.yml
 
 # Run only specific roles using tags
 ansible-playbook --ask-become-pass -t ssh,sudo playbooks/prerequisite.yml
-ansible-playbook -t minimal,brew playbooks/local.yml
+ansible-playbook -t minimal,brew playbooks/local-core.yml
 ansible-playbook -t nodejs playbooks/local-dev.yml
 ansible-playbook -t terraform,aws playbooks/local-cloud.yml
+ansible-playbook -t kube playbooks/local-kube.yml
 
 # Dry run (check mode)
-ansible-playbook --check playbooks/local.yml
+ansible-playbook --check playbooks/local-core.yml
 
 # Syntax check
-ansible-playbook --syntax-check playbooks/local.yml
+ansible-playbook --syntax-check playbooks/local-core.yml
 ```
 
 ## Architecture
@@ -70,12 +74,13 @@ ansible-playbook --syntax-check playbooks/local.yml
 ### Playbooks vs Roles
 
 **Playbooks** (`playbooks/`) orchestrate roles for specific scenarios:
-- `local.yml` — localhost only; core system setup (linuxbrew, apt repos, minimal packages, network, python-uv)
+- `local-core.yml` — localhost only; core system setup (linuxbrew, apt repos, minimal packages, network, python-uv)
 - `local-security.yml` — localhost only; security hardening (sudo, duosecurity repo, fail2ban, rkhunter, lynis, trivy)
-- `local-dev.yml` — localhost only; developer tooling (vscode, go, nodejs, rust) — optional, run after local.yml
-- `local-cloud.yml` — localhost only; Cloud and DevOps tooling (terraform, iac-extra, aws, azure, gcp, kube) — optional, run after local.yml
+- `local-dev.yml` — localhost only; developer tooling (vscode, go, nodejs, rust) — optional, run after local-core.yml
+- `local-cloud.yml` — localhost only; Cloud tooling (terraform, iac-extra, aws, azure, gcp) — optional, run after local-core.yml
+- `local-kube.yml` — localhost only; Kubernetes tooling (kubectl, helm, argocd, flux, kubeseal) — optional, run after local-core.yml
 - `upgrade-local.yml` — localhost only; upgrades apt, brew, and uv packages
-- `k8s-nodes.yml` — mirrors local.yml but targets `kube` group (remote hosts)
+- `k8s-nodes.yml` — mirrors local-core.yml but targets `kube` group (remote hosts)
 - `personalise.yml` — localhost only; taste-driven setup (fonts, shell prompt, wallpapers, profile image)
 - `prerequisite.yml` — must run before `k8s-nodes.yml`; sets up SSH keys and passwordless sudo
 - `k8s.yml` / `reset-k8s.yml` — delegate entirely to the Kubespray collection
@@ -87,7 +92,7 @@ ansible-playbook --syntax-check playbooks/local.yml
 **Playbook naming convention:**
 - Lowercase, hyphens only (no underscores), `.yml` extension
 - Categories and patterns:
-  - Environment setup → `<target>.yml` (e.g. `local.yml`, `k8s-nodes.yml`)
+  - Environment setup → `<target>.yml` (e.g. `local-core.yml`, `k8s-nodes.yml`)
   - Kubernetes cluster ops → `[<phase>-]<tool>.yml` (e.g. `k8s.yml`, `pre-k8s.yml`, `post-k8s.yml`, `reset-k8s.yml`, `post-k3s.yml`)
   - Maintenance → `<operation>.yml` (e.g. `upgrade.yml`, `prerequisite.yml`)
   - One-off operations → `<specific-action>.yml` (e.g. `dist-upgrade.yml`)
@@ -180,10 +185,11 @@ roles/<role-name>/
 ### Tagging
 
 Tags enable selective role execution without running the full playbook:
-- `local.yml` tags: `brew`, `apt-repos`, `docker`, `minimal`, `network`, `python`, `uv`
+- `local-core.yml` tags: `brew`, `apt-repos`, `docker`, `minimal`, `network`, `python`, `uv`
 - `local-security.yml` tags: `sudo`, `apt-repos`, `security`
 - `local-dev.yml` tags: `vscode`, `go`, `dev`, `nodejs`, `rust`
-- `local-cloud.yml` tags: `iac`, `terraform`, `iac-extra`, `cloud`, `aws`, `azure`, `gcp`, `kube`, `kubernetes`
+- `local-cloud.yml` tags: `iac`, `terraform`, `iac-extra`, `cloud`, `aws`, `azure`, `gcp`
+- `local-kube.yml` tags: `kube`, `kubernetes`
 - `upgrade-local.yml` tags: `upgrade`, `apt`, `brew`, `uv`
 - `k8s-nodes.yml` tags: `update`, `ssh`, `hosts`, `banner`, `fonts`, `omp`, `fzf`, `gitconfig`, `hibernation`
 

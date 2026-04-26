@@ -1,0 +1,12 @@
+---
+- name: Configure local workstation — Kubernetes tooling
+  hosts: localhost
+  connection: local
+  become: false
+  tasks:
+    - name: Setup kube extra tooling
+      ansible.builtin.import_role:
+        name: setup_kube-extra
+      tags:
+        - kube
+        - kubernetes
