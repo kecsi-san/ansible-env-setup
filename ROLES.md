@@ -78,25 +78,25 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `configure_sudo` | Configures passwordless sudo for `admin_user` | k8s-nodes.yml, local-security.yml, prerequisite.yml |
 | `debian_upgrade` | `apt update && upgrade && autoremove` | k8s-nodes.yml, upgrade.yml, upgrade-local.yml |
 | `disable_hibernation` | Disables suspend/hibernate via systemd | k8s-nodes.yml |
-| `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` galaxy role (Linux only) | local.yml |
+| `install_linuxbrew` | Installs Homebrew via `markosamuli.linuxbrew` galaxy role (Linux only) | local-core.yml |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew | k8s-nodes.yml |
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD | k8s-nodes.yml |
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-k8s.yml |
-| `setup_apt_repos` | Adds Docker CE apt repo; installs docker-ce + compose plugin; adds user to docker group | local.yml |
+| `setup_apt_repos` | Adds Docker CE apt repo; installs docker-ce + compose plugin; adds user to docker group | local-core.yml |
 | `setup_iac-extra` | Installs opentofu, terragrunt, terrascan, tfupdate via Homebrew | local-cloud.yml |
 | `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy via Homebrew | local-cloud.yml |
 | `setup_cloud-aws` | awscli, aws-sam-cli, session-manager-plugin; optional: okta-aws-cli, eksctl, aws-vault | local-cloud.yml |
 | `setup_cloud-azure` | azure-cli; optional: azd, bicep, azcopy, kubelogin | local-cloud.yml |
 | `setup_cloud-gcp` | google-cloud-sdk (gcloud/gsutil/bq); optional: gke-gcloud-auth-plugin, cloud-sql-proxy | local-cloud.yml |
-| `setup_kube-extra` | Installs kubectl, helm, argocd, flux via Homebrew; system-wide bash completions; `k=kubectl` alias | local-cloud.yml, post-k8s.yml |
+| `setup_kube-extra` | Installs kubectl, helm, argocd, flux, kubeseal via Homebrew; bash completions (Linux: `/etc/bash_completion.d/`; macOS: `bash-completion@2`); `k=kubectl` alias | local-kube.yml, post-k8s.yml |
 | `setup_traefik` | Installs Traefik ingress controller via Helm (delegate_to: localhost); kubeconfig per cluster | post-k8s.yml, post-k3s.yml |
 | `setup_sealed-secrets` | Installs Sealed Secrets controller via Helm; cluster-specific key pair for git-safe encrypted secrets | post-k8s.yml, post-k3s.yml |
-| `setup_headlamp` | Installs Headlamp Kubernetes dashboard via Helm; ClusterIP service (Traefik routes via IngressRoute) | post-k8s.yml |
+| `setup_headlamp` | Installs Headlamp Kubernetes dashboard via Helm; ClusterIP service (Traefik routes via IngressRoute) | post-k8s.yml, post-k3s.yml |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm | post-k8s.yml |
-| `setup_minimal` | Installs base APT packages; optional Homebrew base packages | k8s-nodes.yml, local.yml |
-| `setup_network-tools` | Installs network diagnostic tools (APT on Linux, Homebrew on macOS) | k8s-nodes.yml, local.yml |
+| `setup_minimal` | Installs base APT packages; optional Homebrew base packages | k8s-nodes.yml, local-core.yml |
+| `setup_network-tools` | Installs network diagnostic tools (APT on Linux, Homebrew on macOS) | k8s-nodes.yml, local-core.yml |
 | `setup_security-tools` | fail2ban + rkhunter (APT), lynis (Cisofy repo), trivy (Homebrew) | k8s-nodes.yml, local-security.yml |
-| `setup_python-uv` | Installs uv CLI tools and Python library packages | local.yml |
+| `setup_python-uv` | Installs uv CLI tools and Python library packages | local-core.yml |
 | `setup_k3s` | Single-node k3s local dev cluster (Linux native / macOS via k3d) | k3s.yml |
 | `setup_go-dev-tools` | go, gopls, golangci-lint via Homebrew; optional: delve, goreleaser, ko, air | local-dev.yml |
 | `setup_nodejs-dev-tools` | node, pnpm via Homebrew; optional brew + npm global packages | local-dev.yml |

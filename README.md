@@ -52,7 +52,7 @@ Edit `inventory/hosts` with your host IPs and `secrets.yml` with your domain nam
 
 ```bash
 # Local workstation — core system (brew, apt repos, minimal, network, python-uv)
-ansible-playbook playbooks/local.yml
+ansible-playbook playbooks/local-core.yml
 
 # Local workstation — security (sudo, duosecurity repo, fail2ban, rkhunter, lynis, trivy)
 ansible-playbook playbooks/local-security.yml
@@ -60,8 +60,11 @@ ansible-playbook playbooks/local-security.yml
 # Local workstation — developer tooling (vscode, go, nodejs, rust)
 ansible-playbook playbooks/local-dev.yml
 
-# Local workstation — Cloud and DevOps tooling (terraform, aws, azure, gcp, kube)
+# Local workstation — Cloud tooling (terraform, aws, azure, gcp)
 ansible-playbook playbooks/local-cloud.yml
+
+# Local workstation — Kubernetes tooling (kubectl, helm, argocd, flux, kubeseal)
+ansible-playbook playbooks/local-kube.yml
 
 # Upgrade local workstation packages (apt, brew, uv)
 ansible-playbook playbooks/upgrade-local.yml
@@ -91,7 +94,7 @@ ansible-playbook playbooks/reset-k3s.yml   # to uninstall
 
 ```bash
 ansible-playbook --ask-become-pass -t ssh,sudo playbooks/prerequisite.yml
-ansible-playbook -t minimal,brew playbooks/local.yml
+ansible-playbook -t minimal,brew playbooks/local-core.yml
 ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 ```
 
@@ -104,7 +107,7 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 
 | Category | Pattern | Examples |
 |----------|---------|---------|
-| Environment setup | `<target>.yml` | `local.yml`, `k8s-nodes.yml` |
+| Environment setup | `<target>.yml` | `local-core.yml`, `k8s-nodes.yml` |
 | Kubernetes cluster ops | `[<phase>-]<tool>.yml` | `k8s.yml`, `pre-k8s.yml`, `post-k8s.yml`, `reset-k8s.yml`, `k3s.yml`, `reset-k3s.yml` |
 | Maintenance | `<operation>.yml` | `upgrade.yml`, `prerequisite.yml` |
 | One-off operations | `<specific-action>.yml` | `dist-upgrade.yml` |
@@ -113,10 +116,11 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 
 | Playbook | Target | Purpose |
 |----------|--------|---------|
-| `local.yml` | localhost | Core system setup (brew, apt repos, minimal, network, python-uv) |
+| `local-core.yml` | localhost | Core system setup (brew, apt repos, minimal, network, python-uv) |
 | `local-security.yml` | localhost | Security hardening (sudo, duosecurity repo, fail2ban, rkhunter, lynis, trivy) |
-| `local-dev.yml` | localhost | Developer tooling (vscode, go, nodejs, rust) — optional, run after local.yml |
-| `local-cloud.yml` | localhost | Cloud and DevOps tooling (terraform, iac-extra, aws, azure, gcp, kube) — optional |
+| `local-dev.yml` | localhost | Developer tooling (vscode, go, nodejs, rust) — optional, run after local-core.yml |
+| `local-cloud.yml` | localhost | Cloud tooling (terraform, iac-extra, aws, azure, gcp) — optional |
+| `local-kube.yml` | localhost | Kubernetes tooling (kubectl, helm, argocd, flux, kubeseal) — optional |
 | `upgrade-local.yml` | localhost | Upgrade local apt, brew, and uv packages |
 | `k8s-nodes.yml` | `kube` group | Full setup across remote hosts |
 | `prerequisite.yml` | `kube` group | SSH hardening + passwordless sudo (run before k8s-nodes.yml) |
@@ -147,7 +151,7 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | `install_linuxbrew` | Installs Homebrew (via `markosamuli.linuxbrew` galaxy role, not vendored) |
 | `install_nerd_fonts` | Installs Meslo LG + Fira Code Nerd Fonts via Homebrew |
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper |
-| `setup_kube-extra` | Copies kubeconfig from cluster node; sets `KUBECONFIG` |
+| `setup_kube-extra` | Installs kubectl, helm, argocd, flux, kubeseal via Homebrew; bash completions; `k=kubectl` alias |
 | `setup_legal_banner` | Deploys SSH/login banner; clears MOTD |
 | `setup_longhorn` | Installs Longhorn distributed block storage via Helm |
 | `setup_minimal` | Installs base APT packages; optional Homebrew base packages |
