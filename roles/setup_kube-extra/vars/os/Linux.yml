@@ -3,3 +3,4 @@ kubectl_bin: /home/linuxbrew/.linuxbrew/bin/kubectl
 helm_bin: /home/linuxbrew/.linuxbrew/bin/helm
 argocd_bin: /home/linuxbrew/.linuxbrew/bin/argocd
 flux_bin: /home/linuxbrew/.linuxbrew/bin/flux
+kubeseal_bin: /home/linuxbrew/.linuxbrew/bin/kubeseal

@@ -38,6 +38,129 @@
     state: present
   become: false
 
+- name: Install kubeseal CLI via Homebrew
+  community.general.homebrew:
+    name: kubeseal
+    state: present
+  become: false
+
+# macOS: install bash-completion@2 and wire it into ~/.bash_profile so all
+# Homebrew-installed tools get their completions loaded automatically.
+- name: Install bash-completion@2 via Homebrew (macOS)
+  community.general.homebrew:
+    name: bash-completion@2
+    state: present
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Enable bash-completion@2 in ~/.bash_profile (macOS)
+  ansible.builtin.blockinfile:
+    dest: "{{ ansible_env.HOME }}/.bash_profile"
+    create: true
+    mode: '0644'
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: bash-completion"
+    block: |
+      [[ -r "{{ homebrew_prefix }}/etc/profile.d/bash_completion.sh" ]] && \
+        . "{{ homebrew_prefix }}/etc/profile.d/bash_completion.sh"
+  become: false
+  when: ansible_system == 'Darwin'
+
+# macOS: generate completion scripts and write to the Homebrew completion dir.
+# bash-completion@2 automatically sources everything in that directory.
+- name: Generate kubectl bash completion (macOS)
+  ansible.builtin.command:
+    cmd: "{{ kubectl_bin }} completion bash"
+  register: kubectl_completion_darwin
+  changed_when: false
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Install kubectl bash completion (macOS)
+  ansible.builtin.copy:
+    content: "{{ kubectl_completion_darwin.stdout }}"
+    dest: "{{ homebrew_completion_dir }}/kubectl"
+    mode: '0644'
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Generate helm bash completion (macOS)
+  ansible.builtin.command:
+    cmd: "{{ helm_bin }} completion bash"
+  register: helm_completion_darwin
+  changed_when: false
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Install helm bash completion (macOS)
+  ansible.builtin.copy:
+    content: "{{ helm_completion_darwin.stdout }}"
+    dest: "{{ homebrew_completion_dir }}/helm"
+    mode: '0644'
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Generate argocd bash completion (macOS)
+  ansible.builtin.command:
+    cmd: "{{ argocd_bin }} completion bash"
+  register: argocd_completion_darwin
+  changed_when: false
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Install argocd bash completion (macOS)
+  ansible.builtin.copy:
+    content: "{{ argocd_completion_darwin.stdout }}"
+    dest: "{{ homebrew_completion_dir }}/argocd"
+    mode: '0644'
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Generate flux bash completion (macOS)
+  ansible.builtin.command:
+    cmd: "{{ flux_bin }} completion bash"
+  register: flux_completion_darwin
+  changed_when: false
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Install flux bash completion (macOS)
+  ansible.builtin.copy:
+    content: "{{ flux_completion_darwin.stdout }}"
+    dest: "{{ homebrew_completion_dir }}/flux"
+    mode: '0644'
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Generate kubeseal bash completion (macOS)
+  ansible.builtin.command:
+    cmd: "{{ kubeseal_bin }} completion bash"
+  register: kubeseal_completion_darwin
+  changed_when: false
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Install kubeseal bash completion (macOS)
+  ansible.builtin.copy:
+    content: "{{ kubeseal_completion_darwin.stdout }}"
+    dest: "{{ homebrew_completion_dir }}/kubeseal"
+    mode: '0644'
+  become: false
+  when: ansible_system == 'Darwin'
+
+- name: Install kubectl alias and completion in ~/.bash_profile (macOS)
+  ansible.builtin.blockinfile:
+    dest: "{{ ansible_env.HOME }}/.bash_profile"
+    create: true
+    mode: '0644'
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: kubectl-alias"
+    block: |
+      alias k=kubectl
+      complete -o default -F __start_kubectl k
+  become: false
+  when: ansible_system == 'Darwin'
+
+# Linux: generate completion scripts and install system-wide.
+# /etc/bash_completion.d/ is sourced automatically by bash-completion on Debian/Ubuntu.
 - name: Generate kubectl bash completion
   ansible.builtin.command:
     cmd: "{{ kubectl_bin }} completion bash"
@@ -98,6 +221,22 @@
   ansible.builtin.copy:
     content: "{{ flux_completion.stdout }}"
     dest: /etc/bash_completion.d/flux
+    mode: '0644'
+  become: true
+  when: ansible_system == 'Linux'
+
+- name: Generate kubeseal bash completion
+  ansible.builtin.command:
+    cmd: "{{ kubeseal_bin }} completion bash"
+  register: kubeseal_completion
+  changed_when: false
+  become: false
+  when: ansible_system == 'Linux'
+
+- name: Install kubeseal bash completion system-wide
+  ansible.builtin.copy:
+    content: "{{ kubeseal_completion.stdout }}"
+    dest: /etc/bash_completion.d/kubeseal
     mode: '0644'
   become: true
   when: ansible_system == 'Linux'

@@ -3,3 +3,6 @@ kubectl_bin: /opt/homebrew/bin/kubectl
 helm_bin: /opt/homebrew/bin/helm
 argocd_bin: /opt/homebrew/bin/argocd
 flux_bin: /opt/homebrew/bin/flux
+kubeseal_bin: /opt/homebrew/bin/kubeseal
+homebrew_prefix: /opt/homebrew
+homebrew_completion_dir: /opt/homebrew/share/bash-completion/completions
