@@ -19,7 +19,7 @@
       vars:
         apt_repo_docker: true
         apt_repo_charm: false
-        apt_repo_mozilla: false
+        apt_repo_mozilla: true
         docker_packages:
           - docker-ce
           - docker-ce-cli
@@ -28,9 +28,23 @@
           - docker-compose-plugin
         firefox_packages:
           - firefox
+          - thunderbird
       tags:
         - apt-repos
         - docker
+        - apps
+
+    - name: Install desktop applications via Homebrew Cask (macOS)
+      community.general.homebrew_cask:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - firefox
+        - thunderbird
+      become: false
+      when: ansible_system == 'Darwin'
+      tags:
+        - apps
 
     - name: Setup minimal packages
       ansible.builtin.import_role:
