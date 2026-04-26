@@ -2,9 +2,14 @@
 
 ## Overview
 
-A single GitHub Actions workflow (`lint.yml`) runs on every push and pull request to `main`.
-It validates YAML formatting and Ansible best practices. No deployment automation — all
-cluster and workstation changes are applied manually via `ansible-playbook`.
+Two GitHub Actions workflows run automatically on pushes to `main`:
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| `lint.yml` | push + pull_request to `main` | Validate YAML formatting and Ansible best practices |
+| `changelog.yml` | push to `main` | Generate and commit `CHANGELOG.md` from conventional commits |
+
+No deployment automation — all cluster and workstation changes are applied manually via `ansible-playbook`.
 
 ---
 
@@ -132,6 +137,45 @@ Update these deliberately after testing new versions locally:
 uv tool list          # see current local versions
 # update requirements-lint.txt, push, confirm CI passes
 ```
+
+---
+
+---
+
+## Workflow: changelog.yml
+
+### Triggers
+
+| Event | Branch |
+|-------|--------|
+| `push` | `main` |
+
+### Concurrency
+
+Same `${{ github.workflow }}-${{ github.ref }}` group with `cancel-in-progress: true` — a
+rapid series of commits produces one changelog update, not several racing ones.
+
+### What it does
+
+1. Checks out the full git history (`fetch-depth: 0` — required to read all commits)
+2. Installs [`git-changelog`](https://pawamoy.github.io/git-changelog/) via pip
+3. Runs `git-changelog -o CHANGELOG.md` — parses conventional commits and renders `CHANGELOG.md`
+4. Commits the result back to `main` only if the file changed, using the message
+   `docs: update CHANGELOG.md [skip ci]`
+
+The `[skip ci]` suffix prevents the commit from triggering `lint.yml` or another
+changelog run.
+
+### Permissions
+
+`contents: write` is required to push the `CHANGELOG.md` commit back to `main`.
+
+### Conventional commits
+
+`git-changelog` expects commit messages to follow the
+[Conventional Commits](https://www.conventionalcommits.org/) spec
+(`feat:`, `fix:`, `chore:`, `ci:`, `docs:`, etc.). Commits that don't follow the spec
+are still included but grouped under an "Other" section.
 
 ---
 

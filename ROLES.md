@@ -84,7 +84,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `setup_etckeeper` | Git-backs `/etc` via etckeeper | pre-k8s.yml |
 | `setup_apt_repos` | Adds Docker CE apt repo; installs docker-ce + compose plugin; adds user to docker group | local-core.yml |
 | `setup_iac-extra` | Installs opentofu, terragrunt, terrascan, tfupdate via Homebrew | local-cloud.yml |
-| `setup_iac-terraform` | Installs terraform, terraform-docs, tflint, trivy via Homebrew | local-cloud.yml |
+| `setup_iac-terraform` | Installs terraform, terraform-docs, tflint via Homebrew; trivy is a role default but omitted in local-cloud.yml (handled by `setup_security-tools`) | local-cloud.yml |
 | `setup_cloud-aws` | awscli, aws-sam-cli, session-manager-plugin; optional: okta-aws-cli, eksctl, aws-vault | local-cloud.yml |
 | `setup_cloud-azure` | azure-cli; optional: azd, bicep, azcopy, kubelogin | local-cloud.yml |
 | `setup_cloud-gcp` | google-cloud-sdk (gcloud/gsutil/bq); optional: gke-gcloud-auth-plugin, cloud-sql-proxy | local-cloud.yml |

@@ -116,9 +116,9 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 
 | Playbook | Target | Purpose |
 |----------|--------|---------|
-| `local-core.yml` | localhost | Core system setup (brew, apt repos, minimal, network, python-uv) |
+| `local-core.yml` | localhost | Core system setup (brew, apt repos, minimal, network, python-uv); Docker CE on Linux / Colima + Docker CLI on macOS |
 | `local-security.yml` | localhost | Security hardening (sudo, duosecurity repo, fail2ban, rkhunter, lynis, trivy) |
-| `local-dev.yml` | localhost | Developer tooling (vscode, go, nodejs, rust) — optional, run after local-core.yml |
+| `local-dev.yml` | localhost | Developer tooling (vscode, go, nodejs, rust, GitHub CLI) — optional, run after local-core.yml |
 | `local-cloud.yml` | localhost | Cloud tooling (terraform, iac-extra, aws, azure, gcp) — optional |
 | `local-kube.yml` | localhost | Kubernetes tooling (kubectl, helm, argocd, flux, kubeseal) — optional |
 | `upgrade-local.yml` | localhost | Upgrade local apt, brew, and uv packages |
@@ -144,7 +144,7 @@ ansible-playbook -t fonts,omp,fzf playbooks/k8s-nodes.yml
 | `configure_fzf` | Adds fzf shell integration to `~/.bashrc` |
 | `configure_git` | Deploys `~/.gitconfig` |
 | `configure_oh-my-posh` | Installs Pluto OMP theme and shell init |
-| `configure_ssh` | Hardens `sshd_config` |
+| `configure_ssh` | Deploys SSH authorized key for `ansible_ssh_user` |
 | `configure_sudo` | Configures passwordless sudo for `admin_user` |
 | `debian_upgrade` | `apt update && upgrade && autoremove` |
 | `disable_hibernation` | Disables suspend/hibernate via systemd |
@@ -232,7 +232,7 @@ ansible-playbook playbooks/post-k8s.yml
 Single-node cluster on localhost — no inventory or SSH required.
 
 - **Linux (WSL2):** native k3s via the official installer script
-- **macOS:** k3s via k3d (k3s in Docker) — requires Docker Desktop or OrbStack
+- **macOS:** k3s via k3d (k3s in Docker) — requires Docker Desktop, OrbStack, or Colima
 
 ```bash
 # Install
