@@ -144,6 +144,7 @@
     cmd: "{{ kubeseal_bin }} completion bash"
   register: kubeseal_completion_darwin
   changed_when: false
+  failed_when: false
   become: false
   when: ansible_system == 'Darwin'
 
@@ -153,7 +154,10 @@
     dest: "{{ homebrew_completion_dir }}/kubeseal"
     mode: '0644'
   become: false
-  when: ansible_system == 'Darwin'
+  when:
+    - ansible_system == 'Darwin'
+    - kubeseal_completion_darwin.rc == 0
+    - kubeseal_completion_darwin.stdout | length > 0
 
 - name: Install kubectl alias and completion in ~/.bash_profile (macOS)
   ansible.builtin.blockinfile:
@@ -238,6 +242,7 @@
     cmd: "{{ kubeseal_bin }} completion bash"
   register: kubeseal_completion
   changed_when: false
+  failed_when: false
   become: false
   when: ansible_system == 'Linux'
 
@@ -247,7 +252,10 @@
     dest: /etc/bash_completion.d/kubeseal
     mode: '0644'
   become: true
-  when: ansible_system == 'Linux'
+  when:
+    - ansible_system == 'Linux'
+    - kubeseal_completion.rc == 0
+    - kubeseal_completion.stdout | length > 0
 
 - name: Install kubectl alias and completion system-wide
   ansible.builtin.copy:
