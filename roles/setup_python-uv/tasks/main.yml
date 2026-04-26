@@ -24,3 +24,12 @@
     VIRTUAL_ENV: "{{ uv_venv_path }}"
   become: false
   changed_when: false
+
+- name: Add devops venv auto-activation to ~/.bashrc
+  ansible.builtin.blockinfile:
+    dest: "{{ ansible_env.HOME }}/.bashrc"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: devops venv"
+    block: |
+      source {{ uv_venv_path }}/bin/activate
+  become: false
+  when: uv_venv_autoactivate
