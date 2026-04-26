@@ -37,7 +37,7 @@ In `post-k8s.yml` (homelab — targets `kube` group, delegates Helm to localhost
   ansible.builtin.import_role:
     name: setup_traefik
   vars:
-    traefik_kubeconfig: "~/.kube/k8s-kinet-local.yaml"
+    traefik_kubeconfig: "~/.kube/k8s.yaml"
   tags:
     - traefik
 ```

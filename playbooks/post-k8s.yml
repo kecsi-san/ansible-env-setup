@@ -23,7 +23,7 @@
       ansible.builtin.import_role:
         name: setup_traefik
       vars:
-        traefik_kubeconfig: "~/.kube/k8s-kinet-local.yaml"
+        traefik_kubeconfig: "~/.kube/k8s.yaml"
       tags:
         - traefik
 
@@ -31,7 +31,7 @@
       ansible.builtin.import_role:
         name: setup_sealed-secrets
       vars:
-        sealed_secrets_kubeconfig: "~/.kube/k8s-kinet-local.yaml"
+        sealed_secrets_kubeconfig: "~/.kube/k8s.yaml"
       tags:
         - sealed-secrets
 
@@ -39,6 +39,6 @@
       ansible.builtin.import_role:
         name: setup_headlamp
       vars:
-        headlamp_kubeconfig: "~/.kube/k8s-kinet-local.yaml"
+        headlamp_kubeconfig: "~/.kube/k8s.yaml"
       tags:
         - headlamp

@@ -29,7 +29,7 @@ In `post-k8s.yml` (homelab only — Headlamp is not wired into post-k3s.yml by d
   ansible.builtin.import_role:
     name: setup_headlamp
   vars:
-    headlamp_kubeconfig: "~/.kube/k8s-kinet-local.yaml"
+    headlamp_kubeconfig: "~/.kube/k8s.yaml"
   tags:
     - headlamp
 ```

@@ -28,7 +28,7 @@ In `post-k8s.yml` (homelab):
   ansible.builtin.import_role:
     name: setup_sealed-secrets
   vars:
-    sealed_secrets_kubeconfig: "~/.kube/k8s-kinet-local.yaml"
+    sealed_secrets_kubeconfig: "~/.kube/k8s.yaml"
   tags:
     - sealed-secrets
 ```
