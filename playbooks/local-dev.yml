@@ -18,6 +18,15 @@
       tags:
         - apt-repos
 
+    - name: Install GitHub CLI
+      community.general.homebrew:
+        name: gh
+        state: present
+      become: false
+      tags:
+        - gh
+        - dev
+
     - name: Setup VS Code
       ansible.builtin.import_role:
         name: setup_vscode
