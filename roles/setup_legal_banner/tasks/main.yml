@@ -24,18 +24,12 @@
     validate: /usr/sbin/sshd -t -f %s
   become: true
   when: ansible_system == 'Linux'
+  notify: Reload sshd
 
 - name: Empty /etc/motd
   ansible.builtin.copy:
     content: ''
     dest: /etc/motd
     mode: '0644'
-  become: true
-  when: ansible_system == 'Linux'
-
-- name: Reload sshd to apply banner changes
-  ansible.builtin.service:
-    name: sshd
-    state: reloaded
   become: true
   when: ansible_system == 'Linux'

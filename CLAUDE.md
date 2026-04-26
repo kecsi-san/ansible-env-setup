@@ -109,7 +109,7 @@ ansible-playbook --syntax-check playbooks/local-core.yml
 | `configure_fzf` | Adds fzf initialization to `~/.bashrc` (idempotent) |
 | `configure_git` | Copies `~/.gitconfig` from static file |
 | `configure_oh-my-posh` | Installs Pluto OMP theme; adds init block to `~/.bashrc` |
-| `configure_ssh` | Hardens `/etc/ssh/sshd_config` |
+| `configure_ssh` | Deploys SSH authorized key for `ansible_ssh_user` |
 | `configure_sudo` | Creates `/etc/sudoers.d/{user}` with NOPASSWD (visudo-validated) |
 | `debian_upgrade` | `apt update && upgrade && autoremove --purge` |
 | `disable_hibernation` | Creates `/etc/systemd/sleep.conf.d/nosuspend.conf`; masks sleep targets |
