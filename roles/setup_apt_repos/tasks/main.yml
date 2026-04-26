@@ -176,7 +176,7 @@
 
 - name: Install Firefox packages
   ansible.builtin.package:
-    name: "{{ firefox_packages }}"
+    name: "{{ mozilla_packages }}"
     state: present
     update_cache: true
   become: true

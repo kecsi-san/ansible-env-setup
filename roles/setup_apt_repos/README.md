@@ -15,7 +15,7 @@ Each repository is independently controlled by a boolean flag in `defaults/main.
 | `apt_repo_telegraf` | `false` | repos.influxdata.com | telegraf |
 | `apt_repo_charm` | `false` | repo.charm.sh | gum |
 | `apt_repo_mise` | `false` | mise.jdx.dev | mise |
-| `apt_repo_mozilla` | `false` | packages.mozilla.org | firefox (see `firefox_packages`) |
+| `apt_repo_mozilla` | `false` | packages.mozilla.org | firefox, thunderbird (see `mozilla_packages`) |
 | `apt_repo_sury_php` | `false` | packages.sury.org | repo only — install PHP version separately |
 | `apt_repo_gitea` | `false` | packaging.gitlab.io/gitea | repo only — install `gitea` separately |
 | `apt_repo_duosecurity` | `false` | pkg.duosecurity.com | duo-unix |
@@ -29,7 +29,7 @@ Each repository is independently controlled by a boolean flag in `defaults/main.
 |----------|---------|-------------|
 | `docker_arch` | auto-detected | CPU arch for apt repos (`amd64`, `arm64`, `armhf`) |
 | `docker_packages` | see defaults | Docker CE packages to install |
-| `firefox_packages` | `[firefox]` | Firefox packages to install from Mozilla repo |
+| `mozilla_packages` | `[firefox]` | Packages to install from Mozilla repo (e.g. firefox, thunderbird) |
 | `apt_repo_*` | see table above | Enable/disable individual repositories |
 
 ## GPG key handling

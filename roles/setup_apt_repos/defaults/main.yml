@@ -25,5 +25,5 @@ docker_packages:
   - docker-compose-plugin
 
 # Firefox packages (apt_repo_mozilla)
-firefox_packages:
+mozilla_packages:
   - firefox
