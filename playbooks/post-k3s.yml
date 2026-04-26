@@ -19,3 +19,11 @@
         sealed_secrets_kubeconfig: "~/.kube/k3s.yaml"
       tags:
         - sealed-secrets
+
+    - name: Install Headlamp Kubernetes dashboard
+      ansible.builtin.import_role:
+        name: setup_headlamp
+      vars:
+        headlamp_kubeconfig: "~/.kube/k3s.yaml"
+      tags:
+        - headlamp
