@@ -1,15 +1,4 @@
 ---
-# helm-diff enables proper idempotency checking in kubernetes.core.helm,
-# replacing the helm list --all check that broke in Helm v4.
-- name: Install helm-diff plugin
-  kubernetes.core.helm_plugin:
-    plugin_path: "https://github.com/databus23/helm-diff"
-    state: present
-  delegate_to: localhost
-  become: false
-  run_once: true
-  tags: always
-
 - name: Add Traefik Helm repository
   kubernetes.core.helm_repository:
     name: "{{ traefik_helm_repo_name }}"
