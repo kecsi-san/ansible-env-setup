@@ -104,7 +104,7 @@ Use `roles/role_template/` as a starting point when creating a new role.
 | `upgrade_brew` | `brew update && upgrade && cleanup` — cross-platform (Linux/macOS brew paths via vars/os/) | upgrade.yml, upgrade-local.yml |
 | `upgrade_python-uv` | `uv tool upgrade --all` + `uv pip install --upgrade` in devops venv | upgrade.yml, upgrade-local.yml |
 | `upload_fav_bgimages` | Copies wallpapers to `/usr/share/backgrounds/`; generates GNOME XML descriptor (Linux only) | k8s-nodes.yml |
-| `upload_profile_image` | Sets GNOME/GDM profile picture; source path set via `profile_image_src` variable (Linux only) | k8s-nodes.yml |
+| `upload_profile_image` | Sets user profile picture — GNOME/GDM via AccountsService (Linux); macOS account picture via `dsimport`/`dscl`; source path set via `profile_image_src` | personalise.yml, k8s-nodes.yml |
 
 ---
 
