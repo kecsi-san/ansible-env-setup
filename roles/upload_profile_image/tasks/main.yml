@@ -39,3 +39,45 @@
     - 'Icon=/var/lib/AccountsService/icons/{{ gdm_user }}'
   become: true
   when: upload_profile_image and ansible_system == 'Linux'
+
+- name: macOS user profile image (~/.face)
+  ansible.builtin.copy:
+    src: "{{ profile_image_src }}"
+    dest: "{{ home }}/.face"
+    mode: '0644'
+  become: false
+  when: upload_profile_image and ansible_system == 'Darwin'
+
+- name: Read profile image as base64 (macOS)
+  ansible.builtin.slurp:
+    src: "{{ profile_image_src }}"
+  register: profile_image_b64
+  delegate_to: localhost
+  when: upload_profile_image and ansible_system == 'Darwin'
+
+- name: Create dsimport file for user photo (macOS)
+  ansible.builtin.copy:
+    content: "0x0A 0x5C 0x3A 0x2C dsRecTypeStandard:Users 2 dsAttrTypeStandard:RecordName dsAttrTypeNative:JPEGPhoto\n{{ ansible_env.USER }}\n{{ profile_image_b64.content }}\n"
+    dest: /tmp/user_photo.dsimport
+    mode: '0600'
+  when: upload_profile_image and ansible_system == 'Darwin'
+
+- name: Import user photo via dsimport (macOS)
+  ansible.builtin.command:
+    cmd: dsimport /tmp/user_photo.dsimport /Local/Default M
+  become: true
+  changed_when: true
+  when: upload_profile_image and ansible_system == 'Darwin'
+
+- name: Set user picture path via dscl (macOS)
+  ansible.builtin.command:
+    cmd: dscl . create /Users/{{ ansible_env.USER }} Picture "{{ home }}/.face"
+  become: true
+  changed_when: false
+  when: upload_profile_image and ansible_system == 'Darwin'
+
+- name: Remove dsimport temp file (macOS)
+  ansible.builtin.file:
+    path: /tmp/user_photo.dsimport
+    state: absent
+  when: upload_profile_image and ansible_system == 'Darwin'

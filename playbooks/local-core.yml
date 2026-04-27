@@ -41,6 +41,7 @@
       loop:
         - firefox
         - thunderbird
+        - appcleaner
       become: false
       when: ansible_system == 'Darwin'
       tags:
@@ -142,25 +143,6 @@
       tags:
         - docker
 
-    - name: Generate docker-compose bash completion (macOS)
-      ansible.builtin.command:
-        cmd: "{{ brew_prefix_result.stdout }}/bin/docker-compose completion bash"
-      register: docker_compose_completion
-      changed_when: false
-      become: false
-      when: ansible_system == 'Darwin'
-      tags:
-        - docker
-
-    - name: Install docker-compose bash completion (macOS)
-      ansible.builtin.copy:
-        content: "{{ docker_compose_completion.stdout }}"
-        dest: "{{ brew_prefix_result.stdout }}/share/bash-completion/completions/docker-compose"
-        mode: '0644'
-      become: false
-      when: ansible_system == 'Darwin'
-      tags:
-        - docker
 
     - name: Setup minimal packages
       ansible.builtin.import_role:
