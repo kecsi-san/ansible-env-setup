@@ -40,7 +40,7 @@
   become: true
   when: upload_profile_image and ansible_system == 'Linux'
 
-- name: macOS user profile image (~/.face)
+- name: Set macOS user profile image (~/.face)
   ansible.builtin.copy:
     src: "{{ profile_image_src }}"
     dest: "{{ home }}/.face"
@@ -57,7 +57,10 @@
 
 - name: Create dsimport file for user photo (macOS)
   ansible.builtin.copy:
-    content: "0x0A 0x5C 0x3A 0x2C dsRecTypeStandard:Users 2 dsAttrTypeStandard:RecordName dsAttrTypeNative:JPEGPhoto\n{{ ansible_env.USER }}\n{{ profile_image_b64.content }}\n"
+    content: |
+      0x0A 0x5C 0x3A 0x2C dsRecTypeStandard:Users 2 dsAttrTypeStandard:RecordName dsAttrTypeNative:JPEGPhoto
+      {{ ansible_env.USER }}
+      {{ profile_image_b64.content }}
     dest: /tmp/user_photo.dsimport
     mode: '0600'
   when: upload_profile_image and ansible_system == 'Darwin'

@@ -1,6 +1,6 @@
 ---
-- hosts: localhost
-  name: Install k3s local development cluster
+- name: Install k3s local development cluster
+  hosts: localhost
   connection: local
   become: false
   tasks:

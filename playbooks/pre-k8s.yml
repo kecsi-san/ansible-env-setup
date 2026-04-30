@@ -1,8 +1,8 @@
 ---
 # Runs after prerequisite.yml and before kubespray.yml
 # Prepares nodes with system-level tooling needed before cluster installation
-- hosts: kube
-  name: Pre-Kubernetes node preparation
+- name: Pre-Kubernetes node preparation
+  hosts: kube
   become: false
   remote_user: "{{ ansible_ssh_user }}"
   tasks:

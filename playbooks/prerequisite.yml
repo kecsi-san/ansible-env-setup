@@ -1,6 +1,6 @@
 ---
-- hosts: local
-  name: Configure prerequisite settings
+- name: Configure prerequisite settings
+  hosts: local
   become: true
   remote_user: "{{ ansible_ssh_user }}"
   roles:

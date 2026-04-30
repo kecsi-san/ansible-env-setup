@@ -1,5 +1,8 @@
 ---
 - name: Add fzf init into .bashrc (if it exists)
+  become: false
+  tags:
+    - fzf
   block:
     - name: Set path to .bashrc
       ansible.builtin.set_fact:
@@ -36,6 +39,3 @@
       when:
         - bashrc_st.stat.exists
         - check_bashrc_fzf.rc != 0
-  become: false
-  tags:
-    - fzf

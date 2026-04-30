@@ -1,6 +1,6 @@
 ---
-- hosts: localhost
-  name: Uninstall k3s local development cluster
+- name: Uninstall k3s local development cluster
+  hosts: localhost
   connection: local
   become: false
   vars:

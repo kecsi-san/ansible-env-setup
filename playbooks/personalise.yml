@@ -1,6 +1,6 @@
 ---
-- hosts: localhost
-  name: Personalise local workstation — fonts, shell prompt, wallpapers, profile image
+- name: Personalise local workstation — fonts, shell prompt, wallpapers, profile image
+  hosts: localhost
   connection: local
   become: false
   tasks:
