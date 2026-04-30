@@ -31,7 +31,10 @@
 
 - name: Select oh-my-posh theme
   ansible.builtin.set_fact:
-    active_omp_theme: "{{ 'epam.omp.yaml' if ansible_hostname.startswith('EP') else ('debian.omp.yaml' if ansible_distribution == 'Debian' else default_omp_theme) }}"
+    active_omp_theme: >-
+      {{ 'epam.omp.yaml' if ansible_hostname.startswith('EP')
+         else ('debian.omp.yaml' if ansible_distribution == 'Debian'
+         else default_omp_theme) }}
 
 - name: Add oh-my-posh init into .bashrc (if it exists)
   block:
