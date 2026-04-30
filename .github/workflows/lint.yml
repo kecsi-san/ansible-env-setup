@@ -44,16 +44,27 @@ jobs:
         run: ansible-galaxy collection install community.general ansible.posix kubernetes.core
 
       - name: Create vault password file
+        id: vault
         env:
           ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
         run: |
           if [ -n "$ANSIBLE_VAULT_PASSWORD" ]; then
             printf '%s' "$ANSIBLE_VAULT_PASSWORD" > ~/.vault_pass.txt
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Run yamllint
         run: yamllint .
 
       - name: Run ansible-lint
-        if: success() || failure()
+        if: (success() || failure()) && steps.vault.outputs.available == 'true'
         run: ansible-lint
+
+      - name: ansible-lint skipped — no vault password
+        if: steps.vault.outputs.available != 'true'
+        run: |
+          echo "::notice::ansible-lint skipped: ANSIBLE_VAULT_PASSWORD secret not available."
+          echo "::notice::To enable full linting on Dependabot PRs, add ANSIBLE_VAULT_PASSWORD"
+          echo "::notice::to Dependabot secrets: repo Settings → Secrets → Dependabot."
