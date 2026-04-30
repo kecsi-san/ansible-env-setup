@@ -1,30 +1,27 @@
 ---
-# See k8s version of this file for key backup/restore notes.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sealed-secrets
+  name: headlamp
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   sources:
-    - repoURL: https://bitnami-labs.github.io/sealed-secrets
-      chart: sealed-secrets
-      targetRevision: "2.16.1"
+    - repoURL: https://kubernetes-sigs.github.io/headlamp/
+      chart: headlamp
+      targetRevision: "0.40.0"
       helm:
         valueFiles:
-          - $values/gitops/k3s/values/sealed-secrets.yaml
+          - $values/kube-gitops/k3s/values/headlamp.yaml
     - repoURL: https://github.com/kecsi-san/ansible-env-setup.git
       targetRevision: HEAD
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: sealed-secrets
+    namespace: kube-system
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true

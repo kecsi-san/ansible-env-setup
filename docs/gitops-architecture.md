@@ -33,16 +33,12 @@ Both clusters follow the same component model to keep configuration and skills t
 └──────────────────────────────┬──────────────────────────────┘
                                │ ArgoCD watches GitOps repo
 ┌──────────────────────────────▼──────────────────────────────┐
-│  Layer 2 — GitOps (separate repo: homelab-gitops)           │
+│  Layer 2 — GitOps (kube-gitops/ in this repo)               │
 │                                                             │
-│  clusters/homelab/   clusters/k3s/   base/                  │
-│    → Traefik config    → Traefik config  → shared values    │
-│    → cert-manager      → cert-manager                       │
-│      ClusterIssuer       ClusterIssuer                      │
-│    → Wildcard cert     → Wildcard cert                       │
-│    → IngressRoutes     → IngressRoutes                       │
-│    → Sealed Secrets    → Sealed Secrets                      │
-│    → Applications      → Applications                        │
+│  kube-gitops/k8s/    kube-gitops/k3s/                       │
+│    → root.yaml         → root.yaml   (bootstrap App)        │
+│    → apps/             → apps/       (child Applications)   │
+│    → values/           → values/     (Helm values per app)  │
 │                                                             │
 │  ArgoCD self-manages after initial bootstrap                │
 └─────────────────────────────────────────────────────────────┘
@@ -262,52 +258,52 @@ kube-vip configuration is unchanged — it simply announces one IP instead of ma
 
 ---
 
-## GitOps Repo Structure (homelab-gitops)
+## GitOps Directory Structure (kube-gitops/ in this repo)
+
+GitOps manifests live in `kube-gitops/` within this repo — no separate repository needed.
+ArgoCD uses the multi-source pattern: chart from Helm repo, values from this git repo.
 
 ```
-homelab-gitops/
-├── clusters/
-│   ├── homelab/                        # k8s bare-metal cluster
-│   │   ├── _apps/
-│   │   │   └── app-of-apps.yaml        # Root ArgoCD Application
-│   │   ├── traefik/
-│   │   │   ├── namespace.yaml
-│   │   │   ├── helmrelease.yaml        # Traefik Helm values
-│   │   │   └── ingressroutes/          # Per-service IngressRoute resources
-│   │   ├── cert-manager/
-│   │   │   ├── clusterissuer.yaml      # Cloudflare DNS-01 ClusterIssuer
-│   │   │   ├── certificate.yaml        # Wildcard cert *.k8s.yourdomain.com
-│   │   │   └── cloudflare-api-token-sealed.yaml
-│   │   ├── sealed-secrets/
-│   │   │   └── helmrelease.yaml
-│   │   ├── argocd/
-│   │   │   └── service-patch.yaml      # Patch argocd-server → ClusterIP
-│   │   ├── headlamp/
-│   │   │   └── helmrelease.yaml
-│   │   └── longhorn/                   # Future
-│   ├── k3s/                            # Local dev cluster
-│   │   ├── _apps/
-│   │   │   └── app-of-apps.yaml
-│   │   ├── traefik/
-│   │   ├── cert-manager/
-│   │   └── sealed-secrets/
-└── base/                               # Shared Helm values reused across clusters
-    ├── traefik/
-    │   └── values.yaml
-    └── cert-manager/
-        └── values.yaml
+kube-gitops/
+├── k8s/                                # Bare-metal homelab cluster
+│   ├── root.yaml                       # Bootstrap Application — applied once by Ansible
+│   ├── apps/                           # ArgoCD watches this directory
+│   │   ├── traefik.yaml
+│   │   ├── longhorn.yaml
+│   │   ├── headlamp.yaml
+│   │   ├── sealed-secrets.yaml
+│   │   └── cert-manager.yaml
+│   └── values/                         # Helm values per app
+│       ├── traefik.yaml
+│       ├── longhorn.yaml
+│       ├── headlamp.yaml
+│       ├── sealed-secrets.yaml
+│       └── cert-manager.yaml
+└── k3s/                                # Local dev cluster
+    ├── root.yaml
+    ├── apps/
+    │   ├── traefik.yaml
+    │   ├── headlamp.yaml
+    │   └── sealed-secrets.yaml
+    └── values/
+        ├── traefik.yaml
+        ├── headlamp.yaml
+        └── sealed-secrets.yaml
 ```
+
+To upgrade a component: bump `targetRevision` in `apps/<component>.yaml` and update
+`values/<component>.yaml` if needed — one PR, ArgoCD applies it automatically.
 
 ---
 
-## Ansible Roles to Create
+## Ansible Roles
 
-| Role | Playbook | Purpose |
-|------|---------|---------|
-| `setup_traefik` | `post-k8s.yml`, `post-k3s.yml` | Install Traefik via Helm |
-| `setup_sealed-secrets` | `post-k8s.yml`, `post-k3s.yml` | Install Sealed Secrets controller via Helm |
-| `setup_headlamp` | `post-k8s.yml` | Install Headlamp via Helm (captures manual install) |
-| `setup_argocd-apps` | `post-k8s.yml`, `post-k3s.yml` | Apply app-of-apps Application manifest |
+| Role | Playbook | Status | Purpose |
+|------|---------|--------|---------|
+| `setup_traefik` | `post-k8s.yml`, `post-k3s.yml` | ✅ Done | Install Traefik via Helm |
+| `setup_sealed-secrets` | `post-k8s.yml`, `post-k3s.yml` | ✅ Done | Install Sealed Secrets controller via Helm |
+| `setup_headlamp` | `post-k8s.yml`, `post-k3s.yml` | ✅ Done | Install Headlamp via Helm |
+| `setup_argocd-apps` | `post-k8s.yml`, `post-k3s.yml` | 🔲 Planned | Apply `kube-gitops/{k8s,k3s}/root.yaml` to hand off to ArgoCD |
 
 ---
 
@@ -320,7 +316,7 @@ homelab-gitops/
 | SSL challenge | Cloudflare DNS-01 | Clusters are LAN-only; HTTP-01 requires public access |
 | Cert scope | Wildcard per cluster | One cert covers all services; easier to manage |
 | External access | LAN-only for now | No Cloudflare Tunnel (can add later) |
-| GitOps structure | Mono-repo, cluster-per-folder | Keeps shared config visible, single PR for cross-cluster changes |
+| GitOps location | `kube-gitops/` in this repo (not a separate repo) | Solo homelab: one repo is simpler; ansible-lint excludes the directory |
 | ArgoCD bootstrap | Ansible applies app-of-apps once | Clean handoff: Ansible bootstraps, ArgoCD self-manages after |
 
 ---

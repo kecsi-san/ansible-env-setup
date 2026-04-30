@@ -44,7 +44,12 @@ jobs:
         run: ansible-galaxy collection install community.general ansible.posix kubernetes.core
 
       - name: Create vault password file
-        run: printf '%s' "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > ~/.vault_pass.txt
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+        run: |
+          if [ -n "$ANSIBLE_VAULT_PASSWORD" ]; then
+            printf '%s' "$ANSIBLE_VAULT_PASSWORD" > ~/.vault_pass.txt
+          fi
 
       - name: Run yamllint
         run: yamllint .

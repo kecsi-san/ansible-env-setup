@@ -16,7 +16,7 @@ spec:
       targetRevision: "1.17.0"
       helm:
         valueFiles:
-          - $values/gitops/k8s/values/cert-manager.yaml
+          - $values/kube-gitops/k8s/values/cert-manager.yaml
     - repoURL: https://github.com/kecsi-san/ansible-env-setup.git
       targetRevision: HEAD
       ref: values

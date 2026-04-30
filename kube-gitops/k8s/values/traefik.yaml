@@ -20,7 +20,7 @@ logs:
   general:
     level: INFO
 
-# Dashboard is exposed via IngressRoute in gitops/k8s/apps — not via Helm.
+# Dashboard is exposed via IngressRoute in kube-gitops/k8s/apps — not via Helm.
 ingressRoute:
   dashboard:
     enabled: false

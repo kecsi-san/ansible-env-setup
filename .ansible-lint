@@ -7,7 +7,7 @@ offline: true
 exclude_paths:
   - .venv/
   - collections/
-  - gitops/                         # plain Kubernetes YAML — not Ansible
+  - kube-gitops/                    # plain Kubernetes YAML — not Ansible
   - roles/markosamuli.linuxbrew/    # vendored third-party galaxy role
   - playbooks/k8s.yml               # delegates entirely to kubespray collection (not installed in lint env)
   - playbooks/reset-k8s.yml         # delegates entirely to kubespray collection (not installed in lint env)

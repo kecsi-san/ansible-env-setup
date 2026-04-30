@@ -2,26 +2,28 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: headlamp
+  name: traefik
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   sources:
-    - repoURL: https://kubernetes-sigs.github.io/headlamp/
-      chart: headlamp
-      targetRevision: "0.40.0"
+    - repoURL: https://traefik.github.io/charts
+      chart: traefik
+      targetRevision: "34.4.1"
       helm:
         valueFiles:
-          - $values/gitops/k8s/values/headlamp.yaml
+          - $values/kube-gitops/k8s/values/traefik.yaml
     - repoURL: https://github.com/kecsi-san/ansible-env-setup.git
       targetRevision: HEAD
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: kube-system
+    namespace: traefik
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

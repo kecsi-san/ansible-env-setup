@@ -17,7 +17,7 @@ spec:
   source:
     repoURL: https://github.com/kecsi-san/ansible-env-setup.git
     targetRevision: HEAD
-    path: gitops/k8s/apps
+    path: kube-gitops/k8s/apps
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

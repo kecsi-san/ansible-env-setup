@@ -19,7 +19,7 @@ spec:
       targetRevision: "34.4.1"
       helm:
         valueFiles:
-          - $values/gitops/k3s/values/traefik.yaml
+          - $values/kube-gitops/k3s/values/traefik.yaml
     - repoURL: https://github.com/kecsi-san/ansible-env-setup.git
       targetRevision: HEAD
       ref: values
