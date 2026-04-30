@@ -1,0 +1,4 @@
+---
+# Headlamp values — k3s (local dev)
+service:
+  type: ClusterIP

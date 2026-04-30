@@ -1,0 +1,27 @@
+---
+# Bootstrap Application — applied once by Ansible (post-k3s.yml).
+# After this is synced, ArgoCD manages all child apps automatically.
+#
+# Pre-requisite: register this repo in ArgoCD first if it is private:
+#   argocd repo add https://github.com/kecsi-san/ansible-env-setup.git \
+#     --username <user> --password <token>
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kecsi-san/ansible-env-setup.git
+    targetRevision: HEAD
+    path: gitops/k3s/apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,4 @@
+---
+# cert-manager values — k8s (bare-metal)
+crds:
+  enabled: true

@@ -1,0 +1,22 @@
+---
+# Traefik values — k3s (local dev)
+service:
+  type: ClusterIP
+
+providers:
+  kubernetesIngress:
+    enabled: true
+  kubernetesCRD:
+    enabled: true
+
+api:
+  dashboard: true
+  insecure: false
+
+logs:
+  general:
+    level: INFO
+
+ingressRoute:
+  dashboard:
+    enabled: false

@@ -1,0 +1,26 @@
+---
+# Traefik values — k8s (bare-metal, kube-vip)
+# Service is ClusterIP; kube-vip exposes it via LoadBalancer annotation
+# set on the service separately (or switch type to LoadBalancer here and
+# add the kube-vip.io/loadbalancerIPs annotation).
+service:
+  type: ClusterIP
+
+providers:
+  kubernetesIngress:
+    enabled: true
+  kubernetesCRD:
+    enabled: true
+
+api:
+  dashboard: true
+  insecure: false
+
+logs:
+  general:
+    level: INFO
+
+# Dashboard is exposed via IngressRoute in gitops/k8s/apps — not via Helm.
+ingressRoute:
+  dashboard:
+    enabled: false
