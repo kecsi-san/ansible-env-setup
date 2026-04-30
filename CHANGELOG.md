@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+- fix: break long line in configure_oh-my-posh theme selection ([43edd7b](https://github.com/kecsi-san/ansible-env-setup/commit/43edd7b700f2e496a143ca1d5b90c47d15c3302e) by Zoltan K).
 - fix: resolve ansible-lint key-order and name-casing violations ([a4925fe](https://github.com/kecsi-san/ansible-env-setup/commit/a4925fea70c9c860d1bd7fcab5cfcadb7fb26357) by Zoltan K).
 - fix: resolve macOS interpreter and uv upgrade path issues ([d73ba8d](https://github.com/kecsi-san/ansible-env-setup/commit/d73ba8de1866b0260bfed949d2365ad72a365911) by Zoltan K).
 - fix: skip pip install task when uv_pip_packages is empty ([fd1632d](https://github.com/kecsi-san/ansible-env-setup/commit/fd1632d61f1d270c66cabb541428f9e8f04d48ff) by Zoltan K).
