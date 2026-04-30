@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+- fix: resolve ansible-lint key-order and name-casing violations ([a4925fe](https://github.com/kecsi-san/ansible-env-setup/commit/a4925fea70c9c860d1bd7fcab5cfcadb7fb26357) by Zoltan K).
 - fix: resolve macOS interpreter and uv upgrade path issues ([d73ba8d](https://github.com/kecsi-san/ansible-env-setup/commit/d73ba8de1866b0260bfed949d2365ad72a365911) by Zoltan K).
 - fix: skip pip install task when uv_pip_packages is empty ([fd1632d](https://github.com/kecsi-san/ansible-env-setup/commit/fd1632d61f1d270c66cabb541428f9e8f04d48ff) by Zoltan K).
 - fix: handler for sshd reload and serial upgrade ([18c6a2b](https://github.com/kecsi-san/ansible-env-setup/commit/18c6a2b4ded7c1c093bcd6858a212a4608b1aa5e) by Zoltan K).
